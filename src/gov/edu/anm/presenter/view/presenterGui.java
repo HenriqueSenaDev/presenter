@@ -28,8 +28,8 @@ public class presenterGui extends javax.swing.JFrame {
         Dimension menuBarPreferredSize = new Dimension(260, 50);
         menuBar.setPreferredSize(menuBarPreferredSize);
         Dimension tabelaDimension = new Dimension(1100, 402);
-        alunosTabelaPanel.setPreferredSize(tabelaDimension);
-        alunosTabelaPanel.setMinimumSize(tabelaDimension);
+        equipeTabelaPanel.setPreferredSize(tabelaDimension);
+        equipeTabelaPanel.setMinimumSize(tabelaDimension);
 
         //Menu configs
         menuBar.setVisible(false);
@@ -58,70 +58,68 @@ public class presenterGui extends javax.swing.JFrame {
         closeLabel = new javax.swing.JLabel();
         titleBar = new javax.swing.JPanel();
         menuIcon = new javax.swing.JLabel();
-        multimeiosLabel = new javax.swing.JLabel();
+        presenterLabel = new javax.swing.JLabel();
         mainbarSpaceLabel = new javax.swing.JLabel();
         contentPanel = new javax.swing.JPanel();
         abas = new javax.swing.JTabbedPane();
         abaEquipes = new javax.swing.JPanel();
-        alunoCadastro = new javax.swing.JPanel();
-        alunosNomeLabel = new javax.swing.JLabel();
-        alunosNomeTextField = new javax.swing.JTextField();
-        alunosNomeLabel1 = new javax.swing.JLabel();
-        alunosNomeTextField1 = new javax.swing.JTextField();
-        alunosTurmaLabel = new javax.swing.JLabel();
-        alunosTurmaComboBox = new javax.swing.JComboBox<>();
-        alunosNovoBotao = new javax.swing.JLabel();
-        alunosSalvarBotao = new javax.swing.JLabel();
-        alunosEditarBotao = new javax.swing.JLabel();
-        alunosExcluirBotao = new javax.swing.JLabel();
-        alunosNomeLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        alunosNomeTextField2 = new javax.swing.JTextField();
-        alunosNovoBotao1 = new javax.swing.JLabel();
-        alunosDivideBar = new javax.swing.JPanel();
-        alunosPesquisaPanel = new javax.swing.JPanel();
-        alunosPesquisaBar = new javax.swing.JPanel();
-        alunosPesquisaLabel = new javax.swing.JLabel();
-        alunosPesquisaTextField = new javax.swing.JTextField();
-        alunosPorLabel = new javax.swing.JLabel();
-        alunosPorComboBox = new javax.swing.JComboBox<>();
-        alunosTabelaPanel = new javax.swing.JPanel();
-        alunosTabelaContent = new javax.swing.JScrollPane();
-        alunosTabela = new javax.swing.JTable();
+        equipeCadastro = new javax.swing.JPanel();
+        equipeNomeLabel = new javax.swing.JLabel();
+        equipeNomeTextField = new javax.swing.JTextField();
+        equipeProjetoLabel = new javax.swing.JLabel();
+        equipeProjetoTextField = new javax.swing.JTextField();
+        equipeTurmaLabel = new javax.swing.JLabel();
+        equipeTurmaComboBox = new javax.swing.JComboBox<>();
+        equipeNovaBotao = new javax.swing.JLabel();
+        equipeSalvarBotao = new javax.swing.JLabel();
+        equipeEditarBotao = new javax.swing.JLabel();
+        equipeExcluirBotao = new javax.swing.JLabel();
+        equipeAlunoLabel = new javax.swing.JLabel();
+        equipeAlunoTextField = new javax.swing.JTextField();
+        equipeAddAlunoBotao = new javax.swing.JLabel();
+        equipeAlunosDaEquipeContentPanel = new javax.swing.JScrollPane();
+        equipeAlunosDaEquipeLista = new javax.swing.JList<>();
+        equipeDivideBar = new javax.swing.JPanel();
+        equipePesquisaPanel = new javax.swing.JPanel();
+        equipePesquisaBar = new javax.swing.JPanel();
+        equipePesquisaLabel = new javax.swing.JLabel();
+        equipePesquisaTextField = new javax.swing.JTextField();
+        equipePorLabel = new javax.swing.JLabel();
+        equipePorComboBox = new javax.swing.JComboBox<>();
+        equipeTabelaPanel = new javax.swing.JPanel();
+        equipeTabelaContent = new javax.swing.JScrollPane();
+        equipeTabela = new javax.swing.JTable();
         abaTemporizador = new javax.swing.JPanel();
-        livrosCadastro = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        tempoAreaPanel = new javax.swing.JPanel();
+        whiteCircleLabel = new javax.swing.JLabel();
         redCircleLabel = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        livrosDivideBar = new javax.swing.JPanel();
-        livrosPesquisa = new javax.swing.JPanel();
-        livrosPesquisaBar = new javax.swing.JPanel();
-        livrosPesquisaLabel = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
-        livrosPorLabel = new javax.swing.JLabel();
-        livrosPorComboBox = new javax.swing.JComboBox<>();
-        livrosPesquisaLabel1 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        tempoNumbers = new javax.swing.JLabel();
+        tempoDivideBar = new javax.swing.JPanel();
+        tempoConfigPanel = new javax.swing.JPanel();
+        tempoDuracaoPanel = new javax.swing.JPanel();
+        tempoTempoLabel = new javax.swing.JLabel();
+        tempoDuracaoComboBox = new javax.swing.JComboBox<>();
+        tempoCustomLabel = new javax.swing.JLabel();
+        tempoCustomTextField = new javax.swing.JFormattedTextField();
+        tempoMinutesLabel = new javax.swing.JLabel();
+        tempoActionsPanel = new javax.swing.JPanel();
+        tempoPlayLabel = new javax.swing.JLabel();
+        tempoPauseLabel = new javax.swing.JLabel();
+        tempoDeleteLabel = new javax.swing.JLabel();
+        tempoOneMoreLabel = new javax.swing.JLabel();
         abaRanking = new javax.swing.JPanel();
-        relatorioAtrasoPanel = new javax.swing.JPanel();
-        relatorioAtrasoHeadPanel = new javax.swing.JPanel();
+        rankingHeadPanel = new javax.swing.JPanel();
         relatorioAtrasoLabel = new javax.swing.JLabel();
-        relatorioAtrasoTablePanel = new javax.swing.JPanel();
-        relatorioAtrasoTabelaContent = new javax.swing.JScrollPane();
-        relatorioAtrasoTabela = new javax.swing.JTable();
+        rankingTablePanel = new javax.swing.JPanel();
+        rankingTabelaContent = new javax.swing.JScrollPane();
+        rankingTabela = new javax.swing.JTable();
         menuBar = new javax.swing.JPanel();
-        alunosActivePanel = new javax.swing.JPanel();
-        alunosLabel = new javax.swing.JLabel();
-        livrosActivePanel = new javax.swing.JPanel();
-        livrosLabel = new javax.swing.JLabel();
-        emprestimoActivePanel = new javax.swing.JPanel();
-        emprestimoLabel = new javax.swing.JLabel();
-        relatorioActivePanel = new javax.swing.JPanel();
+        equipesActivePanel = new javax.swing.JPanel();
+        equipesMenuLabel = new javax.swing.JLabel();
+        temporizadorActivePanel = new javax.swing.JPanel();
+        tempMenuLabel = new javax.swing.JLabel();
+        rankingMenuActivePanel = new javax.swing.JPanel();
+        rankingMenuLabel = new javax.swing.JLabel();
         inMenuBarSpaceLabel = new javax.swing.JLabel();
         menuRightPanel = new javax.swing.JPanel();
         space = new javax.swing.JLabel();
@@ -207,11 +205,11 @@ public class presenterGui extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 12, 5, 12);
         titleBar.add(menuIcon, gridBagConstraints);
 
-        multimeiosLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        multimeiosLabel.setForeground(new java.awt.Color(255, 255, 255));
-        multimeiosLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        multimeiosLabel.setText("Presenter");
-        titleBar.add(multimeiosLabel, new java.awt.GridBagConstraints());
+        presenterLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        presenterLabel.setForeground(new java.awt.Color(255, 255, 255));
+        presenterLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        presenterLabel.setText("Presenter");
+        titleBar.add(presenterLabel, new java.awt.GridBagConstraints());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.weightx = 1.0;
         titleBar.add(mainbarSpaceLabel, gridBagConstraints);
@@ -231,297 +229,297 @@ public class presenterGui extends javax.swing.JFrame {
         abaEquipes.setBackground(new java.awt.Color(173, 211, 250));
         abaEquipes.setLayout(new java.awt.GridBagLayout());
 
-        alunoCadastro.setBackground(new java.awt.Color(173, 211, 250));
-        alunoCadastro.setForeground(new java.awt.Color(146, 199, 239));
-        alunoCadastro.setMaximumSize(new java.awt.Dimension(2147483647, 600));
-        alunoCadastro.setMinimumSize(new java.awt.Dimension(698, 300));
-        alunoCadastro.setPreferredSize(new java.awt.Dimension(600, 300));
-        alunoCadastro.setLayout(new java.awt.GridBagLayout());
+        equipeCadastro.setBackground(new java.awt.Color(173, 211, 250));
+        equipeCadastro.setForeground(new java.awt.Color(146, 199, 239));
+        equipeCadastro.setMaximumSize(new java.awt.Dimension(2147483647, 600));
+        equipeCadastro.setMinimumSize(new java.awt.Dimension(698, 300));
+        equipeCadastro.setPreferredSize(new java.awt.Dimension(600, 300));
+        equipeCadastro.setLayout(new java.awt.GridBagLayout());
 
-        alunosNomeLabel.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        alunosNomeLabel.setForeground(new java.awt.Color(255, 255, 255));
-        alunosNomeLabel.setText("Equipe:");
+        equipeNomeLabel.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        equipeNomeLabel.setForeground(new java.awt.Color(255, 255, 255));
+        equipeNomeLabel.setText("Equipe:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 25, 0);
-        alunoCadastro.add(alunosNomeLabel, gridBagConstraints);
+        equipeCadastro.add(equipeNomeLabel, gridBagConstraints);
 
-        alunosNomeTextField.setBackground(new java.awt.Color(146, 199, 239));
-        alunosNomeTextField.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        alunosNomeTextField.setForeground(new java.awt.Color(255, 255, 255));
-        alunosNomeTextField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        alunosNomeTextField.setMinimumSize(new java.awt.Dimension(350, 30));
-        alunosNomeTextField.setPreferredSize(new java.awt.Dimension(350, 35));
+        equipeNomeTextField.setBackground(new java.awt.Color(146, 199, 239));
+        equipeNomeTextField.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        equipeNomeTextField.setForeground(new java.awt.Color(255, 255, 255));
+        equipeNomeTextField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        equipeNomeTextField.setMinimumSize(new java.awt.Dimension(350, 30));
+        equipeNomeTextField.setPreferredSize(new java.awt.Dimension(350, 35));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 75, 25, 0);
-        alunoCadastro.add(alunosNomeTextField, gridBagConstraints);
+        equipeCadastro.add(equipeNomeTextField, gridBagConstraints);
 
-        alunosNomeLabel1.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        alunosNomeLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        alunosNomeLabel1.setText("Projeto:");
+        equipeProjetoLabel.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        equipeProjetoLabel.setForeground(new java.awt.Color(255, 255, 255));
+        equipeProjetoLabel.setText("Projeto:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 25, 0);
-        alunoCadastro.add(alunosNomeLabel1, gridBagConstraints);
+        equipeCadastro.add(equipeProjetoLabel, gridBagConstraints);
 
-        alunosNomeTextField1.setBackground(new java.awt.Color(146, 199, 239));
-        alunosNomeTextField1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        alunosNomeTextField1.setForeground(new java.awt.Color(255, 255, 255));
-        alunosNomeTextField1.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        alunosNomeTextField1.setMinimumSize(new java.awt.Dimension(350, 30));
-        alunosNomeTextField1.setPreferredSize(new java.awt.Dimension(345, 35));
+        equipeProjetoTextField.setBackground(new java.awt.Color(146, 199, 239));
+        equipeProjetoTextField.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        equipeProjetoTextField.setForeground(new java.awt.Color(255, 255, 255));
+        equipeProjetoTextField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        equipeProjetoTextField.setMinimumSize(new java.awt.Dimension(350, 30));
+        equipeProjetoTextField.setPreferredSize(new java.awt.Dimension(345, 35));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 80, 25, 0);
-        alunoCadastro.add(alunosNomeTextField1, gridBagConstraints);
+        equipeCadastro.add(equipeProjetoTextField, gridBagConstraints);
 
-        alunosTurmaLabel.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        alunosTurmaLabel.setForeground(new java.awt.Color(255, 255, 255));
-        alunosTurmaLabel.setText("Turma:");
+        equipeTurmaLabel.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        equipeTurmaLabel.setForeground(new java.awt.Color(255, 255, 255));
+        equipeTurmaLabel.setText("Turma:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 30, 0);
-        alunoCadastro.add(alunosTurmaLabel, gridBagConstraints);
+        equipeCadastro.add(equipeTurmaLabel, gridBagConstraints);
 
-        alunosTurmaComboBox.setBackground(new java.awt.Color(51, 51, 255));
-        alunosTurmaComboBox.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        alunosTurmaComboBox.setForeground(new java.awt.Color(255, 255, 255));
-        alunosTurmaComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1º Administração", "1º Enfermagem", "1º Informática", "2º Administração", "2º Enfermagem", "2º Informática", "3º Administração", "3º Enfermagem", "3º Informática" }));
+        equipeTurmaComboBox.setBackground(new java.awt.Color(51, 51, 255));
+        equipeTurmaComboBox.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        equipeTurmaComboBox.setForeground(new java.awt.Color(255, 255, 255));
+        equipeTurmaComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1º Administração", "1º Enfermagem", "1º Informática", "2º Administração", "2º Enfermagem", "2º Informática", "3º Administração", "3º Enfermagem", "3º Informática" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 75, 30, 0);
-        alunoCadastro.add(alunosTurmaComboBox, gridBagConstraints);
+        equipeCadastro.add(equipeTurmaComboBox, gridBagConstraints);
 
-        alunosNovoBotao.setBackground(new java.awt.Color(111, 135, 214));
-        alunosNovoBotao.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        alunosNovoBotao.setForeground(new java.awt.Color(255, 255, 255));
-        alunosNovoBotao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        alunosNovoBotao.setText("Novo");
-        alunosNovoBotao.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        alunosNovoBotao.setMaximumSize(new java.awt.Dimension(70, 32));
-        alunosNovoBotao.setMinimumSize(new java.awt.Dimension(70, 32));
-        alunosNovoBotao.setOpaque(true);
-        alunosNovoBotao.setPreferredSize(new java.awt.Dimension(70, 32));
+        equipeNovaBotao.setBackground(new java.awt.Color(111, 135, 214));
+        equipeNovaBotao.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        equipeNovaBotao.setForeground(new java.awt.Color(255, 255, 255));
+        equipeNovaBotao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        equipeNovaBotao.setText("Nova");
+        equipeNovaBotao.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        equipeNovaBotao.setMaximumSize(new java.awt.Dimension(70, 32));
+        equipeNovaBotao.setMinimumSize(new java.awt.Dimension(70, 32));
+        equipeNovaBotao.setOpaque(true);
+        equipeNovaBotao.setPreferredSize(new java.awt.Dimension(70, 32));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 30, 0, 0);
-        alunoCadastro.add(alunosNovoBotao, gridBagConstraints);
+        equipeCadastro.add(equipeNovaBotao, gridBagConstraints);
 
-        alunosSalvarBotao.setBackground(new java.awt.Color(111, 135, 214));
-        alunosSalvarBotao.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        alunosSalvarBotao.setForeground(new java.awt.Color(255, 255, 255));
-        alunosSalvarBotao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        alunosSalvarBotao.setText("Salvar");
-        alunosSalvarBotao.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        alunosSalvarBotao.setMaximumSize(new java.awt.Dimension(70, 32));
-        alunosSalvarBotao.setMinimumSize(new java.awt.Dimension(70, 32));
-        alunosSalvarBotao.setOpaque(true);
-        alunosSalvarBotao.setPreferredSize(new java.awt.Dimension(70, 32));
+        equipeSalvarBotao.setBackground(new java.awt.Color(111, 135, 214));
+        equipeSalvarBotao.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        equipeSalvarBotao.setForeground(new java.awt.Color(255, 255, 255));
+        equipeSalvarBotao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        equipeSalvarBotao.setText("Salvar");
+        equipeSalvarBotao.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        equipeSalvarBotao.setMaximumSize(new java.awt.Dimension(70, 32));
+        equipeSalvarBotao.setMinimumSize(new java.awt.Dimension(70, 32));
+        equipeSalvarBotao.setOpaque(true);
+        equipeSalvarBotao.setPreferredSize(new java.awt.Dimension(70, 32));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 130, 0, 0);
-        alunoCadastro.add(alunosSalvarBotao, gridBagConstraints);
+        equipeCadastro.add(equipeSalvarBotao, gridBagConstraints);
 
-        alunosEditarBotao.setBackground(new java.awt.Color(111, 135, 214));
-        alunosEditarBotao.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        alunosEditarBotao.setForeground(new java.awt.Color(255, 255, 255));
-        alunosEditarBotao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        alunosEditarBotao.setText("Editar");
-        alunosEditarBotao.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        alunosEditarBotao.setMaximumSize(new java.awt.Dimension(70, 32));
-        alunosEditarBotao.setMinimumSize(new java.awt.Dimension(70, 32));
-        alunosEditarBotao.setOpaque(true);
-        alunosEditarBotao.setPreferredSize(new java.awt.Dimension(70, 32));
+        equipeEditarBotao.setBackground(new java.awt.Color(111, 135, 214));
+        equipeEditarBotao.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        equipeEditarBotao.setForeground(new java.awt.Color(255, 255, 255));
+        equipeEditarBotao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        equipeEditarBotao.setText("Editar");
+        equipeEditarBotao.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        equipeEditarBotao.setMaximumSize(new java.awt.Dimension(70, 32));
+        equipeEditarBotao.setMinimumSize(new java.awt.Dimension(70, 32));
+        equipeEditarBotao.setOpaque(true);
+        equipeEditarBotao.setPreferredSize(new java.awt.Dimension(70, 32));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 130);
-        alunoCadastro.add(alunosEditarBotao, gridBagConstraints);
+        equipeCadastro.add(equipeEditarBotao, gridBagConstraints);
 
-        alunosExcluirBotao.setBackground(new java.awt.Color(111, 135, 214));
-        alunosExcluirBotao.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        alunosExcluirBotao.setForeground(new java.awt.Color(255, 255, 255));
-        alunosExcluirBotao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        alunosExcluirBotao.setText("Excluir");
-        alunosExcluirBotao.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        alunosExcluirBotao.setMaximumSize(new java.awt.Dimension(70, 32));
-        alunosExcluirBotao.setMinimumSize(new java.awt.Dimension(70, 32));
-        alunosExcluirBotao.setOpaque(true);
-        alunosExcluirBotao.setPreferredSize(new java.awt.Dimension(70, 32));
+        equipeExcluirBotao.setBackground(new java.awt.Color(111, 135, 214));
+        equipeExcluirBotao.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        equipeExcluirBotao.setForeground(new java.awt.Color(255, 255, 255));
+        equipeExcluirBotao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        equipeExcluirBotao.setText("Excluir");
+        equipeExcluirBotao.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        equipeExcluirBotao.setMaximumSize(new java.awt.Dimension(70, 32));
+        equipeExcluirBotao.setMinimumSize(new java.awt.Dimension(70, 32));
+        equipeExcluirBotao.setOpaque(true);
+        equipeExcluirBotao.setPreferredSize(new java.awt.Dimension(70, 32));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 30);
-        alunoCadastro.add(alunosExcluirBotao, gridBagConstraints);
+        equipeCadastro.add(equipeExcluirBotao, gridBagConstraints);
 
-        alunosNomeLabel2.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        alunosNomeLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        alunosNomeLabel2.setText("Aluno:");
+        equipeAlunoLabel.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        equipeAlunoLabel.setForeground(new java.awt.Color(255, 255, 255));
+        equipeAlunoLabel.setText("Aluno:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 30, 25, 0);
-        alunoCadastro.add(alunosNomeLabel2, gridBagConstraints);
+        equipeCadastro.add(equipeAlunoLabel, gridBagConstraints);
 
-        jScrollPane1.setMinimumSize(new java.awt.Dimension(470, 160));
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(470, 160));
+        equipeAlunoTextField.setBackground(new java.awt.Color(146, 199, 239));
+        equipeAlunoTextField.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        equipeAlunoTextField.setForeground(new java.awt.Color(255, 255, 255));
+        equipeAlunoTextField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        equipeAlunoTextField.setMinimumSize(new java.awt.Dimension(350, 30));
+        equipeAlunoTextField.setPreferredSize(new java.awt.Dimension(350, 35));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 100, 25, 0);
+        equipeCadastro.add(equipeAlunoTextField, gridBagConstraints);
 
-        jList1.setBackground(new java.awt.Color(146, 199, 239));
-        jList1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jList1.setForeground(new java.awt.Color(255, 255, 255));
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        equipeAddAlunoBotao.setBackground(new java.awt.Color(111, 135, 214));
+        equipeAddAlunoBotao.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        equipeAddAlunoBotao.setForeground(new java.awt.Color(255, 255, 255));
+        equipeAddAlunoBotao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        equipeAddAlunoBotao.setText("Adicionar");
+        equipeAddAlunoBotao.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        equipeAddAlunoBotao.setMinimumSize(new java.awt.Dimension(70, 32));
+        equipeAddAlunoBotao.setOpaque(true);
+        equipeAddAlunoBotao.setPreferredSize(new java.awt.Dimension(90, 32));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.insets = new java.awt.Insets(0, 460, 25, 0);
+        equipeCadastro.add(equipeAddAlunoBotao, gridBagConstraints);
+
+        equipeAlunosDaEquipeContentPanel.setMinimumSize(new java.awt.Dimension(470, 160));
+        equipeAlunosDaEquipeContentPanel.setPreferredSize(new java.awt.Dimension(470, 160));
+
+        equipeAlunosDaEquipeLista.setBackground(new java.awt.Color(146, 199, 239));
+        equipeAlunosDaEquipeLista.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        equipeAlunosDaEquipeLista.setForeground(new java.awt.Color(255, 255, 255));
+        equipeAlunosDaEquipeLista.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jList1.setMaximumSize(new java.awt.Dimension(75, 135));
-        jList1.setMinimumSize(new java.awt.Dimension(75, 135));
-        jList1.setPreferredSize(new java.awt.Dimension(75, 135));
-        jScrollPane1.setViewportView(jList1);
+        equipeAlunosDaEquipeLista.setMaximumSize(new java.awt.Dimension(75, 135));
+        equipeAlunosDaEquipeLista.setMinimumSize(new java.awt.Dimension(75, 135));
+        equipeAlunosDaEquipeLista.setPreferredSize(new java.awt.Dimension(75, 135));
+        equipeAlunosDaEquipeContentPanel.setViewportView(equipeAlunosDaEquipeLista);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridheight = 4;
         gridBagConstraints.insets = new java.awt.Insets(0, 30, 0, 0);
-        alunoCadastro.add(jScrollPane1, gridBagConstraints);
-
-        alunosNomeTextField2.setBackground(new java.awt.Color(146, 199, 239));
-        alunosNomeTextField2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        alunosNomeTextField2.setForeground(new java.awt.Color(255, 255, 255));
-        alunosNomeTextField2.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        alunosNomeTextField2.setMinimumSize(new java.awt.Dimension(350, 30));
-        alunosNomeTextField2.setPreferredSize(new java.awt.Dimension(350, 35));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 100, 25, 0);
-        alunoCadastro.add(alunosNomeTextField2, gridBagConstraints);
-
-        alunosNovoBotao1.setBackground(new java.awt.Color(111, 135, 214));
-        alunosNovoBotao1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        alunosNovoBotao1.setForeground(new java.awt.Color(255, 255, 255));
-        alunosNovoBotao1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        alunosNovoBotao1.setText("Adicionar");
-        alunosNovoBotao1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        alunosNovoBotao1.setMinimumSize(new java.awt.Dimension(70, 32));
-        alunosNovoBotao1.setOpaque(true);
-        alunosNovoBotao1.setPreferredSize(new java.awt.Dimension(90, 32));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 460, 25, 0);
-        alunoCadastro.add(alunosNovoBotao1, gridBagConstraints);
+        equipeCadastro.add(equipeAlunosDaEquipeContentPanel, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
-        abaEquipes.add(alunoCadastro, gridBagConstraints);
+        abaEquipes.add(equipeCadastro, gridBagConstraints);
 
-        alunosDivideBar.setBackground(new java.awt.Color(255, 255, 255));
-        alunosDivideBar.setMinimumSize(new java.awt.Dimension(10, 5));
-        alunosDivideBar.setPreferredSize(new java.awt.Dimension(10, 5));
+        equipeDivideBar.setBackground(new java.awt.Color(255, 255, 255));
+        equipeDivideBar.setMinimumSize(new java.awt.Dimension(10, 5));
+        equipeDivideBar.setPreferredSize(new java.awt.Dimension(10, 5));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
-        abaEquipes.add(alunosDivideBar, gridBagConstraints);
+        abaEquipes.add(equipeDivideBar, gridBagConstraints);
 
-        alunosPesquisaPanel.setBackground(new java.awt.Color(173, 211, 250));
-        alunosPesquisaPanel.setLayout(new java.awt.GridBagLayout());
+        equipePesquisaPanel.setBackground(new java.awt.Color(173, 211, 250));
+        equipePesquisaPanel.setLayout(new java.awt.GridBagLayout());
 
-        alunosPesquisaBar.setBackground(new java.awt.Color(173, 211, 250));
-        alunosPesquisaBar.setMinimumSize(new java.awt.Dimension(615, 90));
-        alunosPesquisaBar.setPreferredSize(new java.awt.Dimension(615, 90));
-        alunosPesquisaBar.setLayout(new java.awt.GridBagLayout());
+        equipePesquisaBar.setBackground(new java.awt.Color(173, 211, 250));
+        equipePesquisaBar.setMinimumSize(new java.awt.Dimension(615, 90));
+        equipePesquisaBar.setPreferredSize(new java.awt.Dimension(615, 90));
+        equipePesquisaBar.setLayout(new java.awt.GridBagLayout());
 
-        alunosPesquisaLabel.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        alunosPesquisaLabel.setForeground(new java.awt.Color(255, 255, 255));
-        alunosPesquisaLabel.setText("Pesquisa:");
+        equipePesquisaLabel.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        equipePesquisaLabel.setForeground(new java.awt.Color(255, 255, 255));
+        equipePesquisaLabel.setText("Pesquisa:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
-        alunosPesquisaBar.add(alunosPesquisaLabel, gridBagConstraints);
+        equipePesquisaBar.add(equipePesquisaLabel, gridBagConstraints);
 
-        alunosPesquisaTextField.setBackground(new java.awt.Color(146, 199, 239));
-        alunosPesquisaTextField.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        alunosPesquisaTextField.setForeground(new java.awt.Color(255, 255, 255));
-        alunosPesquisaTextField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        alunosPesquisaTextField.setMinimumSize(new java.awt.Dimension(350, 35));
-        alunosPesquisaTextField.setPreferredSize(new java.awt.Dimension(350, 35));
+        equipePesquisaTextField.setBackground(new java.awt.Color(146, 199, 239));
+        equipePesquisaTextField.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        equipePesquisaTextField.setForeground(new java.awt.Color(255, 255, 255));
+        equipePesquisaTextField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        equipePesquisaTextField.setMinimumSize(new java.awt.Dimension(350, 35));
+        equipePesquisaTextField.setPreferredSize(new java.awt.Dimension(350, 35));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(10, 95, 10, 20);
-        alunosPesquisaBar.add(alunosPesquisaTextField, gridBagConstraints);
+        equipePesquisaBar.add(equipePesquisaTextField, gridBagConstraints);
 
-        alunosPorLabel.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        alunosPorLabel.setForeground(new java.awt.Color(255, 255, 255));
-        alunosPorLabel.setText("Por:");
+        equipePorLabel.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        equipePorLabel.setForeground(new java.awt.Color(255, 255, 255));
+        equipePorLabel.setText("Por:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(10, 470, 10, 0);
-        alunosPesquisaBar.add(alunosPorLabel, gridBagConstraints);
+        equipePesquisaBar.add(equipePorLabel, gridBagConstraints);
 
-        alunosPorComboBox.setBackground(new java.awt.Color(51, 51, 255));
-        alunosPorComboBox.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        alunosPorComboBox.setForeground(new java.awt.Color(255, 255, 255));
-        alunosPorComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nome", "Projeto", "Aluno" }));
+        equipePorComboBox.setBackground(new java.awt.Color(51, 51, 255));
+        equipePorComboBox.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        equipePorComboBox.setForeground(new java.awt.Color(255, 255, 255));
+        equipePorComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nome", "Projeto", "Aluno" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(10, 515, 10, 0);
-        alunosPesquisaBar.add(alunosPorComboBox, gridBagConstraints);
+        equipePesquisaBar.add(equipePorComboBox, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
-        alunosPesquisaPanel.add(alunosPesquisaBar, gridBagConstraints);
+        equipePesquisaPanel.add(equipePesquisaBar, gridBagConstraints);
 
-        alunosTabelaPanel.setBackground(new java.awt.Color(173, 211, 250));
-        alunosTabelaPanel.setMinimumSize(new java.awt.Dimension(750, 402));
-        alunosTabelaPanel.setPreferredSize(new java.awt.Dimension(750, 402));
-        alunosTabelaPanel.setLayout(new java.awt.GridBagLayout());
+        equipeTabelaPanel.setBackground(new java.awt.Color(173, 211, 250));
+        equipeTabelaPanel.setMinimumSize(new java.awt.Dimension(750, 402));
+        equipeTabelaPanel.setPreferredSize(new java.awt.Dimension(750, 402));
+        equipeTabelaPanel.setLayout(new java.awt.GridBagLayout());
 
-        alunosTabelaContent.setForeground(new java.awt.Color(255, 255, 255));
-        alunosTabelaContent.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        alunosTabelaContent.setMinimumSize(new java.awt.Dimension(900, 402));
-        alunosTabelaContent.setPreferredSize(new java.awt.Dimension(900, 402));
+        equipeTabelaContent.setForeground(new java.awt.Color(255, 255, 255));
+        equipeTabelaContent.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        equipeTabelaContent.setMinimumSize(new java.awt.Dimension(900, 402));
+        equipeTabelaContent.setPreferredSize(new java.awt.Dimension(900, 402));
 
-        alunosTabela.setBackground(new java.awt.Color(146, 199, 239));
-        alunosTabela.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        alunosTabela.setForeground(new java.awt.Color(255, 255, 255));
-        alunosTabela.setModel(new javax.swing.table.DefaultTableModel(
+        equipeTabela.setBackground(new java.awt.Color(146, 199, 239));
+        equipeTabela.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        equipeTabela.setForeground(new java.awt.Color(255, 255, 255));
+        equipeTabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -548,223 +546,220 @@ public class presenterGui extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        alunosTabela.setToolTipText("\n");
-        alunosTabela.setGridColor(new java.awt.Color(146, 199, 239));
-        alunosTabela.setRowHeight(25);
-        alunosTabela.setSelectionBackground(new java.awt.Color(173, 211, 250));
-        alunosTabela.setShowGrid(false);
-        alunosTabelaContent.setViewportView(alunosTabela);
+        equipeTabela.setToolTipText("\n");
+        equipeTabela.setGridColor(new java.awt.Color(146, 199, 239));
+        equipeTabela.setRowHeight(25);
+        equipeTabela.setSelectionBackground(new java.awt.Color(173, 211, 250));
+        equipeTabela.setShowGrid(false);
+        equipeTabelaContent.setViewportView(equipeTabela);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        alunosTabelaPanel.add(alunosTabelaContent, gridBagConstraints);
+        equipeTabelaPanel.add(equipeTabelaContent, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
         gridBagConstraints.weighty = 1.0;
-        alunosPesquisaPanel.add(alunosTabelaPanel, gridBagConstraints);
+        equipePesquisaPanel.add(equipeTabelaPanel, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        abaEquipes.add(alunosPesquisaPanel, gridBagConstraints);
+        abaEquipes.add(equipePesquisaPanel, gridBagConstraints);
 
         abas.addTab("tab1", abaEquipes);
 
         abaTemporizador.setBackground(new java.awt.Color(173, 211, 250));
         abaTemporizador.setLayout(new java.awt.GridBagLayout());
 
-        livrosCadastro.setBackground(new java.awt.Color(173, 211, 250));
-        livrosCadastro.setMaximumSize(new java.awt.Dimension(2147483647, 325));
-        livrosCadastro.setMinimumSize(new java.awt.Dimension(785, 325));
-        livrosCadastro.setPreferredSize(new java.awt.Dimension(785, 200));
-        livrosCadastro.setLayout(new java.awt.GridBagLayout());
+        tempoAreaPanel.setBackground(new java.awt.Color(173, 211, 250));
+        tempoAreaPanel.setMaximumSize(new java.awt.Dimension(2147483647, 325));
+        tempoAreaPanel.setMinimumSize(new java.awt.Dimension(785, 325));
+        tempoAreaPanel.setPreferredSize(new java.awt.Dimension(785, 200));
+        tempoAreaPanel.setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/images/whiteCircle.png"))); // NOI18N
-        livrosCadastro.add(jLabel1, new java.awt.GridBagConstraints());
+        whiteCircleLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/images/whiteCircle.png"))); // NOI18N
+        tempoAreaPanel.add(whiteCircleLabel, new java.awt.GridBagConstraints());
 
         redCircleLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/images/redCircle.png"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(5, 3, 0, 0);
-        livrosCadastro.add(redCircleLabel, gridBagConstraints);
+        tempoAreaPanel.add(redCircleLabel, gridBagConstraints);
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 85)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("00:00");
+        tempoNumbers.setFont(new java.awt.Font("Segoe UI", 1, 85)); // NOI18N
+        tempoNumbers.setForeground(new java.awt.Color(255, 255, 255));
+        tempoNumbers.setText("00:00");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
-        livrosCadastro.add(jLabel6, gridBagConstraints);
+        tempoAreaPanel.add(tempoNumbers, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        abaTemporizador.add(livrosCadastro, gridBagConstraints);
+        abaTemporizador.add(tempoAreaPanel, gridBagConstraints);
 
-        livrosDivideBar.setBackground(new java.awt.Color(255, 255, 255));
-        livrosDivideBar.setMinimumSize(new java.awt.Dimension(10, 5));
-        livrosDivideBar.setPreferredSize(new java.awt.Dimension(10, 5));
+        tempoDivideBar.setBackground(new java.awt.Color(255, 255, 255));
+        tempoDivideBar.setMinimumSize(new java.awt.Dimension(10, 5));
+        tempoDivideBar.setPreferredSize(new java.awt.Dimension(10, 5));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
-        abaTemporizador.add(livrosDivideBar, gridBagConstraints);
+        abaTemporizador.add(tempoDivideBar, gridBagConstraints);
 
-        livrosPesquisa.setBackground(new java.awt.Color(173, 211, 250));
-        livrosPesquisa.setMaximumSize(new java.awt.Dimension(2147483647, 180));
-        livrosPesquisa.setMinimumSize(new java.awt.Dimension(615, 180));
-        livrosPesquisa.setPreferredSize(new java.awt.Dimension(615, 200));
-        livrosPesquisa.setLayout(new java.awt.GridBagLayout());
+        tempoConfigPanel.setBackground(new java.awt.Color(173, 211, 250));
+        tempoConfigPanel.setMaximumSize(new java.awt.Dimension(2147483647, 180));
+        tempoConfigPanel.setMinimumSize(new java.awt.Dimension(615, 180));
+        tempoConfigPanel.setPreferredSize(new java.awt.Dimension(615, 200));
+        tempoConfigPanel.setLayout(new java.awt.GridBagLayout());
 
-        livrosPesquisaBar.setBackground(new java.awt.Color(173, 211, 250));
-        livrosPesquisaBar.setMinimumSize(new java.awt.Dimension(615, 90));
-        livrosPesquisaBar.setPreferredSize(new java.awt.Dimension(615, 90));
-        livrosPesquisaBar.setLayout(new java.awt.GridBagLayout());
+        tempoDuracaoPanel.setBackground(new java.awt.Color(173, 211, 250));
+        tempoDuracaoPanel.setMinimumSize(new java.awt.Dimension(615, 90));
+        tempoDuracaoPanel.setPreferredSize(new java.awt.Dimension(615, 90));
+        tempoDuracaoPanel.setLayout(new java.awt.GridBagLayout());
 
-        livrosPesquisaLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        livrosPesquisaLabel.setForeground(new java.awt.Color(255, 255, 255));
-        livrosPesquisaLabel.setText("Customizado:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 30, 0, 0);
-        livrosPesquisaBar.add(livrosPesquisaLabel, gridBagConstraints);
-
-        jFormattedTextField1.setBackground(new java.awt.Color(146, 199, 239));
-        jFormattedTextField1.setForeground(new java.awt.Color(255, 255, 255));
-        try {
-            jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:##")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        jFormattedTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jFormattedTextField1.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        jFormattedTextField1.setPreferredSize(new java.awt.Dimension(85, 35));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
-        livrosPesquisaBar.add(jFormattedTextField1, gridBagConstraints);
-
-        livrosPorLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        livrosPorLabel.setForeground(new java.awt.Color(255, 255, 255));
-        livrosPorLabel.setText("Tempo:");
+        tempoTempoLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        tempoTempoLabel.setForeground(new java.awt.Color(255, 255, 255));
+        tempoTempoLabel.setText("Tempo:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        livrosPesquisaBar.add(livrosPorLabel, gridBagConstraints);
+        tempoDuracaoPanel.add(tempoTempoLabel, gridBagConstraints);
 
-        livrosPorComboBox.setBackground(new java.awt.Color(51, 51, 255));
-        livrosPorComboBox.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        livrosPorComboBox.setForeground(new java.awt.Color(255, 255, 255));
-        livrosPorComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "5 minutos", "10 minutos", "15 minutos", "20 minutos", "Customizado" }));
+        tempoDuracaoComboBox.setBackground(new java.awt.Color(51, 51, 255));
+        tempoDuracaoComboBox.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        tempoDuracaoComboBox.setForeground(new java.awt.Color(255, 255, 255));
+        tempoDuracaoComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "5 minutos", "10 minutos", "15 minutos", "20 minutos", "Customizado" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
-        livrosPesquisaBar.add(livrosPorComboBox, gridBagConstraints);
+        tempoDuracaoPanel.add(tempoDuracaoComboBox, gridBagConstraints);
 
-        livrosPesquisaLabel1.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
-        livrosPesquisaLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        livrosPesquisaLabel1.setText("minutos");
+        tempoCustomLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        tempoCustomLabel.setForeground(new java.awt.Color(255, 255, 255));
+        tempoCustomLabel.setText("Customizado:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 30, 0, 0);
+        tempoDuracaoPanel.add(tempoCustomLabel, gridBagConstraints);
+
+        tempoCustomTextField.setBackground(new java.awt.Color(146, 199, 239));
+        tempoCustomTextField.setForeground(new java.awt.Color(255, 255, 255));
+        try {
+            tempoCustomTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##:##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        tempoCustomTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        tempoCustomTextField.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        tempoCustomTextField.setPreferredSize(new java.awt.Dimension(85, 35));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 3;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        tempoDuracaoPanel.add(tempoCustomTextField, gridBagConstraints);
+
+        tempoMinutesLabel.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+        tempoMinutesLabel.setForeground(new java.awt.Color(255, 255, 255));
+        tempoMinutesLabel.setText("minutos");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(0, 7, 0, 0);
-        livrosPesquisaBar.add(livrosPesquisaLabel1, gridBagConstraints);
+        tempoDuracaoPanel.add(tempoMinutesLabel, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
-        livrosPesquisa.add(livrosPesquisaBar, gridBagConstraints);
+        tempoConfigPanel.add(tempoDuracaoPanel, gridBagConstraints);
 
-        jPanel1.setBackground(new java.awt.Color(173, 211, 250));
-        jPanel1.setPreferredSize(new java.awt.Dimension(10, 90));
-        jPanel1.setLayout(new java.awt.GridBagLayout());
+        tempoActionsPanel.setBackground(new java.awt.Color(173, 211, 250));
+        tempoActionsPanel.setPreferredSize(new java.awt.Dimension(10, 90));
+        tempoActionsPanel.setLayout(new java.awt.GridBagLayout());
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/images/playIcon.png"))); // NOI18N
+        tempoPlayLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/images/playIcon.png"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 20, 10);
-        jPanel1.add(jLabel2, gridBagConstraints);
+        tempoActionsPanel.add(tempoPlayLabel, gridBagConstraints);
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/images/pauseIcon.png"))); // NOI18N
+        tempoPauseLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/images/pauseIcon.png"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 20, 10);
-        jPanel1.add(jLabel3, gridBagConstraints);
+        tempoActionsPanel.add(tempoPauseLabel, gridBagConstraints);
 
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/images/deleteIcon.png"))); // NOI18N
+        tempoDeleteLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/images/deleteIcon.png"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 20, 10);
-        jPanel1.add(jLabel4, gridBagConstraints);
+        tempoActionsPanel.add(tempoDeleteLabel, gridBagConstraints);
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/images/moreOneIcon.png"))); // NOI18N
+        tempoOneMoreLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/images/moreOneIcon.png"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 20, 10);
-        jPanel1.add(jLabel5, gridBagConstraints);
+        tempoActionsPanel.add(tempoOneMoreLabel, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
-        livrosPesquisa.add(jPanel1, gridBagConstraints);
+        tempoConfigPanel.add(tempoActionsPanel, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
-        abaTemporizador.add(livrosPesquisa, gridBagConstraints);
+        abaTemporizador.add(tempoConfigPanel, gridBagConstraints);
 
         abas.addTab("tab2", abaTemporizador);
 
         abaRanking.setBackground(new java.awt.Color(173, 211, 250));
         abaRanking.setLayout(new java.awt.GridBagLayout());
 
-        relatorioAtrasoPanel.setBackground(new java.awt.Color(173, 211, 250));
-        relatorioAtrasoPanel.setLayout(new java.awt.GridBagLayout());
-
-        relatorioAtrasoHeadPanel.setBackground(new java.awt.Color(173, 211, 250));
-        relatorioAtrasoHeadPanel.setMinimumSize(new java.awt.Dimension(10, 70));
-        relatorioAtrasoHeadPanel.setPreferredSize(new java.awt.Dimension(10, 70));
-        relatorioAtrasoHeadPanel.setLayout(new java.awt.GridBagLayout());
+        rankingHeadPanel.setBackground(new java.awt.Color(173, 211, 250));
+        rankingHeadPanel.setMinimumSize(new java.awt.Dimension(10, 70));
+        rankingHeadPanel.setPreferredSize(new java.awt.Dimension(10, 70));
+        rankingHeadPanel.setLayout(new java.awt.GridBagLayout());
 
         relatorioAtrasoLabel.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
         relatorioAtrasoLabel.setForeground(new java.awt.Color(255, 255, 255));
         relatorioAtrasoLabel.setText("Ranking da Competição:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 30, 0);
-        relatorioAtrasoHeadPanel.add(relatorioAtrasoLabel, gridBagConstraints);
+        rankingHeadPanel.add(relatorioAtrasoLabel, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
-        relatorioAtrasoPanel.add(relatorioAtrasoHeadPanel, gridBagConstraints);
+        abaRanking.add(rankingHeadPanel, gridBagConstraints);
 
-        relatorioAtrasoTablePanel.setBackground(new java.awt.Color(173, 211, 250));
-        relatorioAtrasoTablePanel.setLayout(new java.awt.GridBagLayout());
+        rankingTablePanel.setBackground(new java.awt.Color(173, 211, 250));
+        rankingTablePanel.setLayout(new java.awt.GridBagLayout());
 
-        relatorioAtrasoTabelaContent.setMinimumSize(new java.awt.Dimension(800, 500));
-        relatorioAtrasoTabelaContent.setPreferredSize(new java.awt.Dimension(1000, 500));
+        rankingTabelaContent.setMinimumSize(new java.awt.Dimension(800, 500));
+        rankingTabelaContent.setPreferredSize(new java.awt.Dimension(1000, 500));
 
-        relatorioAtrasoTabela.setBackground(new java.awt.Color(146, 199, 239));
-        relatorioAtrasoTabela.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        relatorioAtrasoTabela.setForeground(new java.awt.Color(255, 255, 255));
-        relatorioAtrasoTabela.setModel(new javax.swing.table.DefaultTableModel(
+        rankingTabela.setBackground(new java.awt.Color(146, 199, 239));
+        rankingTabela.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        rankingTabela.setForeground(new java.awt.Color(255, 255, 255));
+        rankingTabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -798,26 +793,20 @@ public class presenterGui extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        relatorioAtrasoTabela.setRowHeight(25);
-        relatorioAtrasoTabelaContent.setViewportView(relatorioAtrasoTabela);
+        rankingTabela.setRowHeight(25);
+        rankingTabelaContent.setViewportView(rankingTabela);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 50, 20, 50);
-        relatorioAtrasoTablePanel.add(relatorioAtrasoTabelaContent, gridBagConstraints);
+        rankingTablePanel.add(rankingTabelaContent, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
-        relatorioAtrasoPanel.add(relatorioAtrasoTablePanel, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 1.0;
-        abaRanking.add(relatorioAtrasoPanel, gridBagConstraints);
+        abaRanking.add(rankingTablePanel, gridBagConstraints);
 
         abas.addTab("tab4", abaRanking);
 
@@ -839,31 +828,31 @@ public class presenterGui extends javax.swing.JFrame {
         menuBar.setPreferredSize(new java.awt.Dimension(250, 525));
         menuBar.setLayout(new java.awt.GridBagLayout());
 
-        alunosActivePanel.setBackground(new java.awt.Color(173, 211, 250));
-        alunosActivePanel.setMinimumSize(new java.awt.Dimension(5, 35));
-        alunosActivePanel.setPreferredSize(new java.awt.Dimension(5, 35));
+        equipesActivePanel.setBackground(new java.awt.Color(173, 211, 250));
+        equipesActivePanel.setMinimumSize(new java.awt.Dimension(5, 35));
+        equipesActivePanel.setPreferredSize(new java.awt.Dimension(5, 35));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LAST_LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
-        menuBar.add(alunosActivePanel, gridBagConstraints);
+        menuBar.add(equipesActivePanel, gridBagConstraints);
 
-        alunosLabel.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
-        alunosLabel.setForeground(new java.awt.Color(255, 255, 255));
-        alunosLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        alunosLabel.setText("Cadastro de Equipes");
-        alunosLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        alunosLabel.setPreferredSize(new java.awt.Dimension(183, 35));
-        alunosLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+        equipesMenuLabel.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
+        equipesMenuLabel.setForeground(new java.awt.Color(255, 255, 255));
+        equipesMenuLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        equipesMenuLabel.setText("Cadastro de Equipes");
+        equipesMenuLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        equipesMenuLabel.setPreferredSize(new java.awt.Dimension(183, 35));
+        equipesMenuLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                alunosLabelMouseClicked(evt);
+                equipesMenuLabelMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                alunosLabelMouseEntered(evt);
+                equipesMenuLabelMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                alunosLabelMouseExited(evt);
+                equipesMenuLabelMouseExited(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -872,33 +861,33 @@ public class presenterGui extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(30, 0, 15, 0);
-        menuBar.add(alunosLabel, gridBagConstraints);
+        menuBar.add(equipesMenuLabel, gridBagConstraints);
 
-        livrosActivePanel.setBackground(new java.awt.Color(173, 211, 250));
-        livrosActivePanel.setMinimumSize(new java.awt.Dimension(5, 35));
-        livrosActivePanel.setPreferredSize(new java.awt.Dimension(5, 35));
+        temporizadorActivePanel.setBackground(new java.awt.Color(173, 211, 250));
+        temporizadorActivePanel.setMinimumSize(new java.awt.Dimension(5, 35));
+        temporizadorActivePanel.setPreferredSize(new java.awt.Dimension(5, 35));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LAST_LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
-        menuBar.add(livrosActivePanel, gridBagConstraints);
+        menuBar.add(temporizadorActivePanel, gridBagConstraints);
 
-        livrosLabel.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
-        livrosLabel.setForeground(new java.awt.Color(255, 255, 255));
-        livrosLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        livrosLabel.setText("Temporizador");
-        livrosLabel.setToolTipText("");
-        livrosLabel.setPreferredSize(new java.awt.Dimension(174, 35));
-        livrosLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+        tempMenuLabel.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
+        tempMenuLabel.setForeground(new java.awt.Color(255, 255, 255));
+        tempMenuLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tempMenuLabel.setText("Temporizador");
+        tempMenuLabel.setToolTipText("");
+        tempMenuLabel.setPreferredSize(new java.awt.Dimension(174, 35));
+        tempMenuLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                livrosLabelMouseClicked(evt);
+                tempMenuLabelMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                livrosLabelMouseEntered(evt);
+                tempMenuLabelMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                livrosLabelMouseExited(evt);
+                tempMenuLabelMouseExited(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -907,32 +896,32 @@ public class presenterGui extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
-        menuBar.add(livrosLabel, gridBagConstraints);
+        menuBar.add(tempMenuLabel, gridBagConstraints);
 
-        emprestimoActivePanel.setBackground(new java.awt.Color(173, 211, 250));
-        emprestimoActivePanel.setMinimumSize(new java.awt.Dimension(5, 35));
-        emprestimoActivePanel.setPreferredSize(new java.awt.Dimension(5, 35));
+        rankingMenuActivePanel.setBackground(new java.awt.Color(173, 211, 250));
+        rankingMenuActivePanel.setMinimumSize(new java.awt.Dimension(5, 35));
+        rankingMenuActivePanel.setPreferredSize(new java.awt.Dimension(5, 35));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LAST_LINE_START;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
-        menuBar.add(emprestimoActivePanel, gridBagConstraints);
+        menuBar.add(rankingMenuActivePanel, gridBagConstraints);
 
-        emprestimoLabel.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
-        emprestimoLabel.setForeground(new java.awt.Color(255, 255, 255));
-        emprestimoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        emprestimoLabel.setText("Ranking");
-        emprestimoLabel.setPreferredSize(new java.awt.Dimension(113, 35));
-        emprestimoLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+        rankingMenuLabel.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
+        rankingMenuLabel.setForeground(new java.awt.Color(255, 255, 255));
+        rankingMenuLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        rankingMenuLabel.setText("Ranking");
+        rankingMenuLabel.setPreferredSize(new java.awt.Dimension(113, 35));
+        rankingMenuLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                emprestimoLabelMouseClicked(evt);
+                rankingMenuLabelMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                emprestimoLabelMouseEntered(evt);
+                rankingMenuLabelMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                emprestimoLabelMouseExited(evt);
+                rankingMenuLabelMouseExited(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -940,17 +929,7 @@ public class presenterGui extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
-        menuBar.add(emprestimoLabel, gridBagConstraints);
-
-        relatorioActivePanel.setBackground(new java.awt.Color(173, 211, 250));
-        relatorioActivePanel.setMinimumSize(new java.awt.Dimension(5, 35));
-        relatorioActivePanel.setPreferredSize(new java.awt.Dimension(5, 35));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LAST_LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
-        menuBar.add(relatorioActivePanel, gridBagConstraints);
+        menuBar.add(rankingMenuLabel, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -1024,29 +1003,29 @@ public class presenterGui extends javax.swing.JFrame {
     }//GEN-LAST:event_menuIconMouseClicked
 
     //Animações de mouse enter/exit na escolha de abas no menu
-    private void alunosLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_alunosLabelMouseEntered
-        alunosActivePanel.setBackground(new Color(255, 255, 255));
-    }//GEN-LAST:event_alunosLabelMouseEntered
+    private void equipesMenuLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipesMenuLabelMouseEntered
+        equipesActivePanel.setBackground(new Color(255, 255, 255));
+    }//GEN-LAST:event_equipesMenuLabelMouseEntered
 
-    private void alunosLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_alunosLabelMouseExited
-        alunosActivePanel.setBackground(new Color(173, 211, 250));
-    }//GEN-LAST:event_alunosLabelMouseExited
+    private void equipesMenuLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipesMenuLabelMouseExited
+        equipesActivePanel.setBackground(new Color(173, 211, 250));
+    }//GEN-LAST:event_equipesMenuLabelMouseExited
 
-    private void livrosLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_livrosLabelMouseEntered
-        livrosActivePanel.setBackground(new Color(255, 255, 255));
-    }//GEN-LAST:event_livrosLabelMouseEntered
+    private void tempMenuLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tempMenuLabelMouseEntered
+        temporizadorActivePanel.setBackground(new Color(255, 255, 255));
+    }//GEN-LAST:event_tempMenuLabelMouseEntered
 
-    private void livrosLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_livrosLabelMouseExited
-        livrosActivePanel.setBackground(new Color(173, 211, 250));
-    }//GEN-LAST:event_livrosLabelMouseExited
+    private void tempMenuLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tempMenuLabelMouseExited
+        temporizadorActivePanel.setBackground(new Color(173, 211, 250));
+    }//GEN-LAST:event_tempMenuLabelMouseExited
 
-    private void emprestimoLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emprestimoLabelMouseEntered
-        emprestimoActivePanel.setBackground(new Color(255, 255, 255));
-    }//GEN-LAST:event_emprestimoLabelMouseEntered
+    private void rankingMenuLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rankingMenuLabelMouseEntered
+        rankingMenuActivePanel.setBackground(new Color(255, 255, 255));
+    }//GEN-LAST:event_rankingMenuLabelMouseEntered
 
-    private void emprestimoLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emprestimoLabelMouseExited
-        emprestimoActivePanel.setBackground(new Color(173, 211, 250));
-    }//GEN-LAST:event_emprestimoLabelMouseExited
+    private void rankingMenuLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rankingMenuLabelMouseExited
+        rankingMenuActivePanel.setBackground(new Color(173, 211, 250));
+    }//GEN-LAST:event_rankingMenuLabelMouseExited
 
     //Botão exit
     private void closeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeLabelMouseClicked
@@ -1054,29 +1033,29 @@ public class presenterGui extends javax.swing.JFrame {
     }//GEN-LAST:event_closeLabelMouseClicked
 
     //Escolhas de aba no menu
-    private void alunosLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_alunosLabelMouseClicked
+    private void equipesMenuLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipesMenuLabelMouseClicked
         abas.setSelectedIndex(0);
         contentPanel.setVisible(true);
         contentPanel.setEnabled(true);
         menuBar.setVisible(false);
         menuBar.setEnabled(false);
-    }//GEN-LAST:event_alunosLabelMouseClicked
+    }//GEN-LAST:event_equipesMenuLabelMouseClicked
 
-    private void livrosLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_livrosLabelMouseClicked
+    private void tempMenuLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tempMenuLabelMouseClicked
         abas.setSelectedIndex(1);
         contentPanel.setVisible(true);
         contentPanel.setEnabled(true);
         menuBar.setVisible(false);
         menuBar.setEnabled(false);
-    }//GEN-LAST:event_livrosLabelMouseClicked
+    }//GEN-LAST:event_tempMenuLabelMouseClicked
 
-    private void emprestimoLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_emprestimoLabelMouseClicked
+    private void rankingMenuLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rankingMenuLabelMouseClicked
         abas.setSelectedIndex(2);
         contentPanel.setVisible(true);
         contentPanel.setEnabled(true);
         menuBar.setVisible(false);
         menuBar.setEnabled(false);
-    }//GEN-LAST:event_emprestimoLabelMouseClicked
+    }//GEN-LAST:event_rankingMenuLabelMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1121,75 +1100,73 @@ public class presenterGui extends javax.swing.JFrame {
     private javax.swing.JPanel abaRanking;
     private javax.swing.JPanel abaTemporizador;
     private javax.swing.JTabbedPane abas;
-    private javax.swing.JPanel alunoCadastro;
-    private javax.swing.JPanel alunosActivePanel;
-    private javax.swing.JPanel alunosDivideBar;
-    private javax.swing.JLabel alunosEditarBotao;
-    private javax.swing.JLabel alunosExcluirBotao;
-    private javax.swing.JLabel alunosLabel;
-    private javax.swing.JLabel alunosNomeLabel;
-    private javax.swing.JLabel alunosNomeLabel1;
-    private javax.swing.JLabel alunosNomeLabel2;
-    private javax.swing.JTextField alunosNomeTextField;
-    private javax.swing.JTextField alunosNomeTextField1;
-    private javax.swing.JTextField alunosNomeTextField2;
-    private javax.swing.JLabel alunosNovoBotao;
-    private javax.swing.JLabel alunosNovoBotao1;
-    private javax.swing.JPanel alunosPesquisaBar;
-    private javax.swing.JLabel alunosPesquisaLabel;
-    private javax.swing.JPanel alunosPesquisaPanel;
-    private javax.swing.JTextField alunosPesquisaTextField;
-    private javax.swing.JComboBox<String> alunosPorComboBox;
-    private javax.swing.JLabel alunosPorLabel;
-    private javax.swing.JLabel alunosSalvarBotao;
-    private javax.swing.JTable alunosTabela;
-    private javax.swing.JScrollPane alunosTabelaContent;
-    private javax.swing.JPanel alunosTabelaPanel;
-    private javax.swing.JComboBox<String> alunosTurmaComboBox;
-    private javax.swing.JLabel alunosTurmaLabel;
     private javax.swing.JLabel closeLabel;
     private javax.swing.JPanel contentPanel;
-    private javax.swing.JPanel emprestimoActivePanel;
-    private javax.swing.JLabel emprestimoLabel;
+    private javax.swing.JLabel equipeAddAlunoBotao;
+    private javax.swing.JLabel equipeAlunoLabel;
+    private javax.swing.JTextField equipeAlunoTextField;
+    private javax.swing.JScrollPane equipeAlunosDaEquipeContentPanel;
+    private javax.swing.JList<String> equipeAlunosDaEquipeLista;
+    private javax.swing.JPanel equipeCadastro;
+    private javax.swing.JPanel equipeDivideBar;
+    private javax.swing.JLabel equipeEditarBotao;
+    private javax.swing.JLabel equipeExcluirBotao;
+    private javax.swing.JLabel equipeNomeLabel;
+    private javax.swing.JTextField equipeNomeTextField;
+    private javax.swing.JLabel equipeNovaBotao;
+    private javax.swing.JPanel equipePesquisaBar;
+    private javax.swing.JLabel equipePesquisaLabel;
+    private javax.swing.JPanel equipePesquisaPanel;
+    private javax.swing.JTextField equipePesquisaTextField;
+    private javax.swing.JComboBox<String> equipePorComboBox;
+    private javax.swing.JLabel equipePorLabel;
+    private javax.swing.JLabel equipeProjetoLabel;
+    private javax.swing.JTextField equipeProjetoTextField;
+    private javax.swing.JLabel equipeSalvarBotao;
+    private javax.swing.JTable equipeTabela;
+    private javax.swing.JScrollPane equipeTabelaContent;
+    private javax.swing.JPanel equipeTabelaPanel;
+    private javax.swing.JComboBox<String> equipeTurmaComboBox;
+    private javax.swing.JLabel equipeTurmaLabel;
+    private javax.swing.JPanel equipesActivePanel;
+    private javax.swing.JLabel equipesMenuLabel;
     private javax.swing.JLabel inMenuBarSpaceLabel;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JPanel livrosActivePanel;
-    private javax.swing.JPanel livrosCadastro;
-    private javax.swing.JPanel livrosDivideBar;
-    private javax.swing.JLabel livrosLabel;
-    private javax.swing.JPanel livrosPesquisa;
-    private javax.swing.JPanel livrosPesquisaBar;
-    private javax.swing.JLabel livrosPesquisaLabel;
-    private javax.swing.JLabel livrosPesquisaLabel1;
-    private javax.swing.JComboBox<String> livrosPorComboBox;
-    private javax.swing.JLabel livrosPorLabel;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JLabel mainbarSpaceLabel;
     private javax.swing.JPanel menuBar;
     private javax.swing.JLabel menuIcon;
     private javax.swing.JPanel menuRightPanel;
     private javax.swing.JLabel minemizeLabel;
-    private javax.swing.JLabel multimeiosLabel;
+    private javax.swing.JLabel presenterLabel;
     private javax.swing.JPanel programBar;
+    private javax.swing.JPanel rankingHeadPanel;
+    private javax.swing.JPanel rankingMenuActivePanel;
+    private javax.swing.JLabel rankingMenuLabel;
+    private javax.swing.JTable rankingTabela;
+    private javax.swing.JScrollPane rankingTabelaContent;
+    private javax.swing.JPanel rankingTablePanel;
     private javax.swing.JLabel redCircleLabel;
-    private javax.swing.JPanel relatorioActivePanel;
-    private javax.swing.JPanel relatorioAtrasoHeadPanel;
     private javax.swing.JLabel relatorioAtrasoLabel;
-    private javax.swing.JPanel relatorioAtrasoPanel;
-    private javax.swing.JTable relatorioAtrasoTabela;
-    private javax.swing.JScrollPane relatorioAtrasoTabelaContent;
-    private javax.swing.JPanel relatorioAtrasoTablePanel;
     private javax.swing.JLabel space;
+    private javax.swing.JLabel tempMenuLabel;
+    private javax.swing.JPanel tempoActionsPanel;
+    private javax.swing.JPanel tempoAreaPanel;
+    private javax.swing.JPanel tempoConfigPanel;
+    private javax.swing.JLabel tempoCustomLabel;
+    private javax.swing.JFormattedTextField tempoCustomTextField;
+    private javax.swing.JLabel tempoDeleteLabel;
+    private javax.swing.JPanel tempoDivideBar;
+    private javax.swing.JComboBox<String> tempoDuracaoComboBox;
+    private javax.swing.JPanel tempoDuracaoPanel;
+    private javax.swing.JLabel tempoMinutesLabel;
+    private javax.swing.JLabel tempoNumbers;
+    private javax.swing.JLabel tempoOneMoreLabel;
+    private javax.swing.JLabel tempoPauseLabel;
+    private javax.swing.JLabel tempoPlayLabel;
+    private javax.swing.JLabel tempoTempoLabel;
+    private javax.swing.JPanel temporizadorActivePanel;
     private javax.swing.JPanel titleBar;
     private javax.swing.JLabel titleBarSpaceLabel;
+    private javax.swing.JLabel whiteCircleLabel;
     // End of variables declaration//GEN-END:variables
 }
