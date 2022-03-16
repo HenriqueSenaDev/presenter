@@ -731,6 +731,7 @@ public class presenterGui extends javax.swing.JFrame {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
         tempoConfigPanel.add(tempoActionsPanel, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1074,6 +1075,7 @@ public class presenterGui extends javax.swing.JFrame {
     private void tempoPlayLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tempoPlayLabelMouseClicked
         if (tempoDuracaoComboBox.getSelectedItem().toString().equals("Customizado")) {
             getCustomTime();
+            justDelete();
 
             mainTimer = new Timer(1000, new ActionListener() {
                 @Override
@@ -1085,12 +1087,12 @@ public class presenterGui extends javax.swing.JFrame {
                         oscilar.stop();
                         whiteCountdown();
                         mainTimer.stop();
+                        returnAll();
                     }
                 }
             });
             mainTimer.start();
-        } 
-        else {
+        } else {
             getDefinedTime();
         }
     }//GEN-LAST:event_tempoPlayLabelMouseClicked
@@ -1134,8 +1136,9 @@ public class presenterGui extends javax.swing.JFrame {
         });
     }
 
-    /*** Métodos auxiliares ***/
-    
+    /**
+     * * Métodos auxiliares **
+     */
     public void getCustomTime() {
         duracaoString = tempoCustomTextField.getText();
         duracaoNumber = duracaoString.split(":");
@@ -1202,6 +1205,24 @@ public class presenterGui extends javax.swing.JFrame {
             tempoNumbers.setVisible(false);
         }
     });
+
+    public void justDelete() {
+        tempoDuracaoPanel.setVisible(false);
+        tempoPlayLabel.setVisible(false);
+        tempoOneMoreLabel.setVisible(false);
+        tempoPauseLabel.setVisible(false);
+        tempoDivideBar.setVisible(false);
+        tempoConfigPanel.setPreferredSize(new Dimension(615, 150));
+    }
+
+    public void returnAll() {
+        tempoDuracaoPanel.setVisible(true);
+        tempoPlayLabel.setVisible(true);
+        tempoOneMoreLabel.setVisible(true);
+        tempoPauseLabel.setVisible(true);
+        tempoDivideBar.setVisible(true);
+        tempoConfigPanel.setPreferredSize(new Dimension(615, 200));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel abaEquipes;
