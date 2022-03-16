@@ -31,6 +31,7 @@ public class presenterGui extends javax.swing.JFrame {
 
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
+        //Dimensões de inicialização de painéis
         Dimension abasPreferredSize = new Dimension(1400, 730);
         abas.setPreferredSize(abasPreferredSize);
         Dimension menuBarPreferredSize = new Dimension(260, 50);
@@ -45,7 +46,9 @@ public class presenterGui extends javax.swing.JFrame {
         menuRightPanel.setVisible(false);
         menuRightPanel.setEnabled(false);
 
+        //Temporizador configs
         redCircleLabel.setVisible(false);
+        tempoDeleteLabel.setVisible(false);
     }
 
     /**
@@ -111,9 +114,7 @@ public class presenterGui extends javax.swing.JFrame {
         tempoMinutesLabel = new javax.swing.JLabel();
         tempoActionsPanel = new javax.swing.JPanel();
         tempoPlayLabel = new javax.swing.JLabel();
-        tempoPauseLabel = new javax.swing.JLabel();
         tempoDeleteLabel = new javax.swing.JLabel();
-        tempoOneMoreLabel = new javax.swing.JLabel();
         abaRanking = new javax.swing.JPanel();
         rankingHeadPanel = new javax.swing.JPanel();
         relatorioAtrasoLabel = new javax.swing.JLabel();
@@ -696,6 +697,7 @@ public class presenterGui extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         tempoConfigPanel.add(tempoDuracaoPanel, gridBagConstraints);
 
         tempoActionsPanel.setBackground(new java.awt.Color(173, 211, 250));
@@ -712,20 +714,15 @@ public class presenterGui extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 20, 10);
         tempoActionsPanel.add(tempoPlayLabel, gridBagConstraints);
 
-        tempoPauseLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/images/pauseIcon.png"))); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 20, 10);
-        tempoActionsPanel.add(tempoPauseLabel, gridBagConstraints);
-
         tempoDeleteLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/images/deleteIcon.png"))); // NOI18N
+        tempoDeleteLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tempoDeleteLabelMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 20, 10);
         tempoActionsPanel.add(tempoDeleteLabel, gridBagConstraints);
-
-        tempoOneMoreLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/images/moreOneIcon.png"))); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 20, 10);
-        tempoActionsPanel.add(tempoOneMoreLabel, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
@@ -1087,7 +1084,7 @@ public class presenterGui extends javax.swing.JFrame {
                         oscilar.stop();
                         whiteCountdown();
                         mainTimer.stop();
-                        returnAll();
+                        returnPlay();
                     }
                 }
             });
@@ -1097,6 +1094,14 @@ public class presenterGui extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tempoPlayLabelMouseClicked
     //**********************************
+
+    private void tempoDeleteLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tempoDeleteLabelMouseClicked
+        oscilar.stop();
+        whiteCountdown();
+        mainTimer.stop();
+        returnPlay();
+        tempoNumbers.setText("00:00");
+    }//GEN-LAST:event_tempoDeleteLabelMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1207,19 +1212,17 @@ public class presenterGui extends javax.swing.JFrame {
     });
 
     public void justDelete() {
+        tempoDeleteLabel.setVisible(true);
         tempoDuracaoPanel.setVisible(false);
         tempoPlayLabel.setVisible(false);
-        tempoOneMoreLabel.setVisible(false);
-        tempoPauseLabel.setVisible(false);
         tempoDivideBar.setVisible(false);
         tempoConfigPanel.setPreferredSize(new Dimension(615, 150));
     }
 
-    public void returnAll() {
+    public void returnPlay() {
         tempoDuracaoPanel.setVisible(true);
+        tempoDeleteLabel.setVisible(false);
         tempoPlayLabel.setVisible(true);
-        tempoOneMoreLabel.setVisible(true);
-        tempoPauseLabel.setVisible(true);
         tempoDivideBar.setVisible(true);
         tempoConfigPanel.setPreferredSize(new Dimension(615, 200));
     }
@@ -1289,8 +1292,6 @@ public class presenterGui extends javax.swing.JFrame {
     private javax.swing.JPanel tempoDuracaoPanel;
     private javax.swing.JLabel tempoMinutesLabel;
     private javax.swing.JLabel tempoNumbers;
-    private javax.swing.JLabel tempoOneMoreLabel;
-    private javax.swing.JLabel tempoPauseLabel;
     private javax.swing.JLabel tempoPlayLabel;
     private javax.swing.JLabel tempoTempoLabel;
     private javax.swing.JPanel temporizadorActivePanel;
