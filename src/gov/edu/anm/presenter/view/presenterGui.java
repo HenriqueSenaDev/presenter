@@ -7,13 +7,21 @@ package gov.edu.anm.presenter.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JFrame;
+import javax.swing.Timer;
 
 /**
  *
  * @author luizh
  */
 public class presenterGui extends javax.swing.JFrame {
+
+    private String duracaoString;
+    private String[] duracaoNumber;
+    private int totalSeconds;
+    Timer mainTimer;
 
     /**
      * Creates new form Sistema
@@ -36,9 +44,8 @@ public class presenterGui extends javax.swing.JFrame {
         menuBar.setEnabled(false);
         menuRightPanel.setVisible(false);
         menuRightPanel.setEnabled(false);
-        
-        redCircleLabel.setVisible(false);
 
+        redCircleLabel.setVisible(false);
     }
 
     /**
@@ -696,6 +703,11 @@ public class presenterGui extends javax.swing.JFrame {
         tempoActionsPanel.setLayout(new java.awt.GridBagLayout());
 
         tempoPlayLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/images/playIcon.png"))); // NOI18N
+        tempoPlayLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tempoPlayLabelMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 20, 10);
         tempoActionsPanel.add(tempoPlayLabel, gridBagConstraints);
@@ -967,10 +979,12 @@ public class presenterGui extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    //Botão minimizar *********************
     private void minemizeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minemizeLabelMouseClicked
-        //Botão minimizar
+
         this.setState(JFrame.ICONIFIED);
     }//GEN-LAST:event_minemizeLabelMouseClicked
+    //**********************
 
     private void programBarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_programBarMousePressed
     }//GEN-LAST:event_programBarMousePressed
@@ -978,31 +992,27 @@ public class presenterGui extends javax.swing.JFrame {
     private void programBarMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_programBarMouseDragged
     }//GEN-LAST:event_programBarMouseDragged
 
+    //Botão abrir/fechar menu **********************
     private void menuIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuIconMouseClicked
-        //Botão abrir/fechar menu
         if (contentPanel.isVisible() == true) {
-
             contentPanel.setVisible(false);
             contentPanel.setEnabled(false);
             menuBar.setVisible(true);
             menuBar.setEnabled(true);
             menuRightPanel.setVisible(true);
             menuRightPanel.setEnabled(true);
-
         } else {
-
             contentPanel.setVisible(true);
             contentPanel.setEnabled(true);
             menuBar.setVisible(false);
             menuBar.setEnabled(false);
             menuRightPanel.setVisible(false);
             menuRightPanel.setEnabled(false);
-
         }
-
     }//GEN-LAST:event_menuIconMouseClicked
+    //**********************************
 
-    //Animações de mouse enter/exit na escolha de abas no menu
+    //Animações de mouse enter/exit na escolha de abas no menu **************************
     private void equipesMenuLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipesMenuLabelMouseEntered
         equipesActivePanel.setBackground(new Color(255, 255, 255));
     }//GEN-LAST:event_equipesMenuLabelMouseEntered
@@ -1026,13 +1036,15 @@ public class presenterGui extends javax.swing.JFrame {
     private void rankingMenuLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rankingMenuLabelMouseExited
         rankingMenuActivePanel.setBackground(new Color(173, 211, 250));
     }//GEN-LAST:event_rankingMenuLabelMouseExited
+    //******************************************
 
-    //Botão exit
+    //Botão exit ***********************
     private void closeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeLabelMouseClicked
         System.exit(0);
     }//GEN-LAST:event_closeLabelMouseClicked
+    //******************************
 
-    //Escolhas de aba no menu
+    //Escolhas de aba no menu *********************************
     private void equipesMenuLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipesMenuLabelMouseClicked
         abas.setSelectedIndex(0);
         contentPanel.setVisible(true);
@@ -1056,6 +1068,33 @@ public class presenterGui extends javax.swing.JFrame {
         menuBar.setVisible(false);
         menuBar.setEnabled(false);
     }//GEN-LAST:event_rankingMenuLabelMouseClicked
+    //**************************************************
+
+    //Botao play ************************
+    private void tempoPlayLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tempoPlayLabelMouseClicked
+        if (tempoDuracaoComboBox.getSelectedItem().toString().equals("Customizado")) {
+            getCustomTime();
+
+            mainTimer = new Timer(1000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    countdownWorking();
+                    if (totalSeconds < 60 && totalSeconds >= 0) {
+                        finalCountdown();
+                    } else if (totalSeconds < 0) {
+                        oscilar.stop();
+                        whiteCountdown();
+                        mainTimer.stop();
+                    }
+                }
+            });
+            mainTimer.start();
+        } 
+        else {
+            getDefinedTime();
+        }
+    }//GEN-LAST:event_tempoPlayLabelMouseClicked
+    //**********************************
 
     /**
      * @param args the command line arguments
@@ -1094,6 +1133,75 @@ public class presenterGui extends javax.swing.JFrame {
             }
         });
     }
+
+    /*** Métodos auxiliares ***/
+    
+    public void getCustomTime() {
+        duracaoString = tempoCustomTextField.getText();
+        duracaoNumber = duracaoString.split(":");
+        totalSeconds = totalSeconds(Integer.valueOf(duracaoNumber[0]), Integer.valueOf(duracaoNumber[1]));
+    }
+
+    public void getDefinedTime() {
+        duracaoString = tempoDuracaoComboBox.getSelectedItem().toString();
+        duracaoNumber = duracaoString.split(" ");
+        totalSeconds = totalSeconds(Integer.valueOf(duracaoNumber[0]), 0);
+    }
+
+    public int totalSeconds(int minutes, int seconds) {
+        int totalSeconds = (minutes) * 60 + seconds;
+        return totalSeconds;
+    }
+
+    public void redCountdown() {
+        whiteCircleLabel.setVisible(false);
+        redCircleLabel.setVisible(true);
+        tempoNumbers.setForeground(new Color(255, 0, 25));
+    }
+
+    public void whiteCountdown() {
+        whiteCircleLabel.setVisible(true);
+        redCircleLabel.setVisible(false);
+        tempoNumbers.setForeground(new Color(255, 255, 255));
+    }
+
+    /* Troca o valor da label a cada segundo */
+    public void countdownWorking() {
+        tempoNumbers.setVisible(true);
+
+        String tempCount = "";
+        double minutes = Math.floor(totalSeconds / 60);
+        double seconds = totalSeconds % 60;
+
+        if (minutes < 10 && seconds < 10) {
+            tempCount = "0" + String.format("%.0f", minutes) + ":0" + String.format("%.0f", seconds);
+        } else if (minutes < 10 && seconds >= 10) {
+            tempCount = "0" + String.format("%.0f", minutes) + ":" + String.format("%.0f", seconds);
+        } else if (minutes < 10 && seconds >= 10) {
+            tempCount = String.format("%.0f", minutes) + ":0" + String.format("%.0f", seconds);
+        } else {
+            tempCount = String.format("%.0f", minutes) + ":" + String.format("%.0f", seconds);
+        }
+
+        tempoNumbers.setText(tempCount);
+        totalSeconds--;
+    }
+
+    /* Aciona o temporizador vermelho e a oscilação da label */
+    public void finalCountdown() {
+        redCountdown();
+        oscilar.stop();
+        tempoNumbers.setVisible(true);
+        oscilar.start();
+    }
+
+    /* Timer oscilar */
+    Timer oscilar = new Timer(500, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            tempoNumbers.setVisible(false);
+        }
+    });
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel abaEquipes;
