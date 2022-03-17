@@ -635,7 +635,7 @@ public class presenterGui extends javax.swing.JFrame {
 
         tempoDuracaoPanel.setBackground(new java.awt.Color(173, 211, 250));
         tempoDuracaoPanel.setMinimumSize(new java.awt.Dimension(615, 90));
-        tempoDuracaoPanel.setPreferredSize(new java.awt.Dimension(615, 90));
+        tempoDuracaoPanel.setPreferredSize(new java.awt.Dimension(615, 80));
         tempoDuracaoPanel.setLayout(new java.awt.GridBagLayout());
 
         tempoTempoLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -697,31 +697,31 @@ public class presenterGui extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 0, 0);
         tempoConfigPanel.add(tempoDuracaoPanel, gridBagConstraints);
 
         tempoActionsPanel.setBackground(new java.awt.Color(173, 211, 250));
         tempoActionsPanel.setPreferredSize(new java.awt.Dimension(10, 90));
         tempoActionsPanel.setLayout(new java.awt.GridBagLayout());
 
-        tempoPlayLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/images/playIcon.png"))); // NOI18N
+        tempoPlayLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/images/baseline_play_arrow_white_48dp.png"))); // NOI18N
         tempoPlayLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tempoPlayLabelMouseClicked(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 20, 10);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 30, 0);
         tempoActionsPanel.add(tempoPlayLabel, gridBagConstraints);
 
-        tempoDeleteLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/images/deleteIcon.png"))); // NOI18N
+        tempoDeleteLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/images/baseline_delete_white_48dp.png"))); // NOI18N
         tempoDeleteLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tempoDeleteLabelMouseClicked(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 20, 10);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
         tempoActionsPanel.add(tempoDeleteLabel, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -750,7 +750,7 @@ public class presenterGui extends javax.swing.JFrame {
 
         relatorioAtrasoLabel.setFont(new java.awt.Font("Segoe UI", 1, 28)); // NOI18N
         relatorioAtrasoLabel.setForeground(new java.awt.Color(255, 255, 255));
-        relatorioAtrasoLabel.setText("Ranking da Competição:");
+        relatorioAtrasoLabel.setText("Ranking da Competição");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 30, 0);
         rankingHeadPanel.add(relatorioAtrasoLabel, gridBagConstraints);
@@ -1091,6 +1091,23 @@ public class presenterGui extends javax.swing.JFrame {
             mainTimer.start();
         } else {
             getDefinedTime();
+            justDelete();
+
+            mainTimer = new Timer(1000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    countdownWorking();
+                    if (totalSeconds < 60 && totalSeconds >= 0) {
+                        finalCountdown();
+                    } else if (totalSeconds < 0) {
+                        oscilar.stop();
+                        whiteCountdown();
+                        mainTimer.stop();
+                        returnPlay();
+                    }
+                }
+            });
+            mainTimer.start();
         }
     }//GEN-LAST:event_tempoPlayLabelMouseClicked
     //**********************************
