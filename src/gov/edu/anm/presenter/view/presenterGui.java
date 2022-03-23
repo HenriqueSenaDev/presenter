@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
@@ -20,8 +21,12 @@ public class presenterGui extends javax.swing.JFrame {
 
     private String duracaoString;
     private String[] duracaoNumber;
+    private String equipes[] = new String[5];
     private int totalSeconds;
-    Timer mainTimer;
+    private Timer mainTimer;
+    private Timer sortear;
+    private int countSorteio = 0;
+    private int countTotalSorteio = 0;
 
     /**
      * Creates new form Sistema
@@ -116,11 +121,11 @@ public class presenterGui extends javax.swing.JFrame {
         tempoPlayLabel = new javax.swing.JLabel();
         tempoDeleteLabel = new javax.swing.JLabel();
         abaSorteador = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        sorteadorEquipePanel = new javax.swing.JPanel();
+        sorteadorEquipeLabel = new javax.swing.JLabel();
         sorteioDivideBar = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        equipeExcluirBotao1 = new javax.swing.JLabel();
+        sorteadorSortearPanel = new javax.swing.JPanel();
+        sorteadorSortearBotao = new javax.swing.JLabel();
         abaRanking = new javax.swing.JPanel();
         rankingHeadPanel = new javax.swing.JPanel();
         relatorioAtrasoLabel = new javax.swing.JLabel();
@@ -751,13 +756,13 @@ public class presenterGui extends javax.swing.JFrame {
         abaSorteador.setBackground(new java.awt.Color(173, 211, 250));
         abaSorteador.setLayout(new java.awt.GridBagLayout());
 
-        jPanel1.setBackground(new java.awt.Color(173, 211, 250));
-        jPanel1.setLayout(new java.awt.GridBagLayout());
+        sorteadorEquipePanel.setBackground(new java.awt.Color(173, 211, 250));
+        sorteadorEquipePanel.setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 72)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Equipe Selecionada");
-        jPanel1.add(jLabel1, new java.awt.GridBagConstraints());
+        sorteadorEquipeLabel.setFont(new java.awt.Font("Segoe UI", 1, 72)); // NOI18N
+        sorteadorEquipeLabel.setForeground(new java.awt.Color(255, 255, 255));
+        sorteadorEquipeLabel.setText("Equipe Selecionada");
+        sorteadorEquipePanel.add(sorteadorEquipeLabel, new java.awt.GridBagConstraints());
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -765,7 +770,7 @@ public class presenterGui extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 1.0;
-        abaSorteador.add(jPanel1, gridBagConstraints);
+        abaSorteador.add(sorteadorEquipePanel, gridBagConstraints);
 
         sorteioDivideBar.setBackground(new java.awt.Color(255, 255, 255));
         sorteioDivideBar.setMinimumSize(new java.awt.Dimension(10, 5));
@@ -777,25 +782,30 @@ public class presenterGui extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         abaSorteador.add(sorteioDivideBar, gridBagConstraints);
 
-        jPanel2.setBackground(new java.awt.Color(173, 211, 250));
-        jPanel2.setLayout(new java.awt.GridBagLayout());
+        sorteadorSortearPanel.setBackground(new java.awt.Color(173, 211, 250));
+        sorteadorSortearPanel.setLayout(new java.awt.GridBagLayout());
 
-        equipeExcluirBotao1.setBackground(new java.awt.Color(111, 135, 214));
-        equipeExcluirBotao1.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
-        equipeExcluirBotao1.setForeground(new java.awt.Color(255, 255, 255));
-        equipeExcluirBotao1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        equipeExcluirBotao1.setText("Sortear equipes restantes");
-        equipeExcluirBotao1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        equipeExcluirBotao1.setMaximumSize(new java.awt.Dimension(70, 32));
-        equipeExcluirBotao1.setMinimumSize(new java.awt.Dimension(70, 32));
-        equipeExcluirBotao1.setOpaque(true);
-        equipeExcluirBotao1.setPreferredSize(new java.awt.Dimension(340, 45));
+        sorteadorSortearBotao.setBackground(new java.awt.Color(111, 135, 214));
+        sorteadorSortearBotao.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
+        sorteadorSortearBotao.setForeground(new java.awt.Color(255, 255, 255));
+        sorteadorSortearBotao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        sorteadorSortearBotao.setText("Sortear equipes restantes");
+        sorteadorSortearBotao.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        sorteadorSortearBotao.setMaximumSize(new java.awt.Dimension(70, 32));
+        sorteadorSortearBotao.setMinimumSize(new java.awt.Dimension(70, 32));
+        sorteadorSortearBotao.setOpaque(true);
+        sorteadorSortearBotao.setPreferredSize(new java.awt.Dimension(340, 45));
+        sorteadorSortearBotao.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                sorteadorSortearBotaoMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 30);
-        jPanel2.add(equipeExcluirBotao1, gridBagConstraints);
+        sorteadorSortearPanel.add(sorteadorSortearBotao, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -803,7 +813,7 @@ public class presenterGui extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.weighty = 0.7;
-        abaSorteador.add(jPanel2, gridBagConstraints);
+        abaSorteador.add(sorteadorSortearPanel, gridBagConstraints);
 
         abas.addTab("tab4", abaSorteador);
 
@@ -1239,6 +1249,29 @@ public class presenterGui extends javax.swing.JFrame {
         rankingMenuActivePanel.setBackground(new Color(173, 211, 250));
     }//GEN-LAST:event_rankingMenuLabelMouseExited
 
+    private void sorteadorSortearBotaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sorteadorSortearBotaoMouseClicked
+
+        equipes[0] = "Amigos do DaniBoy";
+        equipes[1] = "Amigos do Kim Kardashian";
+        equipes[2] = "Sociedade dos Programadores";
+        equipes[3] = "Eclipse Club";
+        equipes[4] = "JavaScript da Galera";
+
+        sortear = new Timer(100, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                sorteadorLabel();
+                if (countTotalSorteio == 20) {
+                        resultadoSorteio();
+                }
+            }
+
+        });
+        sortear.start();
+
+
+    }//GEN-LAST:event_sorteadorSortearBotaoMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1347,6 +1380,25 @@ public class presenterGui extends javax.swing.JFrame {
         }
     });
 
+    /* Timer sortear */
+    public void sorteadorLabel() {
+        if (countSorteio == 5) {
+            countSorteio = 0;
+        }
+        sorteadorEquipeLabel.setText(equipes[countSorteio]);
+        countSorteio++;
+        countTotalSorteio++;
+    }
+
+    public void resultadoSorteio() {
+        sortear.stop();
+        countTotalSorteio = 0;
+        int upperbound = equipes.length;
+        Random rand = new Random();
+        int random = rand.nextInt(upperbound);
+        sorteadorEquipeLabel.setText(equipes[random]);
+    }
+
     public void justDelete() {
         tempoDeleteLabel.setVisible(true);
         tempoDuracaoPanel.setVisible(false);
@@ -1380,7 +1432,6 @@ public class presenterGui extends javax.swing.JFrame {
     private javax.swing.JPanel equipeDivideBar;
     private javax.swing.JLabel equipeEditarBotao;
     private javax.swing.JLabel equipeExcluirBotao;
-    private javax.swing.JLabel equipeExcluirBotao1;
     private javax.swing.JLabel equipeNomeLabel;
     private javax.swing.JTextField equipeNomeTextField;
     private javax.swing.JLabel equipeNovaBotao;
@@ -1401,9 +1452,6 @@ public class presenterGui extends javax.swing.JFrame {
     private javax.swing.JPanel equipesActivePanel;
     private javax.swing.JLabel equipesMenuLabel;
     private javax.swing.JLabel inMenuBarSpaceLabel;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JLabel mainbarSpaceLabel;
     private javax.swing.JPanel menuBar;
@@ -1420,8 +1468,12 @@ public class presenterGui extends javax.swing.JFrame {
     private javax.swing.JPanel rankingTablePanel;
     private javax.swing.JLabel redCircleLabel;
     private javax.swing.JLabel relatorioAtrasoLabel;
+    private javax.swing.JLabel sorteadorEquipeLabel;
+    private javax.swing.JPanel sorteadorEquipePanel;
     private javax.swing.JPanel sorteadorMenuActivePanel;
     private javax.swing.JLabel sorteadorMenuLabel;
+    private javax.swing.JLabel sorteadorSortearBotao;
+    private javax.swing.JPanel sorteadorSortearPanel;
     private javax.swing.JPanel sorteioDivideBar;
     private javax.swing.JLabel space;
     private javax.swing.JLabel tempMenuLabel;
