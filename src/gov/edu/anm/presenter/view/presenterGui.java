@@ -30,8 +30,8 @@ public class presenterGui extends javax.swing.JFrame {
     private Timer sortear;
     private int countSorteio = 0;
     private int countTotalSorteio = 0;
-    DefaultListModel listModel = new DefaultListModel();
-    EquipeDAO edao = new EquipeDAO();
+    private DefaultListModel listModel = new DefaultListModel();
+    private EquipeDAO edao = new EquipeDAO();
 
     /**
      * Creates new form Sistema
@@ -366,6 +366,11 @@ public class presenterGui extends javax.swing.JFrame {
         equipeSalvarBotao.setMinimumSize(new java.awt.Dimension(70, 32));
         equipeSalvarBotao.setOpaque(true);
         equipeSalvarBotao.setPreferredSize(new java.awt.Dimension(70, 32));
+        equipeSalvarBotao.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                equipeSalvarBotaoMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -1284,6 +1289,12 @@ public class presenterGui extends javax.swing.JFrame {
         listModel.addElement(equipeAlunoTextField.getText());
         equipeAlunosDaEquipeLista.setModel(listModel);
     }//GEN-LAST:event_equipeAddAlunoBotaoMouseClicked
+
+    private void equipeSalvarBotaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipeSalvarBotaoMouseClicked
+//        String nome = equipeNomeTextField.getText();
+//        String projeto = equipeProjetoTextField.getText();
+//        String turma = equipeTurmaComboBox.getSelectedItem().toString();
+    }//GEN-LAST:event_equipeSalvarBotaoMouseClicked
 
     /**
      * @param args the command line arguments

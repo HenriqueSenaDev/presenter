@@ -19,6 +19,10 @@ public class Equipe {
         this.pontuacao = 0.0;
         this.apresentou = false;
     }
+    
+    public Integer getId(){
+        return id;
+    }
 
     public String getNome() {
         return nome;

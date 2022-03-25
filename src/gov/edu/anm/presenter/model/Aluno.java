@@ -10,6 +10,10 @@ public class Aluno {
         this.nome = nome;
         this.equipe = equipe;
     }
+    
+    public Integer getId(){
+        return id;
+    }
 
     public String getNome() {
         return nome;
