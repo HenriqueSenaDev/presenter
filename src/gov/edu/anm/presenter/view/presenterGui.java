@@ -395,7 +395,7 @@ public class presenterGui extends javax.swing.JFrame {
         equipeExcluirBotao.setMaximumSize(new java.awt.Dimension(70, 32));
         equipeExcluirBotao.setMinimumSize(new java.awt.Dimension(70, 32));
         equipeExcluirBotao.setOpaque(true);
-        equipeExcluirBotao.setPreferredSize(new java.awt.Dimension(70, 32));
+        equipeExcluirBotao.setPreferredSize(new java.awt.Dimension(75, 32));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -418,7 +418,7 @@ public class presenterGui extends javax.swing.JFrame {
         equipeAlunoTextField.setForeground(new java.awt.Color(255, 255, 255));
         equipeAlunoTextField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         equipeAlunoTextField.setMinimumSize(new java.awt.Dimension(350, 30));
-        equipeAlunoTextField.setPreferredSize(new java.awt.Dimension(350, 35));
+        equipeAlunoTextField.setPreferredSize(new java.awt.Dimension(340, 35));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -432,9 +432,10 @@ public class presenterGui extends javax.swing.JFrame {
         equipeAddAlunoBotao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         equipeAddAlunoBotao.setText("Adicionar");
         equipeAddAlunoBotao.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        equipeAddAlunoBotao.setMaximumSize(new java.awt.Dimension(95, 25));
         equipeAddAlunoBotao.setMinimumSize(new java.awt.Dimension(70, 32));
         equipeAddAlunoBotao.setOpaque(true);
-        equipeAddAlunoBotao.setPreferredSize(new java.awt.Dimension(90, 32));
+        equipeAddAlunoBotao.setPreferredSize(new java.awt.Dimension(95, 32));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -448,11 +449,6 @@ public class presenterGui extends javax.swing.JFrame {
         equipeAlunosDaEquipeLista.setBackground(new java.awt.Color(146, 199, 239));
         equipeAlunosDaEquipeLista.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         equipeAlunosDaEquipeLista.setForeground(new java.awt.Color(255, 255, 255));
-        equipeAlunosDaEquipeLista.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         equipeAlunosDaEquipeLista.setMaximumSize(new java.awt.Dimension(75, 135));
         equipeAlunosDaEquipeLista.setMinimumSize(new java.awt.Dimension(75, 135));
         equipeAlunosDaEquipeLista.setPreferredSize(new java.awt.Dimension(75, 135));
@@ -1102,7 +1098,7 @@ public class presenterGui extends javax.swing.JFrame {
 
         getContentPane().add(mainPanel);
 
-        setSize(new java.awt.Dimension(893, 609));
+        setSize(new java.awt.Dimension(1154, 660));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
