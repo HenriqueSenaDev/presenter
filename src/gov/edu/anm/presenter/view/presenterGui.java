@@ -5,16 +5,25 @@
  */
 package gov.edu.anm.presenter.view;
 
+import gov.edu.anm.presenter.dao.AlunoDAO;
 import gov.edu.anm.presenter.dao.EquipeDAO;
+import gov.edu.anm.presenter.jdbc.ConnectionFactory;
+import gov.edu.anm.presenter.model.Aluno;
 import gov.edu.anm.presenter.model.Equipe;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.util.Random;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.Timer;
+
+import java.sql.Connection;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -32,12 +41,17 @@ public class presenterGui extends javax.swing.JFrame {
     private int countTotalSorteio = 0;
     private DefaultListModel listModel = new DefaultListModel();
     private EquipeDAO edao = new EquipeDAO();
+    private AlunoDAO adao = new AlunoDAO();
+    private Connection con;
 
     /**
      * Creates new form Sistema
      */
     public presenterGui() {
         initComponents();
+
+        //Estabelecendo conexão
+        con = new ConnectionFactory().getConnection();
 
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
@@ -1288,12 +1302,28 @@ public class presenterGui extends javax.swing.JFrame {
     private void equipeAddAlunoBotaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipeAddAlunoBotaoMouseClicked
         listModel.addElement(equipeAlunoTextField.getText());
         equipeAlunosDaEquipeLista.setModel(listModel);
+        equipeAlunoTextField.setText("");
     }//GEN-LAST:event_equipeAddAlunoBotaoMouseClicked
 
     private void equipeSalvarBotaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipeSalvarBotaoMouseClicked
-//        String nome = equipeNomeTextField.getText();
-//        String projeto = equipeProjetoTextField.getText();
-//        String turma = equipeTurmaComboBox.getSelectedItem().toString();
+        String nomeEquipe = equipeNomeTextField.getText();
+        String projeto = equipeProjetoTextField.getText();
+        String turma = equipeTurmaComboBox.getSelectedItem().toString();
+        Equipe equipe = new Equipe(nomeEquipe, projeto, turma);
+
+        try {
+            edao.salvarEquipe(equipe);
+            int n = listModel.getSize();
+            for (int i = 0; i < n; i++) {
+                String nomeAluno = listModel.getElementAt(i).toString();
+                Aluno aluno = new Aluno(nomeAluno);
+                adao.salvarAluno(aluno, nomeEquipe);
+            }
+            
+            JOptionPane.showMessageDialog(null, "Equipe cadastrada.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro no cadastro:\n" + e);
+        }
     }//GEN-LAST:event_equipeSalvarBotaoMouseClicked
 
     /**

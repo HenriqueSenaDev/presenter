@@ -29,7 +29,6 @@ public class EquipeDAO {
             stmt.execute();
             stmt.close();
             
-            JOptionPane.showMessageDialog(null, "Equipe cadastrada.");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro no cadastro:\n" + e);
         }
