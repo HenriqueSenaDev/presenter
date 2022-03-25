@@ -54,6 +54,16 @@ public class presenterGui extends javax.swing.JFrame {
         //Temporizador configs
         redCircleLabel.setVisible(false);
         tempoDeleteLabel.setVisible(false);
+
+        //Setar número de equipes restando
+        if (equipes.length < 2) {
+            sorteadorEquipesRestandoLabel.setText(String.valueOf(equipes.length)
+                    + " equipe restando");
+        }
+        else {
+            sorteadorEquipesRestandoLabel.setText(String.valueOf(equipes.length)
+                    + " equipes restando");
+        }
     }
 
     /**
@@ -126,6 +136,7 @@ public class presenterGui extends javax.swing.JFrame {
         sorteioDivideBar = new javax.swing.JPanel();
         sorteadorSortearPanel = new javax.swing.JPanel();
         sorteadorSortearBotao = new javax.swing.JLabel();
+        sorteadorEquipesRestandoLabel = new javax.swing.JLabel();
         abaRanking = new javax.swing.JPanel();
         rankingHeadPanel = new javax.swing.JPanel();
         relatorioAtrasoLabel = new javax.swing.JLabel();
@@ -803,9 +814,14 @@ public class presenterGui extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 30);
         sorteadorSortearPanel.add(sorteadorSortearBotao, gridBagConstraints);
+
+        sorteadorEquipesRestandoLabel.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+        sorteadorEquipesRestandoLabel.setForeground(new java.awt.Color(255, 255, 255));
+        sorteadorEquipesRestandoLabel.setText("00 equipes restando");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 40, 0);
+        sorteadorSortearPanel.add(sorteadorEquipesRestandoLabel, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1262,10 +1278,9 @@ public class presenterGui extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent evt) {
                 sorteadorLabel();
                 if (countTotalSorteio == 20) {
-                        resultadoSorteio();
+                    resultadoSorteio();
                 }
             }
-
         });
         sortear.start();
 
@@ -1313,6 +1328,7 @@ public class presenterGui extends javax.swing.JFrame {
     /**
      * * Métodos auxiliares **
      */
+    //** Temporizador
     public void getCustomTime() {
         duracaoString = tempoCustomTextField.getText();
         duracaoNumber = duracaoString.split(":");
@@ -1380,6 +1396,23 @@ public class presenterGui extends javax.swing.JFrame {
         }
     });
 
+    public void justDelete() {
+        tempoDeleteLabel.setVisible(true);
+        tempoDuracaoPanel.setVisible(false);
+        tempoPlayLabel.setVisible(false);
+        tempoDivideBar.setVisible(false);
+        tempoConfigPanel.setPreferredSize(new Dimension(615, 150));
+    }
+
+    public void returnPlay() {
+        tempoDuracaoPanel.setVisible(true);
+        tempoDeleteLabel.setVisible(false);
+        tempoPlayLabel.setVisible(true);
+        tempoDivideBar.setVisible(true);
+        tempoConfigPanel.setPreferredSize(new Dimension(615, 200));
+    }
+
+    //**Sorteador
     /* Timer sortear */
     public void sorteadorLabel() {
         if (countSorteio == 5) {
@@ -1399,21 +1432,6 @@ public class presenterGui extends javax.swing.JFrame {
         sorteadorEquipeLabel.setText(equipes[random]);
     }
 
-    public void justDelete() {
-        tempoDeleteLabel.setVisible(true);
-        tempoDuracaoPanel.setVisible(false);
-        tempoPlayLabel.setVisible(false);
-        tempoDivideBar.setVisible(false);
-        tempoConfigPanel.setPreferredSize(new Dimension(615, 150));
-    }
-
-    public void returnPlay() {
-        tempoDuracaoPanel.setVisible(true);
-        tempoDeleteLabel.setVisible(false);
-        tempoPlayLabel.setVisible(true);
-        tempoDivideBar.setVisible(true);
-        tempoConfigPanel.setPreferredSize(new Dimension(615, 200));
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel abaEquipes;
@@ -1470,6 +1488,7 @@ public class presenterGui extends javax.swing.JFrame {
     private javax.swing.JLabel relatorioAtrasoLabel;
     private javax.swing.JLabel sorteadorEquipeLabel;
     private javax.swing.JPanel sorteadorEquipePanel;
+    private javax.swing.JLabel sorteadorEquipesRestandoLabel;
     private javax.swing.JPanel sorteadorMenuActivePanel;
     private javax.swing.JLabel sorteadorMenuLabel;
     private javax.swing.JLabel sorteadorSortearBotao;
