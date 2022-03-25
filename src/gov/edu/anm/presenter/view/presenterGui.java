@@ -5,11 +5,14 @@
  */
 package gov.edu.anm.presenter.view;
 
+import gov.edu.anm.presenter.dao.EquipeDAO;
+import gov.edu.anm.presenter.model.Equipe;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
@@ -27,6 +30,8 @@ public class presenterGui extends javax.swing.JFrame {
     private Timer sortear;
     private int countSorteio = 0;
     private int countTotalSorteio = 0;
+    DefaultListModel listModel = new DefaultListModel();
+    EquipeDAO edao = new EquipeDAO();
 
     /**
      * Creates new form Sistema
@@ -59,8 +64,7 @@ public class presenterGui extends javax.swing.JFrame {
         if (equipes.length < 2) {
             sorteadorEquipesRestandoLabel.setText(String.valueOf(equipes.length)
                     + " equipe restando");
-        }
-        else {
+        } else {
             sorteadorEquipesRestandoLabel.setText(String.valueOf(equipes.length)
                     + " equipes restando");
         }
@@ -436,6 +440,11 @@ public class presenterGui extends javax.swing.JFrame {
         equipeAddAlunoBotao.setMinimumSize(new java.awt.Dimension(70, 32));
         equipeAddAlunoBotao.setOpaque(true);
         equipeAddAlunoBotao.setPreferredSize(new java.awt.Dimension(95, 32));
+        equipeAddAlunoBotao.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                equipeAddAlunoBotaoMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -1098,16 +1107,14 @@ public class presenterGui extends javax.swing.JFrame {
 
         getContentPane().add(mainPanel);
 
-        setSize(new java.awt.Dimension(1154, 660));
+        setSize(new java.awt.Dimension(898, 543));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    //Botão minimizar *********************
     private void minemizeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minemizeLabelMouseClicked
 
         this.setState(JFrame.ICONIFIED);
     }//GEN-LAST:event_minemizeLabelMouseClicked
-    //**********************
 
     private void programBarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_programBarMousePressed
     }//GEN-LAST:event_programBarMousePressed
@@ -1115,7 +1122,6 @@ public class presenterGui extends javax.swing.JFrame {
     private void programBarMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_programBarMouseDragged
     }//GEN-LAST:event_programBarMouseDragged
 
-    //Botão abrir/fechar menu **********************
     private void menuIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuIconMouseClicked
         if (contentPanel.isVisible() == true) {
             contentPanel.setVisible(false);
@@ -1133,9 +1139,7 @@ public class presenterGui extends javax.swing.JFrame {
             menuRightPanel.setEnabled(false);
         }
     }//GEN-LAST:event_menuIconMouseClicked
-    //**********************************
 
-    //Animações de mouse enter/exit na escolha de abas no menu **************************
     private void equipesMenuLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipesMenuLabelMouseEntered
         equipesActivePanel.setBackground(new Color(255, 255, 255));
     }//GEN-LAST:event_equipesMenuLabelMouseEntered
@@ -1159,15 +1163,11 @@ public class presenterGui extends javax.swing.JFrame {
     private void sorteadorMenuLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sorteadorMenuLabelMouseExited
         sorteadorMenuActivePanel.setBackground(new Color(173, 211, 250));
     }//GEN-LAST:event_sorteadorMenuLabelMouseExited
-    //******************************************
 
-    //Botão exit ***********************
     private void closeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeLabelMouseClicked
         System.exit(0);
     }//GEN-LAST:event_closeLabelMouseClicked
-    //******************************
 
-    //Escolhas de aba no menu *********************************
     private void equipesMenuLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipesMenuLabelMouseClicked
         abas.setSelectedIndex(0);
         contentPanel.setVisible(true);
@@ -1191,9 +1191,7 @@ public class presenterGui extends javax.swing.JFrame {
         menuBar.setVisible(false);
         menuBar.setEnabled(false);
     }//GEN-LAST:event_sorteadorMenuLabelMouseClicked
-    //**************************************************
 
-    //Botao play ************************
     private void tempoPlayLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tempoPlayLabelMouseClicked
         if (tempoDuracaoComboBox.getSelectedItem().toString().equals("Customizado")) {
             getCustomTime();
@@ -1235,7 +1233,6 @@ public class presenterGui extends javax.swing.JFrame {
             mainTimer.start();
         }
     }//GEN-LAST:event_tempoPlayLabelMouseClicked
-    //**********************************
 
     private void tempoDeleteLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tempoDeleteLabelMouseClicked
         oscilar.stop();
@@ -1282,6 +1279,11 @@ public class presenterGui extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_sorteadorSortearBotaoMouseClicked
+
+    private void equipeAddAlunoBotaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipeAddAlunoBotaoMouseClicked
+        listModel.addElement(equipeAlunoTextField.getText());
+        equipeAlunosDaEquipeLista.setModel(listModel);
+    }//GEN-LAST:event_equipeAddAlunoBotaoMouseClicked
 
     /**
      * @param args the command line arguments

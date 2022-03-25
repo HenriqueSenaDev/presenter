@@ -6,18 +6,9 @@ public class Aluno {
     private String nome;
     private Equipe equipe;
 
-    public Aluno(Integer id, String nome, Equipe equipe) {
-        this.id = id;
+    public Aluno(String nome, Equipe equipe) {
         this.nome = nome;
         this.equipe = equipe;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getNome() {

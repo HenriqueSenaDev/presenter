@@ -54,7 +54,7 @@ CREATE TABLE `tb_equipes` (
   `nome` varchar(100) DEFAULT NULL,
   `projeto` varchar(100) DEFAULT NULL,
   `turma` varchar(100) DEFAULT NULL,
-  `pontuação` double DEFAULT NULL,
+  `pontuacao` double DEFAULT NULL,
   `apresentou` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

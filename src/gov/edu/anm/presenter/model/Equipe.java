@@ -12,21 +12,12 @@ public class Equipe {
     private Boolean apresentou;
     private List<Aluno> alunos = new ArrayList<>();
 
-    public Equipe(Integer id, String nome, String projeto, String turma) {
-        this.id = id;
+    public Equipe(String nome, String projeto, String turma) {
         this.nome = nome;
         this.projeto = projeto;
         this.turma = turma;
         this.pontuacao = 0.0;
         this.apresentou = false;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getNome() {
