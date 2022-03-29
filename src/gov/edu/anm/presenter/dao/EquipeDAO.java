@@ -5,7 +5,6 @@ import gov.edu.anm.presenter.model.Equipe;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
 
 public class EquipeDAO {
 
@@ -15,7 +14,7 @@ public class EquipeDAO {
         this.con = new ConnectionFactory().getConnection();
     }
 
-    public void salvarEquipe(Equipe equipe) {
+    public void salvarEquipe(Equipe equipe) throws SQLException{
         try {
             String sql = "insert into tb_equipes (nome, projeto, turma, pontuacao, apresentou) "
                     + "values (?, ?, ?, ?, ?)";
@@ -30,7 +29,7 @@ public class EquipeDAO {
             stmt.close();
             
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro no cadastro:\n" + e);
+            throw new SQLException("Erro no cadastro da equipe:\n" + e);
         }
     }
 

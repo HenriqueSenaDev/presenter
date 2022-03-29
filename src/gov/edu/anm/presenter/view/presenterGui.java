@@ -10,6 +10,7 @@ import gov.edu.anm.presenter.dao.EquipeDAO;
 import gov.edu.anm.presenter.jdbc.ConnectionFactory;
 import gov.edu.anm.presenter.model.Aluno;
 import gov.edu.anm.presenter.model.Equipe;
+import gov.edu.anm.presenter.model.Utilities;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -21,9 +22,10 @@ import java.util.Random;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.Timer;
-
-import java.sql.Connection;
 import javax.swing.JOptionPane;
+
+import java.sql.SQLException;
+import java.sql.Connection;
 
 /**
  *
@@ -363,6 +365,11 @@ public class presenterGui extends javax.swing.JFrame {
         equipeNovaBotao.setMinimumSize(new java.awt.Dimension(70, 32));
         equipeNovaBotao.setOpaque(true);
         equipeNovaBotao.setPreferredSize(new java.awt.Dimension(70, 32));
+        equipeNovaBotao.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                equipeNovaBotaoMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -1259,6 +1266,7 @@ public class presenterGui extends javax.swing.JFrame {
         mainTimer.stop();
         returnPlay();
         tempoNumbers.setText("00:00");
+        tempoNumbers.setVisible(true);
     }//GEN-LAST:event_tempoDeleteLabelMouseClicked
 
     private void rankingMenuLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rankingMenuLabelMouseClicked
@@ -1313,18 +1321,26 @@ public class presenterGui extends javax.swing.JFrame {
 
         try {
             edao.salvarEquipe(equipe);
+            
             int n = listModel.getSize();
             for (int i = 0; i < n; i++) {
                 String nomeAluno = listModel.getElementAt(i).toString();
-                Aluno aluno = new Aluno(nomeAluno);
-                adao.salvarAluno(aluno, nomeEquipe);
+                adao.salvarAluno(nomeAluno, equipe);
             }
             
             JOptionPane.showMessageDialog(null, "Equipe cadastrada.");
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro no cadastro:\n" + e);
         }
+        
+        Utilities utl = new Utilities();
+        utl.limparTela(equipeCadastro);
     }//GEN-LAST:event_equipeSalvarBotaoMouseClicked
+
+    private void equipeNovaBotaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipeNovaBotaoMouseClicked
+        Utilities utl = new Utilities();
+        utl.limparTela(equipeCadastro);
+    }//GEN-LAST:event_equipeNovaBotaoMouseClicked
 
     /**
      * @param args the command line arguments

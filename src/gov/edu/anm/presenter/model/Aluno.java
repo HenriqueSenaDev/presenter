@@ -6,6 +6,11 @@ public class Aluno {
     private String nome;
     private Equipe equipe;
 
+    public Aluno(String nome, Equipe equipe) {
+        this.nome = nome;
+        this.equipe = equipe;
+    }
+    
     public Aluno(String nome){
         this.nome = nome;
     }
