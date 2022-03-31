@@ -26,6 +26,8 @@ import javax.swing.JOptionPane;
 
 import java.sql.SQLException;
 import java.sql.Connection;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -180,6 +182,11 @@ public class presenterGui extends javax.swing.JFrame {
         setFocusCycleRoot(false);
         setMinimumSize(new java.awt.Dimension(900, 600));
         setUndecorated(true);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
         getContentPane().setLayout(new javax.swing.OverlayLayout(getContentPane()));
 
         mainPanel.setBackground(new java.awt.Color(120, 133, 231));
@@ -580,7 +587,7 @@ public class presenterGui extends javax.swing.JFrame {
         equipeTabelaContent.setPreferredSize(new java.awt.Dimension(900, 402));
 
         equipeTabela.setBackground(new java.awt.Color(146, 199, 239));
-        equipeTabela.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        equipeTabela.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         equipeTabela.setForeground(new java.awt.Color(255, 255, 255));
         equipeTabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -611,10 +618,17 @@ public class presenterGui extends javax.swing.JFrame {
         });
         equipeTabela.setToolTipText("\n");
         equipeTabela.setGridColor(new java.awt.Color(146, 199, 239));
+        equipeTabela.setMinimumSize(new java.awt.Dimension(510, 300));
+        equipeTabela.setPreferredSize(new java.awt.Dimension(630, 300));
         equipeTabela.setRowHeight(25);
         equipeTabela.setSelectionBackground(new java.awt.Color(173, 211, 250));
         equipeTabela.setShowGrid(false);
         equipeTabelaContent.setViewportView(equipeTabela);
+        if (equipeTabela.getColumnModel().getColumnCount() > 0) {
+            equipeTabela.getColumnModel().getColumn(2).setMinWidth(180);
+            equipeTabela.getColumnModel().getColumn(2).setMaxWidth(180);
+            equipeTabela.getColumnModel().getColumn(3).setMinWidth(300);
+        }
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -1321,18 +1335,18 @@ public class presenterGui extends javax.swing.JFrame {
 
         try {
             edao.salvarEquipe(equipe);
-            
+
             int n = listModel.getSize();
             for (int i = 0; i < n; i++) {
                 String nomeAluno = listModel.getElementAt(i).toString();
                 adao.salvarAluno(nomeAluno, equipe);
             }
-            
+
             JOptionPane.showMessageDialog(null, "Equipe cadastrada.");
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro no cadastro:\n" + e);
+            JOptionPane.showMessageDialog(null, "Erro no cadastro:\n" + e.getMessage());
         }
-        
+
         Utilities utl = new Utilities();
         utl.limparTela(equipeCadastro);
     }//GEN-LAST:event_equipeSalvarBotaoMouseClicked
@@ -1341,6 +1355,10 @@ public class presenterGui extends javax.swing.JFrame {
         Utilities utl = new Utilities();
         utl.limparTela(equipeCadastro);
     }//GEN-LAST:event_equipeNovaBotaoMouseClicked
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        preencherTabela();
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments
@@ -1383,6 +1401,29 @@ public class presenterGui extends javax.swing.JFrame {
     /**
      * * Métodos auxiliares **
      */
+    //**Windows activated
+    public void preencherTabela() {
+        try {
+            List<Equipe> equipesSemAlunos = edao.listarEquipes();
+            DefaultTableModel dados = (DefaultTableModel) equipeTabela.getModel();
+            dados.setNumRows(0);
+            
+            for (Equipe equipe : equipesSemAlunos) {
+                String alunosDaEquipe = adao.alunosDaEquipe(equipe);
+                
+                dados.addRow(new Object[] {
+                    equipe.getNome(),
+                    equipe.getProjeto(),
+                    equipe.getTurma(),
+                    alunosDaEquipe
+                });
+            }
+        } 
+        catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+
     //** Temporizador
     public void getCustomTime() {
         duracaoString = tempoCustomTextField.getText();
@@ -1486,7 +1527,6 @@ public class presenterGui extends javax.swing.JFrame {
         int random = rand.nextInt(upperbound);
         sorteadorEquipeLabel.setText(equipes[random]);
     }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel abaEquipes;

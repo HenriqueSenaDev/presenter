@@ -45,4 +45,26 @@ public class AlunoDAO {
             throw new SQLException("Erro no cadastro dos alunos:\n" + e);
         }
     }
+
+    public String alunosDaEquipe(Equipe equipe) throws SQLException {
+        String alunosDaEquipe = "";
+        try {
+            String sql = "select * from tb_alunos where id_equipe = ?";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, equipe.getId());
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                if (rs.isLast()) {
+                    alunosDaEquipe += rs.getString("nome") + ".";
+                } else {
+                    alunosDaEquipe += rs.getString("nome") + ", ";
+                }
+            }
+
+            return alunosDaEquipe;
+        } catch (SQLException e) {
+            throw new SQLException("Erro na busca dos alunos:\n" + e);
+        }
+    }
 }

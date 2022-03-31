@@ -4,7 +4,10 @@ import gov.edu.anm.presenter.jdbc.ConnectionFactory;
 import gov.edu.anm.presenter.model.Equipe;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EquipeDAO {
 
@@ -14,12 +17,12 @@ public class EquipeDAO {
         this.con = new ConnectionFactory().getConnection();
     }
 
-    public void salvarEquipe(Equipe equipe) throws SQLException{
+    public void salvarEquipe(Equipe equipe) throws SQLException {
         try {
             String sql = "insert into tb_equipes (nome, projeto, turma, pontuacao, apresentou) "
                     + "values (?, ?, ?, ?, ?)";
             PreparedStatement stmt = con.prepareStatement(sql);
-            
+
             stmt.setString(1, equipe.getNome());
             stmt.setString(2, equipe.getProjeto());
             stmt.setString(3, equipe.getTurma());
@@ -27,10 +30,35 @@ public class EquipeDAO {
             stmt.setBoolean(5, equipe.getApresentou());
             stmt.execute();
             stmt.close();
-            
+
         } catch (SQLException e) {
             throw new SQLException("Erro no cadastro da equipe:\n" + e);
         }
     }
 
+    public List<Equipe> listarEquipes() throws SQLException {
+        try {
+            List<Equipe> equipes = new ArrayList<>();
+            String sql = "select * from tb_equipes";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Equipe equipe = new Equipe();
+
+                equipe.setId(rs.getInt("id"));
+                equipe.setNome(rs.getString("nome"));
+                equipe.setProjeto(rs.getString("projeto"));
+                equipe.setTurma(rs.getString("turma"));
+                equipe.setPontuacao(rs.getDouble("pontuacao"));
+                equipe.setApresentou(rs.getBoolean("apresentou"));
+
+                equipes.add(equipe);
+            }
+            return equipes;
+        } 
+        catch (SQLException e) {
+            throw new SQLException("Erro na busca de equipes:\n" + e);
+        }
+    }
 }

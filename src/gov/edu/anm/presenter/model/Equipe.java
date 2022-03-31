@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Equipe {
+
     private Integer id;
     private String nome;
     private String projeto;
@@ -12,6 +13,9 @@ public class Equipe {
     private Boolean apresentou;
     private List<Aluno> alunos = new ArrayList<>();
 
+    public Equipe(){
+    }
+    
     public Equipe(String nome, String projeto, String turma) {
         this.nome = nome;
         this.projeto = projeto;
@@ -19,9 +23,13 @@ public class Equipe {
         this.pontuacao = 0.0;
         this.apresentou = false;
     }
-    
-    public Integer getId(){
+
+    public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -70,5 +78,5 @@ public class Equipe {
 
     public void setAlunos(List<Aluno> alunos) {
         this.alunos = alunos;
-    }    
+    }
 }
