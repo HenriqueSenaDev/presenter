@@ -623,6 +623,11 @@ public class presenterGui extends javax.swing.JFrame {
         equipeTabela.setRowHeight(25);
         equipeTabela.setSelectionBackground(new java.awt.Color(173, 211, 250));
         equipeTabela.setShowGrid(false);
+        equipeTabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                equipeTabelaMouseClicked(evt);
+            }
+        });
         equipeTabelaContent.setViewportView(equipeTabela);
         if (equipeTabela.getColumnModel().getColumnCount() > 0) {
             equipeTabela.getColumnModel().getColumn(2).setMinWidth(180);
@@ -1360,6 +1365,23 @@ public class presenterGui extends javax.swing.JFrame {
         preencherTabela();
     }//GEN-LAST:event_formWindowActivated
 
+    private void equipeTabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipeTabelaMouseClicked
+        equipeNomeTextField.setText(equipeTabela.getValueAt(equipeTabela.getSelectedRow(), 0).toString());
+        equipeProjetoTextField.setText(equipeTabela.getValueAt(equipeTabela.getSelectedRow(), 1).toString());
+        equipeTurmaComboBox.setSelectedItem(equipeTabela.getValueAt(equipeTabela.getSelectedRow(), 2).toString());
+        String alunosProv = equipeTabela.getValueAt(equipeTabela.getSelectedRow(), 3).toString();
+
+        String[] alunos = alunosProv.split(", ");
+        String ultimoAluno = alunos[alunos.length-1].replace(".", "");
+        listModel.clear();
+        for (int i = 0; i < alunos.length-1; i++) {
+            listModel.addElement(alunos[i]);
+        }
+        listModel.addElement(ultimoAluno);
+        equipeAlunosDaEquipeLista.setModel(listModel);
+
+    }//GEN-LAST:event_equipeTabelaMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1407,19 +1429,18 @@ public class presenterGui extends javax.swing.JFrame {
             List<Equipe> equipesSemAlunos = edao.listarEquipes();
             DefaultTableModel dados = (DefaultTableModel) equipeTabela.getModel();
             dados.setNumRows(0);
-            
+
             for (Equipe equipe : equipesSemAlunos) {
                 String alunosDaEquipe = adao.alunosDaEquipe(equipe);
-                
-                dados.addRow(new Object[] {
+
+                dados.addRow(new Object[]{
                     equipe.getNome(),
                     equipe.getProjeto(),
                     equipe.getTurma(),
                     alunosDaEquipe
                 });
             }
-        } 
-        catch (SQLException e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
