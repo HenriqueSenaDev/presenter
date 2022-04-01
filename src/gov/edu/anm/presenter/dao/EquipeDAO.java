@@ -28,9 +28,9 @@ public class EquipeDAO {
             stmt.setString(3, equipe.getTurma());
             stmt.setDouble(4, equipe.getPontuacao());
             stmt.setBoolean(5, equipe.getApresentou());
+            
             stmt.execute();
             stmt.close();
-
         } catch (SQLException e) {
             throw new SQLException("Erro no cadastro da equipe:\n" + e);
         }
@@ -55,10 +55,34 @@ public class EquipeDAO {
 
                 equipes.add(equipe);
             }
+            
+            stmt.execute();
+            stmt.close();
             return equipes;
-        } 
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new SQLException("Erro na busca de equipes:\n" + e);
+        }
+    }
+
+    public void excluirEquipe(String name) throws SQLException {
+        try {
+            String sqlDisableKey = "set FOREIGN_KEY_CHECKS=0";
+            PreparedStatement stmtDisableKey = con.prepareStatement(sqlDisableKey);            
+            stmtDisableKey.execute();
+            stmtDisableKey.close();
+            
+            String sqlDelete = "delete from tb_equipes where nome = ?";
+            PreparedStatement stmtDelete = con.prepareStatement(sqlDelete);
+            stmtDelete.setString(1, name);
+            stmtDelete.execute();
+            stmtDelete.close();
+            
+            String sqlEnableKey = "set FOREIGN_KEY_CHECKS=1";
+            PreparedStatement stmtEnableKey = con.prepareStatement(sqlEnableKey);            
+            stmtEnableKey.execute();
+            stmtEnableKey.close();
+        } catch (SQLException e) {
+            throw new SQLException("Erro ao excluir a equipe:\n" + e);
         }
     }
 }

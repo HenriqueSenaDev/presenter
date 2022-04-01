@@ -28,6 +28,8 @@ public class AlunoDAO {
             while (rs.next()) {
                 equipeId = rs.getInt("id");
             }
+            stmt.execute();
+            stmt.close();
         } catch (SQLException e) {
             throw new SQLException("Erro na busca de equipe:\n" + e);
         }
@@ -61,7 +63,9 @@ public class AlunoDAO {
                     alunosDaEquipe += rs.getString("nome") + ", ";
                 }
             }
-
+            
+            stmt.execute();
+            stmt.close();
             return alunosDaEquipe;
         } catch (SQLException e) {
             throw new SQLException("Erro na busca dos alunos:\n" + e);

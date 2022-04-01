@@ -433,6 +433,11 @@ public class presenterGui extends javax.swing.JFrame {
         equipeExcluirBotao.setMinimumSize(new java.awt.Dimension(70, 32));
         equipeExcluirBotao.setOpaque(true);
         equipeExcluirBotao.setPreferredSize(new java.awt.Dimension(75, 32));
+        equipeExcluirBotao.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                equipeExcluirBotaoMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -1372,15 +1377,25 @@ public class presenterGui extends javax.swing.JFrame {
         String alunosProv = equipeTabela.getValueAt(equipeTabela.getSelectedRow(), 3).toString();
 
         String[] alunos = alunosProv.split(", ");
-        String ultimoAluno = alunos[alunos.length-1].replace(".", "");
+        String ultimoAluno = alunos[alunos.length - 1].replace(".", "");
         listModel.clear();
-        for (int i = 0; i < alunos.length-1; i++) {
+        for (int i = 0; i < alunos.length - 1; i++) {
             listModel.addElement(alunos[i]);
         }
         listModel.addElement(ultimoAluno);
         equipeAlunosDaEquipeLista.setModel(listModel);
 
     }//GEN-LAST:event_equipeTabelaMouseClicked
+
+    private void equipeExcluirBotaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipeExcluirBotaoMouseClicked
+        try {
+            String nomeEquipe = equipeNomeTextField.getText();
+            edao.excluirEquipe(nomeEquipe);
+            JOptionPane.showMessageDialog(null, "Equipe excluída.");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }//GEN-LAST:event_equipeExcluirBotaoMouseClicked
 
     /**
      * @param args the command line arguments
