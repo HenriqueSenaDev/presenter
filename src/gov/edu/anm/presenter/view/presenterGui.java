@@ -8,7 +8,6 @@ package gov.edu.anm.presenter.view;
 import gov.edu.anm.presenter.dao.AlunoDAO;
 import gov.edu.anm.presenter.dao.EquipeDAO;
 import gov.edu.anm.presenter.jdbc.ConnectionFactory;
-import gov.edu.anm.presenter.model.Aluno;
 import gov.edu.anm.presenter.model.Equipe;
 import gov.edu.anm.presenter.model.Utilities;
 
@@ -416,6 +415,11 @@ public class presenterGui extends javax.swing.JFrame {
         equipeEditarBotao.setMinimumSize(new java.awt.Dimension(70, 32));
         equipeEditarBotao.setOpaque(true);
         equipeEditarBotao.setPreferredSize(new java.awt.Dimension(70, 32));
+        equipeEditarBotao.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                equipeEditarBotaoMouseClicked(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -1346,15 +1350,15 @@ public class presenterGui extends javax.swing.JFrame {
         try {
             edao.salvarEquipe(equipe);
 
-            int n = listModel.getSize();
+            int n = equipeAlunosDaEquipeLista.getModel().getSize();
             for (int i = 0; i < n; i++) {
                 String nomeAluno = listModel.getElementAt(i).toString();
-                adao.salvarAluno(nomeAluno, equipe);
+                adao.salvarAluno(nomeAluno, edao.getEquipeWithId(equipe));
             }
 
             JOptionPane.showMessageDialog(null, "Equipe cadastrada.");
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro no cadastro:\n" + e.getMessage());
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
 
         Utilities utl = new Utilities();
@@ -1378,6 +1382,8 @@ public class presenterGui extends javax.swing.JFrame {
 
         String[] alunos = alunosProv.split(", ");
         String ultimoAluno = alunos[alunos.length - 1].replace(".", "");
+        
+        listModel = new DefaultListModel();
         listModel.clear();
         for (int i = 0; i < alunos.length - 1; i++) {
             listModel.addElement(alunos[i]);
@@ -1395,7 +1401,33 @@ public class presenterGui extends javax.swing.JFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
+        
+        Utilities utl = new Utilities();
+        utl.limparTela(equipeCadastro);
     }//GEN-LAST:event_equipeExcluirBotaoMouseClicked
+
+    private void equipeEditarBotaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipeEditarBotaoMouseClicked
+        String nomeEquipe = equipeNomeTextField.getText();
+        String projetoEquipe = equipeProjetoTextField.getText();
+        String turmaEquipe = equipeTurmaComboBox.getSelectedItem().toString();
+        Equipe equipe = new Equipe(nomeEquipe, projetoEquipe, turmaEquipe);
+
+        try {
+            edao.editarEquipe(equipe);
+            
+            int n = equipeAlunosDaEquipeLista.getModel().getSize();
+            listModel = new DefaultListModel();
+            for (int i = n; i >= 0; i--) {
+                String nomeAluno = listModel.getElementAt(i).toString();
+                System.out.println(nomeAluno);
+//                adao.editarAlunos(equipe, nomeAluno);
+            }
+            JOptionPane.showMessageDialog(null, "Equipe editada.");
+        } 
+        catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }//GEN-LAST:event_equipeEditarBotaoMouseClicked
 
     /**
      * @param args the command line arguments

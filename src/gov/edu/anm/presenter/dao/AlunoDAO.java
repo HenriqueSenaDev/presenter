@@ -17,29 +17,14 @@ public class AlunoDAO {
         this.con = new ConnectionFactory().getConnection();
     }
 
+
     public void salvarAluno(String nomeAluno, Equipe equipe) throws SQLException {
-        int equipeId = 0;
-        try {
-            String sql = "select * from tb_equipes where nome = ?";
-            PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setString(1, equipe.getNome());
-
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                equipeId = rs.getInt("id");
-            }
-            stmt.execute();
-            stmt.close();
-        } catch (SQLException e) {
-            throw new SQLException("Erro na busca de equipe:\n" + e);
-        }
-
         Aluno aluno = new Aluno(nomeAluno, equipe);
         try {
             String sql = "insert into tb_alunos (nome, id_equipe) values (?, ?)";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, aluno.getNome());
-            stmt.setInt(2, equipeId);
+            stmt.setInt(2, aluno.getEquipe().getId());
 
             stmt.execute();
             stmt.close();
@@ -63,12 +48,30 @@ public class AlunoDAO {
                     alunosDaEquipe += rs.getString("nome") + ", ";
                 }
             }
-            
+
             stmt.execute();
             stmt.close();
             return alunosDaEquipe;
         } catch (SQLException e) {
             throw new SQLException("Erro na busca dos alunos:\n" + e);
+        }
+    }
+
+    public void editarAlunos(Equipe equipe, String nomeAluno) throws SQLException {
+//        Integer equipeId = getEquipeWithId(equipe);
+        Aluno aluno = new Aluno(nomeAluno);
+//        System.out.println(equipeId);
+
+        try {
+            String sql = "update tb_alunos set nome=? where id_equipe = ? limit 1";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, aluno.getNome());
+//            stmt.setInt(2, equipeId);
+
+            stmt.execute();
+            stmt.close();
+        } catch (SQLException e) {
+            throw new SQLException("Erro ao editar os alunos:\n" + e);
         }
     }
 }
