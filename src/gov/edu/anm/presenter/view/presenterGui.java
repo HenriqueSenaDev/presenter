@@ -42,7 +42,7 @@ public class presenterGui extends javax.swing.JFrame {
     private Timer sortear;
     private int countSorteio = 0;
     private int countTotalSorteio = 0;
-    private DefaultListModel listModel = new DefaultListModel();
+    private DefaultListModel listModel = new DefaultListModel(); //Global obrigatório
     private EquipeDAO edao = new EquipeDAO();
     private AlunoDAO adao = new AlunoDAO();
     private Connection con;
@@ -123,6 +123,7 @@ public class presenterGui extends javax.swing.JFrame {
         equipeAlunoLabel = new javax.swing.JLabel();
         equipeAlunoTextField = new javax.swing.JTextField();
         equipeAddAlunoBotao = new javax.swing.JLabel();
+        equipeRemoveAlunoBotao = new javax.swing.JLabel();
         equipeAlunosDaEquipeContentPanel = new javax.swing.JScrollPane();
         equipeAlunosDaEquipeLista = new javax.swing.JList<>();
         equipeDivideBar = new javax.swing.JPanel();
@@ -489,27 +490,47 @@ public class presenterGui extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 460, 25, 0);
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 120);
         equipeCadastro.add(equipeAddAlunoBotao, gridBagConstraints);
 
+        equipeRemoveAlunoBotao.setBackground(new java.awt.Color(111, 135, 214));
+        equipeRemoveAlunoBotao.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        equipeRemoveAlunoBotao.setForeground(new java.awt.Color(255, 255, 255));
+        equipeRemoveAlunoBotao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        equipeRemoveAlunoBotao.setText("Remover");
+        equipeRemoveAlunoBotao.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        equipeRemoveAlunoBotao.setMaximumSize(new java.awt.Dimension(95, 25));
+        equipeRemoveAlunoBotao.setMinimumSize(new java.awt.Dimension(70, 32));
+        equipeRemoveAlunoBotao.setOpaque(true);
+        equipeRemoveAlunoBotao.setPreferredSize(new java.awt.Dimension(95, 32));
+        equipeRemoveAlunoBotao.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                equipeRemoveAlunoBotaoMouseClicked(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTH;
+        gridBagConstraints.insets = new java.awt.Insets(0, 120, 0, 0);
+        equipeCadastro.add(equipeRemoveAlunoBotao, gridBagConstraints);
+
         equipeAlunosDaEquipeContentPanel.setMinimumSize(new java.awt.Dimension(470, 160));
-        equipeAlunosDaEquipeContentPanel.setPreferredSize(new java.awt.Dimension(470, 160));
+        equipeAlunosDaEquipeContentPanel.setPreferredSize(new java.awt.Dimension(470, 125));
 
         equipeAlunosDaEquipeLista.setBackground(new java.awt.Color(146, 199, 239));
         equipeAlunosDaEquipeLista.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         equipeAlunosDaEquipeLista.setForeground(new java.awt.Color(255, 255, 255));
-        equipeAlunosDaEquipeLista.setMaximumSize(new java.awt.Dimension(75, 135));
-        equipeAlunosDaEquipeLista.setMinimumSize(new java.awt.Dimension(75, 135));
-        equipeAlunosDaEquipeLista.setPreferredSize(new java.awt.Dimension(75, 135));
+        equipeAlunosDaEquipeLista.setMinimumSize(new java.awt.Dimension(65, 135));
         equipeAlunosDaEquipeContentPanel.setViewportView(equipeAlunosDaEquipeLista);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridheight = 4;
-        gridBagConstraints.insets = new java.awt.Insets(0, 30, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(45, 30, 0, 0);
         equipeCadastro.add(equipeAlunosDaEquipeContentPanel, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1338,8 +1359,8 @@ public class presenterGui extends javax.swing.JFrame {
     }//GEN-LAST:event_sorteadorSortearBotaoMouseClicked
 
     private void equipeAddAlunoBotaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipeAddAlunoBotaoMouseClicked
-        listModel.addElement(equipeAlunoTextField.getText());
-        equipeAlunosDaEquipeLista.setModel(listModel);
+        int n = equipeAlunosDaEquipeLista.getModel().getSize();
+        listModel.add(0, equipeAlunoTextField.getText());
         equipeAlunoTextField.setText("");
     }//GEN-LAST:event_equipeAddAlunoBotaoMouseClicked
 
@@ -1437,6 +1458,10 @@ public class presenterGui extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }//GEN-LAST:event_equipeEditarBotaoMouseClicked
+
+    private void equipeRemoveAlunoBotaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipeRemoveAlunoBotaoMouseClicked
+        listModel.remove(0);
+    }//GEN-LAST:event_equipeRemoveAlunoBotaoMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1634,6 +1659,7 @@ public class presenterGui extends javax.swing.JFrame {
     private javax.swing.JLabel equipePorLabel;
     private javax.swing.JLabel equipeProjetoLabel;
     private javax.swing.JTextField equipeProjetoTextField;
+    private javax.swing.JLabel equipeRemoveAlunoBotao;
     private javax.swing.JLabel equipeSalvarBotao;
     private javax.swing.JTable equipeTabela;
     private javax.swing.JScrollPane equipeTabelaContent;
