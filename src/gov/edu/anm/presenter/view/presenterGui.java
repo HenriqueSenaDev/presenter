@@ -571,6 +571,11 @@ public class presenterGui extends javax.swing.JFrame {
         equipePesquisaTextField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
         equipePesquisaTextField.setMinimumSize(new java.awt.Dimension(350, 35));
         equipePesquisaTextField.setPreferredSize(new java.awt.Dimension(350, 35));
+        equipePesquisaTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                equipePesquisaTextFieldKeyPressed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -1361,6 +1366,7 @@ public class presenterGui extends javax.swing.JFrame {
     private void equipeAddAlunoBotaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipeAddAlunoBotaoMouseClicked
         int n = equipeAlunosDaEquipeLista.getModel().getSize();
         listModel.add(0, equipeAlunoTextField.getText());
+        equipeAlunosDaEquipeLista.setModel(listModel);
         equipeAlunoTextField.setText("");
     }//GEN-LAST:event_equipeAddAlunoBotaoMouseClicked
 
@@ -1405,7 +1411,7 @@ public class presenterGui extends javax.swing.JFrame {
 
         String[] alunos = alunosProv.split(", ");
         String ultimoAluno = alunos[alunos.length - 1].replace(".", "");
-        
+
         listModel = new DefaultListModel();
         listModel.clear();
         for (int i = 0; i < alunos.length - 1; i++) {
@@ -1421,14 +1427,14 @@ public class presenterGui extends javax.swing.JFrame {
             Equipe equipeProv = new Equipe();
             equipeProv.setNome(equipeNomeTextField.getText());
             Equipe equipe = edao.getEquipeWithId(equipeProv);
-            
+
             edao.excluirEquipe(equipe);
             adao.excluirAlunos(equipe);
             JOptionPane.showMessageDialog(null, "Equipe excluída.");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-        
+
         Utilities utl = new Utilities();
         utl.limparTela(equipeCadastro);
     }//GEN-LAST:event_equipeExcluirBotaoMouseClicked
@@ -1443,7 +1449,7 @@ public class presenterGui extends javax.swing.JFrame {
             Equipe equipeEditada = edao.getEquipeWithId(equipeDados);
             edao.editarEquipe(equipeEditada);
             adao.excluirAlunos(equipeEditada);
-            
+
             int n = equipeAlunosDaEquipeLista.getModel().getSize();
             for (int i = 0; i < n; i++) {
                 String nomeAluno = listModel.getElementAt(i).toString();
@@ -1451,10 +1457,9 @@ public class presenterGui extends javax.swing.JFrame {
             }
             Utilities utl = new Utilities();
             utl.limparTela(equipeCadastro);
-            
+
             JOptionPane.showMessageDialog(null, "Equipe editada.");
-        } 
-        catch (SQLException e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }//GEN-LAST:event_equipeEditarBotaoMouseClicked
@@ -1462,6 +1467,34 @@ public class presenterGui extends javax.swing.JFrame {
     private void equipeRemoveAlunoBotaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipeRemoveAlunoBotaoMouseClicked
         listModel.remove(0);
     }//GEN-LAST:event_equipeRemoveAlunoBotaoMouseClicked
+
+    private void equipePesquisaTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_equipePesquisaTextFieldKeyPressed
+        String pesquisa = equipePesquisaTextField.getText();
+        String metodoDeBusca = equipePorComboBox.getSelectedItem().toString().toLowerCase();
+
+        try {
+            List<Equipe> equipes = edao.buscarEquipes(pesquisa, metodoDeBusca);
+            DefaultTableModel dados = (DefaultTableModel) equipeTabela.getModel();
+            dados.setNumRows(0);
+
+            for (Equipe equipe : equipes) {
+                Equipe equipeComId = edao.getEquipeWithId(equipe);
+                String alunosDaEquipe = adao.alunosDaEquipe(equipe);
+
+                dados.addRow(new Object[]{
+                    equipeComId.getId(),
+                    equipeComId.getNome(),
+                    equipeComId.getProjeto(),
+                    equipeComId.getTurma(),
+                    alunosDaEquipe
+                });
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+
+    }//GEN-LAST:event_equipePesquisaTextFieldKeyPressed
 
     /**
      * @param args the command line arguments

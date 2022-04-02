@@ -123,4 +123,32 @@ public class EquipeDAO {
         }
     }
 
+    public List<Equipe> buscarEquipes(String pesquisa, String metodoDeBusca) throws SQLException {
+        try {
+            List<Equipe> equipes = new ArrayList<>();
+            pesquisa = "%" + pesquisa + "%";
+
+            if (metodoDeBusca.equals("nome")) {
+                String sql = "select * from tb_equipes where nome like ?";
+                PreparedStatement stmt = con.prepareStatement(sql);
+                stmt.setString(1, pesquisa);
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()) {
+                    Equipe equipe = new Equipe();
+                    equipe.setId(rs.getInt("id"));
+                    equipe.setNome(rs.getString("nome"));
+                    equipe.setProjeto(rs.getString("projeto"));
+                    equipe.setTurma(rs.getString("turma"));
+
+                    equipes.add(equipe);
+                }
+            }
+
+            return equipes;
+        } catch (SQLException e) {
+            throw new SQLException("Erro na busca de equipes:\n" + e);
+        }
+    }
+
 }
