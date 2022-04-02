@@ -127,22 +127,27 @@ public class EquipeDAO {
         try {
             List<Equipe> equipes = new ArrayList<>();
             pesquisa = "%" + pesquisa + "%";
+            String sql = "";
 
             if (metodoDeBusca.equals("nome")) {
-                String sql = "select * from tb_equipes where nome like ?";
-                PreparedStatement stmt = con.prepareStatement(sql);
-                stmt.setString(1, pesquisa);
-                ResultSet rs = stmt.executeQuery();
+                sql = "select * from tb_equipes where nome like ?";
+            } 
+            else if (metodoDeBusca.equals("projeto")) {
+                sql = "select * from tb_equipes where projeto like ?";
+            }
 
-                while (rs.next()) {
-                    Equipe equipe = new Equipe();
-                    equipe.setId(rs.getInt("id"));
-                    equipe.setNome(rs.getString("nome"));
-                    equipe.setProjeto(rs.getString("projeto"));
-                    equipe.setTurma(rs.getString("turma"));
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, pesquisa);
+            ResultSet rs = stmt.executeQuery();
 
-                    equipes.add(equipe);
-                }
+            while (rs.next()) {
+                Equipe equipe = new Equipe();
+                equipe.setId(rs.getInt("id"));
+                equipe.setNome(rs.getString("nome"));
+                equipe.setProjeto(rs.getString("projeto"));
+                equipe.setTurma(rs.getString("turma"));
+
+                equipes.add(equipe);
             }
 
             return equipes;
