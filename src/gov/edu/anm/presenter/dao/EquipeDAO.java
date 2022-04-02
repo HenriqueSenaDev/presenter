@@ -108,13 +108,13 @@ public class EquipeDAO {
     public void editarEquipe(Equipe equipe) throws SQLException {
         try {
             String sql = "update tb_equipes set nome=?, projeto=?, turma=? where "
-                    + "nome = ?";
+                    + "id = ?";
             PreparedStatement stmt = con.prepareStatement(sql);
 
             stmt.setString(1, equipe.getNome());
             stmt.setString(2, equipe.getProjeto());
             stmt.setString(3, equipe.getTurma());
-            stmt.setString(4, equipe.getNome());
+            stmt.setInt(4, equipe.getId());
 
             stmt.execute();
             stmt.close();

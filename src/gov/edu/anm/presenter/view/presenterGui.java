@@ -600,25 +600,25 @@ public class presenterGui extends javax.swing.JFrame {
         equipeTabela.setForeground(new java.awt.Color(255, 255, 255));
         equipeTabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Nome", "Projeto", "Turma", "Alunos"
+                "Id", "Nome", "Projeto", "Turma", "Alunos"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -639,9 +639,11 @@ public class presenterGui extends javax.swing.JFrame {
         });
         equipeTabelaContent.setViewportView(equipeTabela);
         if (equipeTabela.getColumnModel().getColumnCount() > 0) {
-            equipeTabela.getColumnModel().getColumn(2).setMinWidth(180);
-            equipeTabela.getColumnModel().getColumn(2).setMaxWidth(180);
-            equipeTabela.getColumnModel().getColumn(3).setMinWidth(300);
+            equipeTabela.getColumnModel().getColumn(0).setPreferredWidth(40);
+            equipeTabela.getColumnModel().getColumn(0).setMaxWidth(40);
+            equipeTabela.getColumnModel().getColumn(3).setMinWidth(170);
+            equipeTabela.getColumnModel().getColumn(3).setMaxWidth(170);
+            equipeTabela.getColumnModel().getColumn(4).setMinWidth(280);
         }
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1375,10 +1377,10 @@ public class presenterGui extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void equipeTabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipeTabelaMouseClicked
-        equipeNomeTextField.setText(equipeTabela.getValueAt(equipeTabela.getSelectedRow(), 0).toString());
-        equipeProjetoTextField.setText(equipeTabela.getValueAt(equipeTabela.getSelectedRow(), 1).toString());
-        equipeTurmaComboBox.setSelectedItem(equipeTabela.getValueAt(equipeTabela.getSelectedRow(), 2).toString());
-        String alunosProv = equipeTabela.getValueAt(equipeTabela.getSelectedRow(), 3).toString();
+        equipeNomeTextField.setText(equipeTabela.getValueAt(equipeTabela.getSelectedRow(), 1).toString());
+        equipeProjetoTextField.setText(equipeTabela.getValueAt(equipeTabela.getSelectedRow(), 2).toString());
+        equipeTurmaComboBox.setSelectedItem(equipeTabela.getValueAt(equipeTabela.getSelectedRow(), 3).toString());
+        String alunosProv = equipeTabela.getValueAt(equipeTabela.getSelectedRow(), 4).toString();
 
         String[] alunos = alunosProv.split(", ");
         String ultimoAluno = alunos[alunos.length - 1].replace(".", "");
@@ -1414,18 +1416,21 @@ public class presenterGui extends javax.swing.JFrame {
         String nomeEquipe = equipeNomeTextField.getText();
         String projetoEquipe = equipeProjetoTextField.getText();
         String turmaEquipe = equipeTurmaComboBox.getSelectedItem().toString();
-        Equipe equipe = new Equipe(nomeEquipe, projetoEquipe, turmaEquipe);
+        Equipe equipeDados = new Equipe(nomeEquipe, projetoEquipe, turmaEquipe);
 
         try {
-            edao.editarEquipe(equipe);
+            Equipe equipeEditada = edao.getEquipeWithId(equipeDados);
+            edao.editarEquipe(equipeEditada);
+            adao.excluirAlunos(equipeEditada);
             
             int n = equipeAlunosDaEquipeLista.getModel().getSize();
-            listModel = new DefaultListModel();
-            for (int i = n; i >= 0; i--) {
+            for (int i = 0; i < n; i++) {
                 String nomeAluno = listModel.getElementAt(i).toString();
-                System.out.println(nomeAluno);
-//                adao.editarAlunos(equipe, nomeAluno);
+                adao.salvarAluno(nomeAluno, equipeEditada);
             }
+            Utilities utl = new Utilities();
+            utl.limparTela(equipeCadastro);
+            
             JOptionPane.showMessageDialog(null, "Equipe editada.");
         } 
         catch (SQLException e) {
@@ -1485,6 +1490,7 @@ public class presenterGui extends javax.swing.JFrame {
                 String alunosDaEquipe = adao.alunosDaEquipe(equipe);
 
                 dados.addRow(new Object[]{
+                    equipe.getId(),
                     equipe.getNome(),
                     equipe.getProjeto(),
                     equipe.getTurma(),

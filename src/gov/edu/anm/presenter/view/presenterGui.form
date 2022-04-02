@@ -853,7 +853,8 @@
                                       <Color blue="ff" green="ff" red="ff" type="rgb"/>
                                     </Property>
                                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                                      <Table columnCount="4" rowCount="12">
+                                      <Table columnCount="5" rowCount="12">
+                                        <Column editable="false" title="Id" type="java.lang.Object"/>
                                         <Column editable="false" title="Nome" type="java.lang.Object"/>
                                         <Column editable="false" title="Projeto" type="java.lang.Object"/>
                                         <Column editable="false" title="Turma" type="java.lang.Object"/>
@@ -863,7 +864,7 @@
                                     <Property name="toolTipText" type="java.lang.String" value="&#xa;"/>
                                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                                       <TableColumnModel selectionModel="0">
-                                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                                        <Column maxWidth="40" minWidth="-1" prefWidth="40" resizable="true">
                                           <Title/>
                                           <Editor/>
                                           <Renderer/>
@@ -873,12 +874,17 @@
                                           <Editor/>
                                           <Renderer/>
                                         </Column>
-                                        <Column maxWidth="180" minWidth="180" prefWidth="-1" resizable="true">
+                                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                                           <Title/>
                                           <Editor/>
                                           <Renderer/>
                                         </Column>
-                                        <Column maxWidth="-1" minWidth="300" prefWidth="-1" resizable="true">
+                                        <Column maxWidth="170" minWidth="170" prefWidth="-1" resizable="true">
+                                          <Title/>
+                                          <Editor/>
+                                          <Renderer/>
+                                        </Column>
+                                        <Column maxWidth="-1" minWidth="280" prefWidth="-1" resizable="true">
                                           <Title/>
                                           <Editor/>
                                           <Renderer/>

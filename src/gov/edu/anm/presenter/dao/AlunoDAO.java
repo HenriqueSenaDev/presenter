@@ -70,21 +70,4 @@ public class AlunoDAO {
         }
     }
     
-    public void editarAlunos(Equipe equipe, String nomeAluno) throws SQLException {
-//        Integer equipeId = getEquipeWithId(equipe);
-        Aluno aluno = new Aluno(nomeAluno);
-//        System.out.println(equipeId);
-
-        try {
-            String sql = "update tb_alunos set nome=? where id_equipe = ? limit 1";
-            PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setString(1, aluno.getNome());
-//            stmt.setInt(2, equipeId);
-
-            stmt.execute();
-            stmt.close();
-        } catch (SQLException e) {
-            throw new SQLException("Erro ao editar os alunos:\n" + e);
-        }
-    }
 }
