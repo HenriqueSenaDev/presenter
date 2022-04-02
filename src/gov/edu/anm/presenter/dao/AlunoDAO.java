@@ -17,22 +17,6 @@ public class AlunoDAO {
         this.con = new ConnectionFactory().getConnection();
     }
 
-
-    public void salvarAluno(String nomeAluno, Equipe equipe) throws SQLException {
-        Aluno aluno = new Aluno(nomeAluno, equipe);
-        try {
-            String sql = "insert into tb_alunos (nome, id_equipe) values (?, ?)";
-            PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setString(1, aluno.getNome());
-            stmt.setInt(2, aluno.getEquipe().getId());
-
-            stmt.execute();
-            stmt.close();
-        } catch (SQLException e) {
-            throw new SQLException("Erro no cadastro dos alunos:\n" + e);
-        }
-    }
-
     public String alunosDaEquipe(Equipe equipe) throws SQLException {
         String alunosDaEquipe = "";
         try {
@@ -57,6 +41,35 @@ public class AlunoDAO {
         }
     }
 
+    public void salvarAluno(String nomeAluno, Equipe equipe) throws SQLException {
+        Aluno aluno = new Aluno(nomeAluno, equipe);
+        try {
+            String sql = "insert into tb_alunos (nome, id_equipe) values (?, ?)";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, aluno.getNome());
+            stmt.setInt(2, aluno.getEquipe().getId());
+
+            stmt.execute();
+            stmt.close();
+        } catch (SQLException e) {
+            throw new SQLException("Erro no cadastro dos alunos:\n" + e);
+        }
+    }
+
+    public void excluirAlunos(Equipe equipe) throws SQLException{
+        try {
+            String sql = "delete from tb_alunos where id_equipe = ?";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, equipe.getId());
+            
+            stmt.execute();
+            stmt.close();            
+        } 
+        catch (SQLException e) {
+            throw new SQLException("Erro ao excluir alunos:\n" + e);
+        }
+    }
+    
     public void editarAlunos(Equipe equipe, String nomeAluno) throws SQLException {
 //        Integer equipeId = getEquipeWithId(equipe);
         Aluno aluno = new Aluno(nomeAluno);

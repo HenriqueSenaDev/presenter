@@ -365,12 +365,12 @@ public class presenterGui extends javax.swing.JFrame {
         equipeNovaBotao.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         equipeNovaBotao.setForeground(new java.awt.Color(255, 255, 255));
         equipeNovaBotao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        equipeNovaBotao.setText("Nova");
+        equipeNovaBotao.setText("Limpar");
         equipeNovaBotao.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         equipeNovaBotao.setMaximumSize(new java.awt.Dimension(70, 32));
         equipeNovaBotao.setMinimumSize(new java.awt.Dimension(70, 32));
         equipeNovaBotao.setOpaque(true);
-        equipeNovaBotao.setPreferredSize(new java.awt.Dimension(70, 32));
+        equipeNovaBotao.setPreferredSize(new java.awt.Dimension(80, 32));
         equipeNovaBotao.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 equipeNovaBotaoMouseClicked(evt);
@@ -402,7 +402,7 @@ public class presenterGui extends javax.swing.JFrame {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        gridBagConstraints.insets = new java.awt.Insets(0, 130, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 135, 0, 0);
         equipeCadastro.add(equipeSalvarBotao, gridBagConstraints);
 
         equipeEditarBotao.setBackground(new java.awt.Color(111, 135, 214));
@@ -424,7 +424,7 @@ public class presenterGui extends javax.swing.JFrame {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 130);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 125);
         equipeCadastro.add(equipeEditarBotao, gridBagConstraints);
 
         equipeExcluirBotao.setBackground(new java.awt.Color(111, 135, 214));
@@ -1395,8 +1395,12 @@ public class presenterGui extends javax.swing.JFrame {
 
     private void equipeExcluirBotaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipeExcluirBotaoMouseClicked
         try {
-            String nomeEquipe = equipeNomeTextField.getText();
-            edao.excluirEquipe(nomeEquipe);
+            Equipe equipeProv = new Equipe();
+            equipeProv.setNome(equipeNomeTextField.getText());
+            Equipe equipe = edao.getEquipeWithId(equipeProv);
+            
+            edao.excluirEquipe(equipe);
+            adao.excluirAlunos(equipe);
             JOptionPane.showMessageDialog(null, "Equipe excluída.");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());

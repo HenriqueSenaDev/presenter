@@ -17,6 +17,34 @@ public class EquipeDAO {
         this.con = new ConnectionFactory().getConnection();
     }
 
+    public List<Equipe> listarEquipes() throws SQLException {
+        try {
+            List<Equipe> equipes = new ArrayList<>();
+            String sql = "select * from tb_equipes";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Equipe equipe = new Equipe();
+
+                equipe.setId(rs.getInt("id"));
+                equipe.setNome(rs.getString("nome"));
+                equipe.setProjeto(rs.getString("projeto"));
+                equipe.setTurma(rs.getString("turma"));
+                equipe.setPontuacao(rs.getDouble("pontuacao"));
+                equipe.setApresentou(rs.getBoolean("apresentou"));
+
+                equipes.add(equipe);
+            }
+
+            stmt.execute();
+            stmt.close();
+            return equipes;
+        } catch (SQLException e) {
+            throw new SQLException("Erro na busca de equipes:\n" + e);
+        }
+    }
+
     public Equipe getEquipeWithId(Equipe equipe) throws SQLException {
         try {
             String sql = "select * from tb_equipes where nome = ?";
@@ -55,44 +83,16 @@ public class EquipeDAO {
         }
     }
 
-    public List<Equipe> listarEquipes() throws SQLException {
-        try {
-            List<Equipe> equipes = new ArrayList<>();
-            String sql = "select * from tb_equipes";
-            PreparedStatement stmt = con.prepareStatement(sql);
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                Equipe equipe = new Equipe();
-
-                equipe.setId(rs.getInt("id"));
-                equipe.setNome(rs.getString("nome"));
-                equipe.setProjeto(rs.getString("projeto"));
-                equipe.setTurma(rs.getString("turma"));
-                equipe.setPontuacao(rs.getDouble("pontuacao"));
-                equipe.setApresentou(rs.getBoolean("apresentou"));
-
-                equipes.add(equipe);
-            }
-
-            stmt.execute();
-            stmt.close();
-            return equipes;
-        } catch (SQLException e) {
-            throw new SQLException("Erro na busca de equipes:\n" + e);
-        }
-    }
-
-    public void excluirEquipe(String name) throws SQLException {
+    public void excluirEquipe(Equipe equipe) throws SQLException {
         try {
             String sqlDisableKey = "set FOREIGN_KEY_CHECKS=0";
             PreparedStatement stmtDisableKey = con.prepareStatement(sqlDisableKey);
             stmtDisableKey.execute();
             stmtDisableKey.close();
 
-            String sqlDelete = "delete from tb_equipes where nome = ?";
+            String sqlDelete = "delete from tb_equipes where id = ?";
             PreparedStatement stmtDelete = con.prepareStatement(sqlDelete);
-            stmtDelete.setString(1, name);
+            stmtDelete.setInt(1, equipe.getId());
             stmtDelete.execute();
             stmtDelete.close();
 
