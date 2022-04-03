@@ -7,7 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class EquipeDAO {
 
@@ -129,25 +131,54 @@ public class EquipeDAO {
             pesquisa = "%" + pesquisa + "%";
             String sql = "";
 
-            if (metodoDeBusca.equals("nome")) {
-                sql = "select * from tb_equipes where nome like ?";
+            if (!metodoDeBusca.equals("aluno")) {
+                if (metodoDeBusca.equals("nome")) {
+                    sql = "select * from tb_equipes where nome like ?";
+                } else if (metodoDeBusca.equals("projeto")) {
+                    sql = "select * from tb_equipes where projeto like ?";
+                }
+
+                PreparedStatement stmt = con.prepareStatement(sql);
+                stmt.setString(1, pesquisa);
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()) {
+                    Equipe equipe = new Equipe();
+                    equipe.setId(rs.getInt("id"));
+                    equipe.setNome(rs.getString("nome"));
+                    equipe.setProjeto(rs.getString("projeto"));
+                    equipe.setTurma(rs.getString("turma"));
+
+                    equipes.add(equipe);
+                }
             } 
-            else if (metodoDeBusca.equals("projeto")) {
-                sql = "select * from tb_equipes where projeto like ?";
-            }
+            else if (metodoDeBusca.equals("aluno")) {
+                Set<Integer> idEquipes = new HashSet<>();
+                sql = "select * from tb_alunos where nome like ?";
+                PreparedStatement stmt = con.prepareStatement(sql);
+                stmt.setString(1, pesquisa);
+                ResultSet rs = stmt.executeQuery();
 
-            PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setString(1, pesquisa);
-            ResultSet rs = stmt.executeQuery();
+                while (rs.next()) {
+                    idEquipes.add(rs.getInt("id_equipe"));
+                }
 
-            while (rs.next()) {
-                Equipe equipe = new Equipe();
-                equipe.setId(rs.getInt("id"));
-                equipe.setNome(rs.getString("nome"));
-                equipe.setProjeto(rs.getString("projeto"));
-                equipe.setTurma(rs.getString("turma"));
+                sql = "select * from tb_equipes where id = ?";
+                stmt = con.prepareStatement(sql);
+                for (Integer idEquipe : idEquipes) {
+                    stmt.setInt(1, idEquipe);
+                    rs = stmt.executeQuery();
 
-                equipes.add(equipe);
+                    while (rs.next()) {
+                        Equipe equipe = new Equipe();
+                        equipe.setId(rs.getInt("id"));
+                        equipe.setNome(rs.getString("nome"));
+                        equipe.setProjeto(rs.getString("projeto"));
+                        equipe.setTurma(rs.getString("turma"));
+
+                        equipes.add(equipe);
+                    }
+                }
             }
 
             return equipes;
