@@ -25,6 +25,8 @@ import java.sql.SQLException;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -989,7 +991,7 @@ public class presenterGui extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Equipe", "Projeto", "Turma", "Alunos"
+                "Equipe", "Projeto", "Turma", "Média Geral"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -1000,6 +1002,7 @@ public class presenterGui extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        rankingTabela.setGridColor(new java.awt.Color(146, 199, 239));
         rankingTabela.setRowHeight(25);
         rankingTabelaContent.setViewportView(rankingTabela);
 
@@ -1368,6 +1371,27 @@ public class presenterGui extends javax.swing.JFrame {
         contentPanel.setEnabled(true);
         menuBar.setVisible(false);
         menuBar.setEnabled(false);
+        
+        try {
+            List<Equipe> equipesSemAlunos = edao.listarEquipes();
+            DefaultTableModel dados = (DefaultTableModel) rankingTabela.getModel();
+            dados.setNumRows(0);
+
+            for (Equipe equipe : equipesSemAlunos) {
+                dados.addRow(new Object[]{
+                    equipe.getNome(),
+                    equipe.getProjeto(),
+                    equipe.getTurma(),
+                    String.format("%.2f", equipe.getPontuacao())
+                });
+            }
+            
+            while (dados.getRowCount() < 19) {
+                dados.addRow(new Object[]{});
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }//GEN-LAST:event_rankingMenuLabelMouseClicked
 
     private void rankingMenuLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rankingMenuLabelMouseEntered
@@ -1442,7 +1466,25 @@ public class presenterGui extends javax.swing.JFrame {
     }//GEN-LAST:event_equipeNovaBotaoMouseClicked
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
-        preencherTabela();
+        try {
+            List<Equipe> equipesSemAlunos = edao.listarEquipes();
+            DefaultTableModel dados = (DefaultTableModel) equipeTabela.getModel();
+            dados.setNumRows(0);
+
+            for (Equipe equipe : equipesSemAlunos) {
+                String alunosDaEquipe = adao.alunosDaEquipe(equipe);
+
+                dados.addRow(new Object[]{
+                    equipe.getId(),
+                    equipe.getNome(),
+                    equipe.getProjeto(),
+                    equipe.getTurma(),
+                    alunosDaEquipe
+                });
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }//GEN-LAST:event_formWindowActivated
 
     private void equipeTabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipeTabelaMouseClicked
@@ -1568,6 +1610,7 @@ public class presenterGui extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        Locale.setDefault(Locale.US);
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -1600,32 +1643,6 @@ public class presenterGui extends javax.swing.JFrame {
                 new presenterGui().setVisible(true);
             }
         });
-    }
-
-    /**
-     * * Métodos auxiliares **
-     */
-    //**Windows activated
-    public void preencherTabela() {
-        try {
-            List<Equipe> equipesSemAlunos = edao.listarEquipes();
-            DefaultTableModel dados = (DefaultTableModel) equipeTabela.getModel();
-            dados.setNumRows(0);
-
-            for (Equipe equipe : equipesSemAlunos) {
-                String alunosDaEquipe = adao.alunosDaEquipe(equipe);
-
-                dados.addRow(new Object[]{
-                    equipe.getId(),
-                    equipe.getNome(),
-                    equipe.getProjeto(),
-                    equipe.getTurma(),
-                    alunosDaEquipe
-                });
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
     }
 
     //** Temporizador
