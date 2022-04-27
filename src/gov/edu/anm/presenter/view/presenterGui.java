@@ -26,7 +26,6 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -171,6 +170,7 @@ public class presenterGui extends javax.swing.JFrame {
         inMenuBarSpaceLabel = new javax.swing.JLabel();
         menuRightPanel = new javax.swing.JPanel();
         space = new javax.swing.JLabel();
+        menuFundoLargo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setFocusCycleRoot(false);
@@ -1200,6 +1200,12 @@ public class presenterGui extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         menuRightPanel.add(space, gridBagConstraints);
 
+        menuFundoLargo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/images/fundoMenuLargo.png"))); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        menuRightPanel.add(menuFundoLargo, gridBagConstraints);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -1779,6 +1785,7 @@ public class presenterGui extends javax.swing.JFrame {
     private javax.swing.JPanel mainPanel;
     private javax.swing.JLabel mainbarSpaceLabel;
     private javax.swing.JPanel menuBar;
+    private javax.swing.JLabel menuFundoLargo;
     private javax.swing.JLabel menuIcon;
     private javax.swing.JPanel menuRightPanel;
     private javax.swing.JLabel minemizeLabel;
