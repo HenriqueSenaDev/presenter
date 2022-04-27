@@ -87,10 +87,10 @@ public class EquipeDAO {
 
     public void excluirEquipe(Equipe equipe) throws SQLException {
         try {
-            String sqlDisableKey = "set FOREIGN_KEY_CHECKS=0";
-            PreparedStatement stmtDisableKey = con.prepareStatement(sqlDisableKey);
-            stmtDisableKey.execute();
-            stmtDisableKey.close();
+//            String sqlDisableKey = "set FOREIGN_KEY_CHECKS=0";
+//            PreparedStatement stmtDisableKey = con.prepareStatement(sqlDisableKey);
+//            stmtDisableKey.execute();
+//            stmtDisableKey.close();
 
             String sqlDelete = "delete from tb_equipes where id = ?";
             PreparedStatement stmtDelete = con.prepareStatement(sqlDelete);
@@ -98,10 +98,10 @@ public class EquipeDAO {
             stmtDelete.execute();
             stmtDelete.close();
 
-            String sqlEnableKey = "set FOREIGN_KEY_CHECKS=1";
-            PreparedStatement stmtEnableKey = con.prepareStatement(sqlEnableKey);
-            stmtEnableKey.execute();
-            stmtEnableKey.close();
+//            String sqlEnableKey = "set FOREIGN_KEY_CHECKS=1";
+//            PreparedStatement stmtEnableKey = con.prepareStatement(sqlEnableKey);
+//            stmtEnableKey.execute();
+//            stmtEnableKey.close();
         } catch (SQLException e) {
             throw new SQLException("Erro ao excluir a equipe:\n" + e);
         }
@@ -185,6 +185,18 @@ public class EquipeDAO {
         } catch (SQLException e) {
             throw new SQLException("Erro na busca de equipes:\n" + e);
         }
+    } 
+    
+    public void apresentou(String nomeEquipe) throws SQLException {
+        try {
+            String sql = "update tb_equipes set apresentou = true where nome = ?";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, nomeEquipe);
+            
+            stmt.execute();
+            stmt.close();
+        } catch (SQLException e) {
+            throw new SQLException("Erro ao atualizar:\n" + e);
+        }
     }
-
 }

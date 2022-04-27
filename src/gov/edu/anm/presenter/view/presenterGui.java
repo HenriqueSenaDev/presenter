@@ -16,8 +16,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import java.util.Random;
-
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.Timer;
@@ -25,6 +23,7 @@ import javax.swing.JOptionPane;
 
 import java.sql.SQLException;
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -36,16 +35,16 @@ public class presenterGui extends javax.swing.JFrame {
 
     private String duracaoString;
     private String[] duracaoNumber;
-    private String equipes[] = new String[5];
-    private int totalSeconds;
+    private List<String> equipesSorteador = new ArrayList<>();
     private Timer mainTimer;
     private Timer sortear;
-    private int countSorteio = 0;
-    private int countTotalSorteio = 0;
     private DefaultListModel listModel = new DefaultListModel(); //Global obrigatório
-    private EquipeDAO edao = new EquipeDAO();
-    private AlunoDAO adao = new AlunoDAO();
-    private Connection con;
+    private int totalSeconds;
+    private int countTotalSorteio = 0;
+    private int indexSorteio = equipesSorteador.size();
+    private final EquipeDAO edao = new EquipeDAO();
+    private final AlunoDAO adao = new AlunoDAO();
+    private final Connection con;
 
     /**
      * Creates new form Sistema
@@ -76,15 +75,6 @@ public class presenterGui extends javax.swing.JFrame {
         //Temporizador configs
         redCircleLabel.setVisible(false);
         tempoDeleteLabel.setVisible(false);
-
-        //Setar número de equipes restando
-        if (equipes.length < 2) {
-            sorteadorEquipesRestandoLabel.setText(String.valueOf(equipes.length)
-                    + " equipe restando");
-        } else {
-            sorteadorEquipesRestandoLabel.setText(String.valueOf(equipes.length)
-                    + " equipes restando");
-        }
     }
 
     /**
@@ -159,6 +149,8 @@ public class presenterGui extends javax.swing.JFrame {
         sorteadorSortearPanel = new javax.swing.JPanel();
         sorteadorSortearBotao = new javax.swing.JLabel();
         sorteadorEquipesRestandoLabel = new javax.swing.JLabel();
+        sorteadorApresentouLabel = new javax.swing.JLabel();
+        sorteadorNaoAprensentouLabel = new javax.swing.JLabel();
         abaRanking = new javax.swing.JPanel();
         rankingHeadPanel = new javax.swing.JPanel();
         relatorioAtrasoLabel = new javax.swing.JLabel();
@@ -881,6 +873,7 @@ public class presenterGui extends javax.swing.JFrame {
         abaSorteador.add(sorteioDivideBar, gridBagConstraints);
 
         sorteadorSortearPanel.setBackground(new java.awt.Color(173, 211, 250));
+        sorteadorSortearPanel.setPreferredSize(new java.awt.Dimension(547, 250));
         sorteadorSortearPanel.setLayout(new java.awt.GridBagLayout());
 
         sorteadorSortearBotao.setBackground(new java.awt.Color(111, 135, 214));
@@ -900,22 +893,46 @@ public class presenterGui extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(45, 0, 25, 0);
         sorteadorSortearPanel.add(sorteadorSortearBotao, gridBagConstraints);
 
         sorteadorEquipesRestandoLabel.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         sorteadorEquipesRestandoLabel.setForeground(new java.awt.Color(255, 255, 255));
         sorteadorEquipesRestandoLabel.setText("00 equipes restando");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 40, 0);
+        gridBagConstraints.gridy = 0;
         sorteadorSortearPanel.add(sorteadorEquipesRestandoLabel, gridBagConstraints);
+
+        sorteadorApresentouLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/images/doneIcon.png"))); // NOI18N
+        sorteadorApresentouLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                sorteadorApresentouLabelMouseClicked(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 130);
+        sorteadorSortearPanel.add(sorteadorApresentouLabel, gridBagConstraints);
+
+        sorteadorNaoAprensentouLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/images/close90Icon.png"))); // NOI18N
+        sorteadorNaoAprensentouLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                sorteadorNaoAprensentouLabelMouseClicked(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(0, 130, 0, 0);
+        sorteadorSortearPanel.add(sorteadorNaoAprensentouLabel, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.weighty = 0.7;
+        gridBagConstraints.weighty = 0.4;
         abaSorteador.add(sorteadorSortearPanel, gridBagConstraints);
 
         abas.addTab("tab4", abaSorteador);
@@ -1189,7 +1206,7 @@ public class presenterGui extends javax.swing.JFrame {
 
         getContentPane().add(mainPanel);
 
-        setSize(new java.awt.Dimension(898, 543));
+        setSize(new java.awt.Dimension(899, 547));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -1272,6 +1289,26 @@ public class presenterGui extends javax.swing.JFrame {
         contentPanel.setEnabled(true);
         menuBar.setVisible(false);
         menuBar.setEnabled(false);
+
+        try {
+            equipesSorteador.clear();
+            List<Equipe> equipesProv = edao.listarEquipes();
+            equipesProv.removeIf(x -> x.getApresentou() == true);
+
+            int n = equipesProv.size();
+            sorteadorEquipesRestandoLabel.setText(
+                    (n >= 10 ? String.valueOf(n) : "0" + n)
+                    + " equipe"
+                    + (n <= 1 ? "" : "s")
+                    + " restando"
+            );
+
+            for (Equipe equipe : equipesProv) {
+                equipesSorteador.add(equipe.getNome());
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }//GEN-LAST:event_sorteadorMenuLabelMouseClicked
 
     private void tempoPlayLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tempoPlayLabelMouseClicked
@@ -1342,25 +1379,30 @@ public class presenterGui extends javax.swing.JFrame {
     }//GEN-LAST:event_rankingMenuLabelMouseExited
 
     private void sorteadorSortearBotaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sorteadorSortearBotaoMouseClicked
+        if (!equipesSorteador.isEmpty()) {
+            sortear = new Timer(100, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    if (indexSorteio <= 0) {
+                        indexSorteio = equipesSorteador.size();
+                    }
+                    sorteadorEquipeLabel.setText(equipesSorteador.get(indexSorteio - 1));
+                    indexSorteio--;
+                    countTotalSorteio++;
 
-        equipes[0] = "Amigos do DaniBoy";
-        equipes[1] = "Amigos do Kim Kardashian";
-        equipes[2] = "Sociedade dos Programadores";
-        equipes[3] = "Eclipse Club";
-        equipes[4] = "JavaScript da Galera";
-
-        sortear = new Timer(100, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                sorteadorLabel();
-                if (countTotalSorteio == 20) {
-                    resultadoSorteio();
+                    if (countTotalSorteio == 20) {
+                        sortear.stop();
+                        countTotalSorteio = 0;
+                        resultadoSorteio();
+                    }
                 }
-            }
-        });
-        sortear.start();
-
-
+            });
+            sortear.start();
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "Não há mais equipes para apresentação.");
+        }
+        
     }//GEN-LAST:event_sorteadorSortearBotaoMouseClicked
 
     private void equipeAddAlunoBotaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipeAddAlunoBotaoMouseClicked
@@ -1428,8 +1470,8 @@ public class presenterGui extends javax.swing.JFrame {
             equipeProv.setNome(equipeNomeTextField.getText());
             Equipe equipe = edao.getEquipeWithId(equipeProv);
 
-            edao.excluirEquipe(equipe);
             adao.excluirAlunos(equipe);
+            edao.excluirEquipe(equipe);
             JOptionPane.showMessageDialog(null, "Equipe excluída.");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -1495,6 +1537,32 @@ public class presenterGui extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_equipePesquisaTextFieldKeyPressed
+
+    private void sorteadorApresentouLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sorteadorApresentouLabelMouseClicked
+        String equipeName = sorteadorEquipeLabel.getText();
+        try {
+            edao.apresentou(equipeName);
+            equipesSorteador.removeIf(x -> x.equals(equipeName));
+            
+            sorteadorEquipeLabel.setText("Equipe Selecionada");
+            int n = equipesSorteador.size();
+            sorteadorEquipesRestandoLabel.setText(
+                    (n >= 10 ? String.valueOf(n) : "0" + n)
+                    + " equipe"
+                    + (n > 1 ? "" : "s")
+                    + " restando"
+            );
+
+            JOptionPane.showMessageDialog(null, "Apresentação registrada.");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }//GEN-LAST:event_sorteadorApresentouLabelMouseClicked
+
+    private void sorteadorNaoAprensentouLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sorteadorNaoAprensentouLabelMouseClicked
+        sorteadorEquipeLabel.setText("Equipe Selecionada");
+        JOptionPane.showMessageDialog(null, "Erro na apresentação confirmado.");
+    }//GEN-LAST:event_sorteadorNaoAprensentouLabelMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1646,22 +1714,11 @@ public class presenterGui extends javax.swing.JFrame {
 
     //**Sorteador
     /* Timer sortear */
-    public void sorteadorLabel() {
-        if (countSorteio == 5) {
-            countSorteio = 0;
-        }
-        sorteadorEquipeLabel.setText(equipes[countSorteio]);
-        countSorteio++;
-        countTotalSorteio++;
-    }
-
     public void resultadoSorteio() {
-        sortear.stop();
-        countTotalSorteio = 0;
-        int upperbound = equipes.length;
-        Random rand = new Random();
-        int random = rand.nextInt(upperbound);
-        sorteadorEquipeLabel.setText(equipes[random]);
+        int max = equipesSorteador.size() - 1;
+        int random = (int) Math.floor(Math.random() * (max + 1));
+        String chosenEquipe = equipesSorteador.get(random);
+        sorteadorEquipeLabel.setText(chosenEquipe);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1718,11 +1775,13 @@ public class presenterGui extends javax.swing.JFrame {
     private javax.swing.JPanel rankingTablePanel;
     private javax.swing.JLabel redCircleLabel;
     private javax.swing.JLabel relatorioAtrasoLabel;
+    private javax.swing.JLabel sorteadorApresentouLabel;
     private javax.swing.JLabel sorteadorEquipeLabel;
     private javax.swing.JPanel sorteadorEquipePanel;
     private javax.swing.JLabel sorteadorEquipesRestandoLabel;
     private javax.swing.JPanel sorteadorMenuActivePanel;
     private javax.swing.JLabel sorteadorMenuLabel;
+    private javax.swing.JLabel sorteadorNaoAprensentouLabel;
     private javax.swing.JLabel sorteadorSortearBotao;
     private javax.swing.JPanel sorteadorSortearPanel;
     private javax.swing.JPanel sorteioDivideBar;
