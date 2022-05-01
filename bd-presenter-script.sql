@@ -55,16 +55,14 @@ CREATE TABLE `tb_equipes` (
   `projeto` varchar(100) DEFAULT NULL,
   `turma` varchar(100) DEFAULT NULL,
   `pontuacao` double DEFAULT NULL,
+  `apresentou` int DEFAULT NULL,
+  `media` double DEFAULT NULL,
   `apresentou` tinyint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Extraindo dados da tabela `tb_equipes`
 --
-
-INSERT INTO `tb_equipes` (`id`, `nome`, `projeto`, `turma`, `pontuação`, `apresentou`) VALUES
-(1, 'Amigos do Kim Kardashian', 'Semáforo', '2° inf', 9.8, 0),
-(2, 'Eclipse Club', 'Hidriponia', '1° inf', 5.5, 1);
 
 --
 -- Índices para tabelas despejadas

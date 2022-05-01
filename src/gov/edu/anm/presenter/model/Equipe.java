@@ -10,6 +10,8 @@ public class Equipe {
     private String projeto;
     private String turma;
     private Double pontuacao;
+    private Integer avaliacoes;
+    private Double media;
     private Boolean apresentou;
     private List<Aluno> alunos = new ArrayList<>();
 
@@ -21,6 +23,8 @@ public class Equipe {
         this.projeto = projeto;
         this.turma = turma;
         this.pontuacao = 0.0;
+        this.media = 0.0;
+        this.avaliacoes = 0;
         this.apresentou = false;
     }
 
@@ -70,6 +74,22 @@ public class Equipe {
 
     public void setApresentou(Boolean apresentou) {
         this.apresentou = apresentou;
+    }
+
+    public Integer getAvaliacoes() {
+        return avaliacoes;
+    }
+
+    public void setAvaliacoes(Integer avaliacoes) {
+        this.avaliacoes = avaliacoes;
+    }
+
+    public Double getMedia() {
+        return media;
+    }
+
+    public void setMedia(Double media) {
+        this.media = media;
     }
 
     public List<Aluno> getAlunos() {

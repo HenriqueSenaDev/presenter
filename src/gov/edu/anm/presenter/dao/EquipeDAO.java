@@ -35,6 +35,8 @@ public class EquipeDAO {
                 equipe.setTurma(rs.getString("turma"));
                 equipe.setPontuacao(rs.getDouble("pontuacao"));
                 equipe.setApresentou(rs.getBoolean("apresentou"));
+                equipe.setAvaliacoes(rs.getInt("avaliacoes"));
+                equipe.setMedia(rs.getDouble("media"));
 
                 equipes.add(equipe);
             }
@@ -68,8 +70,9 @@ public class EquipeDAO {
 
     public void salvarEquipe(Equipe equipe) throws SQLException {
         try {
-            String sql = "insert into tb_equipes (nome, projeto, turma, pontuacao, apresentou) "
-                    + "values (?, ?, ?, ?, ?)";
+            String sql = "insert into tb_equipes (nome, projeto, turma, pontuacao, apresentou,"
+                    + " avaliacoes) "
+                    + "values (?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = con.prepareStatement(sql);
 
             stmt.setString(1, equipe.getNome());
@@ -77,6 +80,7 @@ public class EquipeDAO {
             stmt.setString(3, equipe.getTurma());
             stmt.setDouble(4, equipe.getPontuacao());
             stmt.setBoolean(5, equipe.getApresentou());
+            stmt.setInt(6, equipe.getAvaliacoes());
 
             stmt.execute();
             stmt.close();
@@ -148,6 +152,8 @@ public class EquipeDAO {
                     equipe.setNome(rs.getString("nome"));
                     equipe.setProjeto(rs.getString("projeto"));
                     equipe.setTurma(rs.getString("turma"));
+                    equipe.setMedia(rs.getDouble("media"));
+                    equipe.setAvaliacoes(rs.getInt("avaliacoes"));
 
                     equipes.add(equipe);
                 }
@@ -175,6 +181,8 @@ public class EquipeDAO {
                         equipe.setNome(rs.getString("nome"));
                         equipe.setProjeto(rs.getString("projeto"));
                         equipe.setTurma(rs.getString("turma"));
+                        equipe.setMedia(rs.getDouble("media"));
+                        equipe.setAvaliacoes(rs.getInt("avaliacoes"));
 
                         equipes.add(equipe);
                     }

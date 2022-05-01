@@ -901,7 +901,7 @@ public class presenterGui extends javax.swing.JFrame {
 
         sorteadorEquipesRestandoLabel.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
         sorteadorEquipesRestandoLabel.setForeground(new java.awt.Color(255, 255, 255));
-        sorteadorEquipesRestandoLabel.setText("00 equipes restando");
+        sorteadorEquipesRestandoLabel.setText("Nenhuma equipe restando");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 0;
         sorteadorSortearPanel.add(sorteadorEquipesRestandoLabel, gridBagConstraints);
@@ -1005,6 +1005,10 @@ public class presenterGui extends javax.swing.JFrame {
         rankingTabela.setGridColor(new java.awt.Color(146, 199, 239));
         rankingTabela.setRowHeight(25);
         rankingTabelaContent.setViewportView(rankingTabela);
+        if (rankingTabela.getColumnModel().getColumnCount() > 0) {
+            rankingTabela.getColumnModel().getColumn(3).setMinWidth(130);
+            rankingTabela.getColumnModel().getColumn(3).setMaxWidth(130);
+        }
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
@@ -1305,12 +1309,18 @@ public class presenterGui extends javax.swing.JFrame {
             equipesProv.removeIf(x -> x.getApresentou() == true);
 
             int n = equipesProv.size();
-            sorteadorEquipesRestandoLabel.setText(
-                    (n >= 10 ? String.valueOf(n) : "0" + n)
+            
+            String label;
+            if (n == 0) {
+                label = "Nenhuma equipe restando";
+            }
+            else {
+                label = (n >= 10 ? String.valueOf(n) : "0" + n)
                     + " equipe"
                     + (n <= 1 ? "" : "s")
-                    + " restando"
-            );
+                    + " restando";
+            }
+            sorteadorEquipesRestandoLabel.setText(label);
 
             for (Equipe equipe : equipesProv) {
                 equipesSorteador.add(equipe.getNome());
@@ -1388,7 +1398,7 @@ public class presenterGui extends javax.swing.JFrame {
                     equipe.getNome(),
                     equipe.getProjeto(),
                     equipe.getTurma(),
-                    String.format("%.2f", equipe.getPontuacao())
+                    String.format("%.2f", equipe.getMedia())
                 });
             }
             
@@ -1443,32 +1453,38 @@ public class presenterGui extends javax.swing.JFrame {
     }//GEN-LAST:event_equipeAddAlunoBotaoMouseClicked
 
     private void equipeSalvarBotaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipeSalvarBotaoMouseClicked
-        String nomeEquipe = equipeNomeTextField.getText();
-        String projeto = equipeProjetoTextField.getText();
-        String turma = equipeTurmaComboBox.getSelectedItem().toString();
-        Equipe equipe = new Equipe(nomeEquipe, projeto, turma);
+        int confirm = JOptionPane.showConfirmDialog(null, "Deseja salvar a equipe?");
+        if (confirm == 0) {
+            String nomeEquipe = equipeNomeTextField.getText();
+            String projeto = equipeProjetoTextField.getText();
+            String turma = equipeTurmaComboBox.getSelectedItem().toString();
+            Equipe equipe = new Equipe(nomeEquipe, projeto, turma);
 
-        try {
-            edao.salvarEquipe(equipe);
+            try {
+                edao.salvarEquipe(equipe);
 
-            int n = equipeAlunosDaEquipeLista.getModel().getSize();
-            for (int i = 0; i < n; i++) {
-                String nomeAluno = listModel.getElementAt(i).toString();
-                adao.salvarAluno(nomeAluno, edao.getEquipeWithId(equipe));
+                int n = equipeAlunosDaEquipeLista.getModel().getSize();
+                for (int i = 0; i < n; i++) {
+                    String nomeAluno = listModel.getElementAt(i).toString();
+                    adao.salvarAluno(nomeAluno, edao.getEquipeWithId(equipe));
+                }
+
+                JOptionPane.showMessageDialog(null, "Equipe cadastrada.");
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage());
             }
 
-            JOptionPane.showMessageDialog(null, "Equipe cadastrada.");
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+            Utilities utl = new Utilities();
+            utl.limparTela(equipeCadastro);
         }
-
-        Utilities utl = new Utilities();
-        utl.limparTela(equipeCadastro);
     }//GEN-LAST:event_equipeSalvarBotaoMouseClicked
 
     private void equipeNovaBotaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipeNovaBotaoMouseClicked
-        Utilities utl = new Utilities();
-        utl.limparTela(equipeCadastro);
+        int confirm = JOptionPane.showConfirmDialog(null, "Deseja limpar todos os campos?");
+        if (confirm == 0){
+            Utilities utl = new Utilities();
+            utl.limparTela(equipeCadastro);
+        }
     }//GEN-LAST:event_equipeNovaBotaoMouseClicked
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
@@ -1513,44 +1529,50 @@ public class presenterGui extends javax.swing.JFrame {
     }//GEN-LAST:event_equipeTabelaMouseClicked
 
     private void equipeExcluirBotaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipeExcluirBotaoMouseClicked
-        try {
-            Equipe equipeProv = new Equipe();
-            equipeProv.setNome(equipeNomeTextField.getText());
-            Equipe equipe = edao.getEquipeWithId(equipeProv);
+        int confirm = JOptionPane.showConfirmDialog(null, "Deseja excluir a equipe?");
+        if (confirm == 0) {
+            try {
+                Equipe equipeProv = new Equipe();
+                equipeProv.setNome(equipeNomeTextField.getText());
+                Equipe equipe = edao.getEquipeWithId(equipeProv);
 
-            adao.excluirAlunos(equipe);
-            edao.excluirEquipe(equipe);
-            JOptionPane.showMessageDialog(null, "Equipe excluída.");
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+                adao.excluirAlunos(equipe);
+                edao.excluirEquipe(equipe);
+                JOptionPane.showMessageDialog(null, "Equipe excluída.");
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            }
+
+            Utilities utl = new Utilities();
+            utl.limparTela(equipeCadastro);
         }
-
-        Utilities utl = new Utilities();
-        utl.limparTela(equipeCadastro);
     }//GEN-LAST:event_equipeExcluirBotaoMouseClicked
 
     private void equipeEditarBotaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipeEditarBotaoMouseClicked
-        String nomeEquipe = equipeNomeTextField.getText();
-        String projetoEquipe = equipeProjetoTextField.getText();
-        String turmaEquipe = equipeTurmaComboBox.getSelectedItem().toString();
-        Equipe equipeDados = new Equipe(nomeEquipe, projetoEquipe, turmaEquipe);
+        int confirm = JOptionPane.showConfirmDialog(null, "Deseja atualizar os dados editados?");
+        if (confirm == 0) {
+            String nomeEquipe = equipeNomeTextField.getText();
+            String projetoEquipe = equipeProjetoTextField.getText();
+            String turmaEquipe = equipeTurmaComboBox.getSelectedItem().toString();
+            Equipe equipeDados = new Equipe(nomeEquipe, projetoEquipe, turmaEquipe);
 
-        try {
-            Equipe equipeEditada = edao.getEquipeWithId(equipeDados);
-            edao.editarEquipe(equipeEditada);
-            adao.excluirAlunos(equipeEditada);
+            try {
+                Equipe equipeEditada = edao.getEquipeWithId(equipeDados);
+                edao.editarEquipe(equipeEditada);
+                adao.excluirAlunos(equipeEditada);
 
-            int n = equipeAlunosDaEquipeLista.getModel().getSize();
-            for (int i = 0; i < n; i++) {
-                String nomeAluno = listModel.getElementAt(i).toString();
-                adao.salvarAluno(nomeAluno, equipeEditada);
+                int n = equipeAlunosDaEquipeLista.getModel().getSize();
+                for (int i = 0; i < n; i++) {
+                    String nomeAluno = listModel.getElementAt(i).toString();
+                    adao.salvarAluno(nomeAluno, equipeEditada);
+                }
+                Utilities utl = new Utilities();
+                utl.limparTela(equipeCadastro);
+
+                JOptionPane.showMessageDialog(null, "Equipe editada.");
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage());
             }
-            Utilities utl = new Utilities();
-            utl.limparTela(equipeCadastro);
-
-            JOptionPane.showMessageDialog(null, "Equipe editada.");
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }//GEN-LAST:event_equipeEditarBotaoMouseClicked
 
@@ -1587,29 +1609,35 @@ public class presenterGui extends javax.swing.JFrame {
     }//GEN-LAST:event_equipePesquisaTextFieldKeyPressed
 
     private void sorteadorApresentouLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sorteadorApresentouLabelMouseClicked
-        String equipeName = sorteadorEquipeLabel.getText();
-        try {
-            edao.apresentou(equipeName);
-            equipesSorteador.removeIf(x -> x.equals(equipeName));
-            
-            sorteadorEquipeLabel.setText("Equipe Selecionada");
-            int n = equipesSorteador.size();
-            sorteadorEquipesRestandoLabel.setText(
-                    (n >= 10 ? String.valueOf(n) : "0" + n)
-                    + " equipe"
-                    + (n > 1 ? "" : "s")
-                    + " restando"
-            );
+        int confirm = JOptionPane.showConfirmDialog(null, "Confirmar apresentação da equipe?");
+        if (confirm == 0) {
+            String equipeName = sorteadorEquipeLabel.getText();
+            try {
+                edao.apresentou(equipeName);
+                equipesSorteador.removeIf(x -> x.equals(equipeName));
 
-            JOptionPane.showMessageDialog(null, "Apresentação registrada.");
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
+                sorteadorEquipeLabel.setText("Equipe Selecionada");
+                int n = equipesSorteador.size();
+                sorteadorEquipesRestandoLabel.setText(
+                        (n >= 10 ? String.valueOf(n) : "0" + n)
+                        + " equipe"
+                        + (n > 1 ? "" : "s")
+                        + " restando"
+                );
+
+                JOptionPane.showMessageDialog(null, "Apresentação registrada.");
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            }
         }
     }//GEN-LAST:event_sorteadorApresentouLabelMouseClicked
 
     private void sorteadorNaoAprensentouLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sorteadorNaoAprensentouLabelMouseClicked
-        sorteadorEquipeLabel.setText("Equipe Selecionada");
-        JOptionPane.showMessageDialog(null, "Erro na apresentação confirmado.");
+        int confirm = JOptionPane.showConfirmDialog(null, "Confirmar problema na apresentação da equipe?");
+        if (confirm == 0) {
+            sorteadorEquipeLabel.setText("Equipe Selecionada");
+            JOptionPane.showMessageDialog(null, "Erro na apresentação confirmado.");
+        }
     }//GEN-LAST:event_sorteadorNaoAprensentouLabelMouseClicked
 
     /**
