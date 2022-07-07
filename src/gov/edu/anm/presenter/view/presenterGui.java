@@ -8,13 +8,17 @@ package gov.edu.anm.presenter.view;
 import gov.edu.anm.presenter.dao.AlunoDAO;
 import gov.edu.anm.presenter.dao.EquipeDAO;
 import gov.edu.anm.presenter.jdbc.ConnectionFactory;
-import gov.edu.anm.presenter.model.Equipe;
-import gov.edu.anm.presenter.model.Utilities;
+import gov.edu.anm.presenter.model.entities.AppUser;
+import gov.edu.anm.presenter.model.entities.Equipe;
+import gov.edu.anm.presenter.model.entities.Utilities;
+import gov.edu.anm.presenter.services.PresenterApi;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -34,6 +38,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class presenterGui extends javax.swing.JFrame {
 
+    private PresenterApi api = new PresenterApi(); 
+    
     private String duracaoString;
     private String[] duracaoNumber;
     private List<String> equipesSorteador = new ArrayList<>();
@@ -47,12 +53,15 @@ public class presenterGui extends javax.swing.JFrame {
     private final AlunoDAO adao = new AlunoDAO();
     private final Connection con;
 
-    /**
-     * Creates new form Sistema
-     */
     public presenterGui() {
         initComponents();
-
+        
+        try {
+            api.login("master", "masteranmadmin");
+        } catch (IOException | InterruptedException | URISyntaxException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        
         //Estabelecendo conexão
         con = new ConnectionFactory().getConnection();
 
@@ -1224,7 +1233,6 @@ public class presenterGui extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void minemizeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_minemizeLabelMouseClicked
-
         this.setState(JFrame.ICONIFIED);
     }//GEN-LAST:event_minemizeLabelMouseClicked
 

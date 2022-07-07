@@ -1,5 +1,5 @@
 
-package gov.edu.anm.presenter.model;
+package gov.edu.anm.presenter.model.entities;
 
 public class Aluno {
     private Integer id;

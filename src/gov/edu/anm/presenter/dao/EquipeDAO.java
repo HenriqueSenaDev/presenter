@@ -1,7 +1,7 @@
 package gov.edu.anm.presenter.dao;
 
 import gov.edu.anm.presenter.jdbc.ConnectionFactory;
-import gov.edu.anm.presenter.model.Equipe;
+import gov.edu.anm.presenter.model.entities.Equipe;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
