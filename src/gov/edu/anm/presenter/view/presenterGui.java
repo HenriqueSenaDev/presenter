@@ -8,8 +8,8 @@ package gov.edu.anm.presenter.view;
 import gov.edu.anm.presenter.dao.AlunoDAO;
 import gov.edu.anm.presenter.dao.EquipeDAO;
 import gov.edu.anm.presenter.jdbc.ConnectionFactory;
-import gov.edu.anm.presenter.model.entities.AppUser;
 import gov.edu.anm.presenter.model.entities.Equipe;
+import gov.edu.anm.presenter.model.entities.Team;
 import gov.edu.anm.presenter.model.entities.Utilities;
 import gov.edu.anm.presenter.services.PresenterApi;
 
@@ -18,7 +18,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.net.URISyntaxException;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -38,8 +37,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class presenterGui extends javax.swing.JFrame {
 
-    private PresenterApi api = new PresenterApi(); 
-    
+    private PresenterApi api = new PresenterApi();
+
     private String duracaoString;
     private String[] duracaoNumber;
     private List<String> equipesSorteador = new ArrayList<>();
@@ -55,13 +54,14 @@ public class presenterGui extends javax.swing.JFrame {
 
     public presenterGui() {
         initComponents();
-        
+
         try {
             api.login("master", "masteranmadmin");
-        } catch (IOException | InterruptedException | URISyntaxException e) {
+            api.findEvent(3344);
+        } catch (IOException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-        
+
         //Estabelecendo conexão
         con = new ConnectionFactory().getConnection();
 
@@ -1317,16 +1317,15 @@ public class presenterGui extends javax.swing.JFrame {
             equipesProv.removeIf(x -> x.getApresentou() == true);
 
             int n = equipesProv.size();
-            
+
             String label;
             if (n == 0) {
                 label = "Nenhuma equipe restando";
-            }
-            else {
+            } else {
                 label = (n >= 10 ? String.valueOf(n) : "0" + n)
-                    + " equipe"
-                    + (n <= 1 ? "" : "s")
-                    + " restando";
+                        + " equipe"
+                        + (n <= 1 ? "" : "s")
+                        + " restando";
             }
             sorteadorEquipesRestandoLabel.setText(label);
 
@@ -1395,7 +1394,7 @@ public class presenterGui extends javax.swing.JFrame {
         contentPanel.setEnabled(true);
         menuBar.setVisible(false);
         menuBar.setEnabled(false);
-        
+
         try {
             List<Equipe> equipesSemAlunos = edao.listarEquipes();
             DefaultTableModel dados = (DefaultTableModel) rankingTabela.getModel();
@@ -1409,7 +1408,7 @@ public class presenterGui extends javax.swing.JFrame {
                     String.format("%.2f", equipe.getMedia())
                 });
             }
-            
+
             while (dados.getRowCount() < 19) {
                 dados.addRow(new Object[]{});
             }
@@ -1446,11 +1445,10 @@ public class presenterGui extends javax.swing.JFrame {
                 }
             });
             sortear.start();
-        }
-        else {
+        } else {
             JOptionPane.showMessageDialog(null, "Não há mais equipes para apresentação.");
         }
-        
+
     }//GEN-LAST:event_sorteadorSortearBotaoMouseClicked
 
     private void equipeAddAlunoBotaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipeAddAlunoBotaoMouseClicked
@@ -1489,7 +1487,7 @@ public class presenterGui extends javax.swing.JFrame {
 
     private void equipeNovaBotaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipeNovaBotaoMouseClicked
         int confirm = JOptionPane.showConfirmDialog(null, "Deseja limpar todos os campos?");
-        if (confirm == 0){
+        if (confirm == 0) {
             Utilities utl = new Utilities();
             utl.limparTela(equipeCadastro);
         }
@@ -1497,22 +1495,30 @@ public class presenterGui extends javax.swing.JFrame {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         try {
-            List<Equipe> equipesSemAlunos = edao.listarEquipes();
+            List<Team> teams = api.findEventTeams();
             DefaultTableModel dados = (DefaultTableModel) equipeTabela.getModel();
             dados.setNumRows(0);
 
-            for (Equipe equipe : equipesSemAlunos) {
-                String alunosDaEquipe = adao.alunosDaEquipe(equipe);
+            for (Team team : teams) {
+                List<String> usernames = api.findTeamMembersUsernames(team);
+                String members = "";
+                for (String username : usernames) {
+                    if (usernames.indexOf(username) == usernames.size() - 1) {
+                        members += username + ".";
+                    } else {
+                        members += username + ", ";
+                    }
+                }
 
                 dados.addRow(new Object[]{
-                    equipe.getId(),
-                    equipe.getNome(),
-                    equipe.getProjeto(),
-                    equipe.getTurma(),
-                    alunosDaEquipe
+                    team.getId(),
+                    team.getName(),
+                    team.getProject(),
+                    team.getClassRoom(),
+                    members
                 });
             }
-        } catch (SQLException e) {
+        } catch (IOException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }//GEN-LAST:event_formWindowActivated
