@@ -5,7 +5,7 @@
         <group>
             <file>file:/C:/Projects/sistema-presenter-anm/src/gov/edu/anm/presenter/services/PresenterApi.java</file>
             <file>file:/C:/Projects/sistema-presenter-anm/src/gov/edu/anm/presenter/view/presenterGui.java</file>
-            <file>file:/C:/Projects/sistema-presenter-anm/src/gov/edu/anm/presenter/model/entities/AppUser.java</file>
+            <file>file:/C:/Projects/sistema-presenter-anm/src/gov/edu/anm/presenter/mode/utils/HttpUtils.java</file>
         </group>
     </open-files>
 </project-private>

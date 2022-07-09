@@ -8,9 +8,12 @@ import gov.edu.anm.presenter.model.entities.JWT;
 import gov.edu.anm.presenter.model.entities.Team;
 import gov.edu.anm.presenter.model.responses.LoginResponse;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 public class PresenterApi {
 
@@ -113,11 +116,111 @@ public class PresenterApi {
             return usernames;
         } 
         catch (IOException e) {
-            throw new IOException("Erro na busca dos integrantes da equipe:\n" + e.getMessage());
+            throw new RuntimeException("Erro na busca dos integrantes da equipe:\n" + e.getMessage());
         }
         finally {
             conn.disconnect();
         }
     }
 
+    public Team saveTeam(Team team) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        URL url = new URL(BASE_URL + "/api/teams");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Authorization", "Bearer " + tokens.getAccess_token());
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setDoOutput(true);
+        
+        String customJSONString = 
+                    "{" +
+                        "\"name\": \"" + team.getName() + "\", " +
+                        "\"project\": \"" + team.getProject() + "\", " +
+                        "\"classRoom\": \"" + team.getClassRoom() + "\"" +
+                    "}";
+        
+        try(OutputStream os = conn.getOutputStream()) {
+            byte[] input = customJSONString.getBytes("utf-8");
+            os.write(input, 0, input.length);
+            
+            String stream = HttpUtils.getRequestInputStream(conn);
+            Team savedTeam = mapper.readValue(stream, Team.class);
+//            System.out.println(savedTeam);
+            return savedTeam;
+        }
+        catch (IOException e) {
+            throw new RuntimeException("Erro ao salvar equipe:\n" + e.getMessage());
+        }
+        finally {
+            conn.disconnect();
+        }
+    }
+    
+    public List<Long> saveAppUsers(List<String> usernames) throws IOException {
+        List<Long> ids = new ArrayList<>();
+        ObjectMapper mapper = new ObjectMapper();
+        
+        URL url = new URL(BASE_URL + "/api/appusers/saveAll");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Authorization", "Bearer " + tokens.getAccess_token());
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setDoOutput(true);
+        
+        String bodyJSON = "[";
+        for (String username : usernames) {
+            bodyJSON += "{" +
+                            "\"username\": \"" + username + "\", " +
+                            "\"password\": " + "\"testpassforstudent\"" +
+                        "}, ";
+        }
+        bodyJSON = bodyJSON.substring(0, bodyJSON.length() - 2) + "]";
+//        System.out.println(bodyJSON);
+        
+        try(OutputStream os = conn.getOutputStream()) {
+            byte[] input = bodyJSON.getBytes("utf-8");
+            os.write(input, 0, input.length);
+            
+            String stream = HttpUtils.getRequestInputStream(conn);
+//            System.out.println(stream);
+            if (stream.contains("is already in use.")) {
+                String existingUser = stream.replace("The username", "").replace("is already in use.", "");
+                JOptionPane.showMessageDialog(null, "O nome de usuário " + existingUser + " já está em uso.");
+            } 
+            else {
+                List<AppUser> savedUsers = mapper.readValue(stream, mapper.getTypeFactory()
+                        .constructCollectionType(List.class, AppUser.class));
+                savedUsers.forEach(item -> {
+                    ids.add(item.getId());
+//                    System.out.println(item);
+                });
+            }
+            return ids;
+        }
+        catch (RuntimeException e) {
+            throw new RuntimeException("Erro ao salvar usuários:\n" + e.getMessage());
+        }
+        finally {
+            conn.disconnect();
+        }
+    }
+    
+    public void deleteTeam(Long id) throws IOException {
+        URL url = new URL(BASE_URL + "/api/teams/" + id);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("DELETE");
+        conn.setRequestProperty("Authorization", "Bearer " + tokens.getAccess_token());
+        
+        try {
+            String stream = HttpUtils.getRequestInputStream(conn);
+            System.out.println(stream);
+        } 
+        catch (IOException e) {
+            throw new RuntimeException("Erro ao excluir a equipe:\n" + e.getMessage());
+        }
+        finally {
+            conn.disconnect();
+        }
+    }
+    
 }

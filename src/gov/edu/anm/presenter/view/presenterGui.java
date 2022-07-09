@@ -1461,22 +1461,23 @@ public class presenterGui extends javax.swing.JFrame {
     private void equipeSalvarBotaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipeSalvarBotaoMouseClicked
         int confirm = JOptionPane.showConfirmDialog(null, "Deseja salvar a equipe?");
         if (confirm == 0) {
-            String nomeEquipe = equipeNomeTextField.getText();
-            String projeto = equipeProjetoTextField.getText();
-            String turma = equipeTurmaComboBox.getSelectedItem().toString();
-            Equipe equipe = new Equipe(nomeEquipe, projeto, turma);
+            String teamName = equipeNomeTextField.getText();
+            String project = equipeProjetoTextField.getText();
+            String classRoom = equipeTurmaComboBox.getSelectedItem().toString();
+            Team team = new Team(null, teamName, project, classRoom, null, null, null);
 
             try {
-                edao.salvarEquipe(equipe);
-
+                List<String> alunos = new ArrayList<>();
                 int n = equipeAlunosDaEquipeLista.getModel().getSize();
                 for (int i = 0; i < n; i++) {
                     String nomeAluno = listModel.getElementAt(i).toString();
-                    adao.salvarAluno(nomeAluno, edao.getEquipeWithId(equipe));
+                    alunos.add(nomeAluno);
                 }
+                List<Long> ids = api.saveAppUsers(alunos);
+                team = api.saveTeam(team);
 
                 JOptionPane.showMessageDialog(null, "Equipe cadastrada.");
-            } catch (SQLException e) {
+            } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
 
@@ -1546,14 +1547,11 @@ public class presenterGui extends javax.swing.JFrame {
         int confirm = JOptionPane.showConfirmDialog(null, "Deseja excluir a equipe?");
         if (confirm == 0) {
             try {
-                Equipe equipeProv = new Equipe();
-                equipeProv.setNome(equipeNomeTextField.getText());
-                Equipe equipe = edao.getEquipeWithId(equipeProv);
-
-                adao.excluirAlunos(equipe);
-                edao.excluirEquipe(equipe);
+                Long n = Long.parseLong(equipeTabela.getValueAt(equipeTabela.getSelectedRow(), 0).toString());
+                api.deleteTeam(n);
                 JOptionPane.showMessageDialog(null, "Equipe excluída.");
-            } catch (SQLException e) {
+            } 
+            catch (IOException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
 
