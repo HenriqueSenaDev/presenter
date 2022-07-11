@@ -1474,16 +1474,20 @@ public class presenterGui extends javax.swing.JFrame {
                     String nomeAluno = listModel.getElementAt(i).toString();
                     alunos.add(nomeAluno);
                 }
+                
                 List<AppUser> savedUsers = api.saveAppUsers(alunos);
                 team = api.saveTeam(team);
+                
+                for (AppUser savedUser : savedUsers) {
+                    api.addMemberParticipation(team, savedUser);
+                }
 
                 JOptionPane.showMessageDialog(null, "Equipe cadastrada.");
+                Utilities utl = new Utilities();
+                utl.limparTela(equipeCadastro);
             } catch (RuntimeException | IOException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
-
-            Utilities utl = new Utilities();
-            utl.limparTela(equipeCadastro);
         }
     }//GEN-LAST:event_equipeSalvarBotaoMouseClicked
 

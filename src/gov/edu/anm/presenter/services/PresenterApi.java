@@ -13,7 +13,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 
 public class PresenterApi {
 
@@ -23,8 +22,7 @@ public class PresenterApi {
     private JWT tokens;
     private Event event;
 
-    public void login(String username, String password)
-            throws IOException {
+    public void login(String username, String password) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
 
         URL url = new URL(BASE_URL + "/login?username=" + username + "&password=" + password);
@@ -123,39 +121,6 @@ public class PresenterApi {
         }
     }
 
-    public Team saveTeam(Team team) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        URL url = new URL(BASE_URL + "/api/teams");
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("Authorization", "Bearer " + tokens.getAccess_token());
-        conn.setRequestProperty("Content-Type", "application/json");
-        conn.setDoOutput(true);
-        
-        String customJSONString = 
-                    "{" +
-                        "\"name\": \"" + team.getName() + "\", " +
-                        "\"project\": \"" + team.getProject() + "\", " +
-                        "\"classRoom\": \"" + team.getClassRoom() + "\"" +
-                    "}";
-        
-        try(OutputStream os = conn.getOutputStream()) {
-            byte[] input = customJSONString.getBytes("utf-8");
-            os.write(input, 0, input.length);
-            
-            String stream = HttpUtils.getRequestInputStream(conn);
-            Team savedTeam = mapper.readValue(stream, Team.class);
-//            System.out.println(savedTeam);
-            return savedTeam;
-        }
-        catch (IOException e) {
-            throw new RuntimeException("Erro ao salvar equipe:\n" + e.getMessage());
-        }
-        finally {
-            conn.disconnect();
-        }
-    }
-    
     public List<AppUser> saveAppUsers(List<String> usernames) throws IOException {
         List<AppUser> savedUsers = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
@@ -197,6 +162,61 @@ public class PresenterApi {
         }
         catch (RuntimeException e) {
             throw new RuntimeException("Erro ao salvar usuários:\n" + e.getMessage());
+        }
+        finally {
+            conn.disconnect();
+        }
+    }
+    
+    public Team saveTeam(Team team) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        URL url = new URL(BASE_URL + "/api/teams");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Authorization", "Bearer " + tokens.getAccess_token());
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setDoOutput(true);
+        
+        String customJSONString = 
+                    "{" +
+                        "\"name\": \"" + team.getName() + "\", " +
+                        "\"project\": \"" + team.getProject() + "\", " +
+                        "\"classRoom\": \"" + team.getClassRoom() + "\"" +
+                    "}";
+        
+        try(OutputStream os = conn.getOutputStream()) {
+            byte[] input = customJSONString.getBytes("utf-8");
+            os.write(input, 0, input.length);
+            
+            String stream = HttpUtils.getRequestInputStream(conn);
+            Team savedTeam = mapper.readValue(stream, Team.class);
+//            System.out.println(savedTeam);
+            return savedTeam;
+        }
+        catch (IOException e) {
+            throw new RuntimeException("Erro ao salvar equipe:\n" + e.getMessage());
+        }
+        finally {
+            conn.disconnect();
+        }
+    }
+    
+    public void addMemberParticipation(Team team, AppUser user) throws IOException {
+        URL url = new URL(BASE_URL + "/api/events/participations/add/member" +
+                            "?eventCode=" + this.event.getCode() +
+                            "&appUserId=" + user.getId() +
+                            "&teamId=" + team.getId()
+                        );
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Authorization", "Bearer " + tokens.getAccess_token());
+        
+        try {
+            String stream = HttpUtils.getRequestInputStream(conn);
+//            System.out.println(stream);
+        } 
+        catch (IOException e) {
+            throw new IOException("Erro ao adicionar a participação:\n" + e.getMessage());
         }
         finally {
             conn.disconnect();
