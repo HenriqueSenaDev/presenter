@@ -8,6 +8,7 @@ package gov.edu.anm.presenter.view;
 import gov.edu.anm.presenter.dao.AlunoDAO;
 import gov.edu.anm.presenter.dao.EquipeDAO;
 import gov.edu.anm.presenter.jdbc.ConnectionFactory;
+import gov.edu.anm.presenter.model.entities.AppUser;
 import gov.edu.anm.presenter.model.entities.Equipe;
 import gov.edu.anm.presenter.model.entities.Team;
 import gov.edu.anm.presenter.model.entities.Utilities;
@@ -1473,11 +1474,11 @@ public class presenterGui extends javax.swing.JFrame {
                     String nomeAluno = listModel.getElementAt(i).toString();
                     alunos.add(nomeAluno);
                 }
-                List<Long> ids = api.saveAppUsers(alunos);
+                List<AppUser> savedUsers = api.saveAppUsers(alunos);
                 team = api.saveTeam(team);
 
                 JOptionPane.showMessageDialog(null, "Equipe cadastrada.");
-            } catch (IOException e) {
+            } catch (RuntimeException | IOException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
 

@@ -156,8 +156,8 @@ public class PresenterApi {
         }
     }
     
-    public List<Long> saveAppUsers(List<String> usernames) throws IOException {
-        List<Long> ids = new ArrayList<>();
+    public List<AppUser> saveAppUsers(List<String> usernames) throws IOException {
+        List<AppUser> savedUsers = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
         
         URL url = new URL(BASE_URL + "/api/appusers/saveAll");
@@ -183,19 +183,17 @@ public class PresenterApi {
             
             String stream = HttpUtils.getRequestInputStream(conn);
 //            System.out.println(stream);
-            if (stream.contains("is already in use.")) {
-                String existingUser = stream.replace("The username", "").replace("is already in use.", "");
-                JOptionPane.showMessageDialog(null, "O nome de usuário " + existingUser + " já está em uso.");
+            if (stream.contains("is already in use")) {
+                String existingUser = 
+                        stream.replace("{\"error_message\":\"Request processing failed; nested exception is java.lang.RuntimeException: The username ", "")
+                              .replace(" is already in use.\"}", "");
+                throw new IOException("O nome de usuário " + existingUser + " já está em uso.");
             } 
             else {
-                List<AppUser> savedUsers = mapper.readValue(stream, mapper.getTypeFactory()
+                savedUsers = mapper.readValue(stream, mapper.getTypeFactory()
                         .constructCollectionType(List.class, AppUser.class));
-                savedUsers.forEach(item -> {
-                    ids.add(item.getId());
-//                    System.out.println(item);
-                });
             }
-            return ids;
+            return savedUsers;
         }
         catch (RuntimeException e) {
             throw new RuntimeException("Erro ao salvar usuários:\n" + e.getMessage());
