@@ -60,7 +60,7 @@ public class PresenterApi {
         URL url = new URL(BASE_URL + "/api/events/code/" + eventCode);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
-        conn.setRequestProperty("Authorization", "Bearer " + tokens.getAccess_token());
+        conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
 
         try {
             String stream = HttpUtils.getRequestInputStream(conn);
@@ -82,7 +82,7 @@ public class PresenterApi {
 
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
-        conn.setRequestProperty("Authorization", "Bearer " + tokens.getAccess_token());
+        conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
 
         try {
             String stream = HttpUtils.getRequestInputStream(conn);
@@ -104,7 +104,7 @@ public class PresenterApi {
         URL url = new URL(BASE_URL + "/api/teams/members/" + team.getId());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
-        conn.setRequestProperty("Authorization", "Bearer " + tokens.getAccess_token());
+        conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
         
         try {
             String stream = HttpUtils.getRequestInputStream(conn);
@@ -128,7 +128,7 @@ public class PresenterApi {
         URL url = new URL(BASE_URL + "/api/appusers/saveAll");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
-        conn.setRequestProperty("Authorization", "Bearer " + tokens.getAccess_token());
+        conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
         conn.setRequestProperty("Content-Type", "application/json");
         conn.setDoOutput(true);
         
@@ -154,11 +154,8 @@ public class PresenterApi {
                               .replace(" is already in use.\"}", "");
                 throw new IOException("O nome de usuário " + existingUser + " já está em uso.");
             } 
-            else {
-                savedUsers = mapper.readValue(stream, mapper.getTypeFactory()
-                        .constructCollectionType(List.class, AppUser.class));
-            }
-            return savedUsers;
+            return mapper.readValue(stream, mapper.getTypeFactory()
+                    .constructCollectionType(List.class, AppUser.class));
         }
         catch (RuntimeException e) {
             throw new RuntimeException("Erro ao salvar usuários:\n" + e.getMessage());
@@ -173,7 +170,7 @@ public class PresenterApi {
         URL url = new URL(BASE_URL + "/api/teams");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
-        conn.setRequestProperty("Authorization", "Bearer " + tokens.getAccess_token());
+        conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
         conn.setRequestProperty("Content-Type", "application/json");
         conn.setDoOutput(true);
         
@@ -209,7 +206,7 @@ public class PresenterApi {
                         );
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
-        conn.setRequestProperty("Authorization", "Bearer " + tokens.getAccess_token());
+        conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
         
         try {
             String stream = HttpUtils.getRequestInputStream(conn);
@@ -223,15 +220,81 @@ public class PresenterApi {
         }
     }
     
+    public Team updateTeam(Team team) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        URL url = new URL(BASE_URL + "/api/teams/" + team.getId());
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("PUT");
+        conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setDoOutput(true);
+        
+        String customJSONString = 
+                    "{" +
+                        "\"name\": \"" + team.getName() + "\", " +
+                        "\"project\": \"" + team.getProject() + "\", " +
+                        "\"classRoom\": \"" + team.getClassRoom() + "\", " +
+                        "\"presented\": \"" + team.getPresented() + "\"" +
+                    "}";
+//        System.out.println(customJSONString);
+        
+        try(OutputStream os = conn.getOutputStream()) {
+            byte[] input = customJSONString.getBytes("utf-8");
+            os.write(input, 0, input.length);
+            
+            String stream = HttpUtils.getRequestInputStream(conn);
+            Team savedTeam = mapper.readValue(stream, Team.class);
+//            System.out.println(savedTeam);
+            return savedTeam;
+        }
+        catch (IOException e) {
+            throw new IOException("Erro ao editar a equipe:\n" + e.getMessage());
+        }
+        finally {
+            conn.disconnect();
+        }
+    }
+    
+    public void updateMembersParticipations(Team team, List<String> usernames) throws IOException {
+        URL url = new URL(BASE_URL + "/api/events/teams/members/" + team.getId() +
+                        "?eventCode=" + this.event.getCode());
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("PUT");
+        conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setDoOutput(true);
+        
+        String bodyJSON = "[";
+        for (String username : usernames) {
+            bodyJSON += "\"" + username + "\",";
+        }
+        bodyJSON = bodyJSON.substring(0, bodyJSON.length() - 1) + "]";
+//        System.out.println(bodyJSON);
+        
+        try(OutputStream os = conn.getOutputStream()) {
+            byte[] input = bodyJSON.getBytes("utf-8");
+            os.write(input, 0, input.length);
+            
+            String stream = HttpUtils.getRequestInputStream(conn);
+//            System.out.println(stream);
+        } 
+        catch (IOException e) {
+            throw new IOException("Erro ao editar os usuários:\n" + e.getMessage());
+        }
+        finally {
+            conn.disconnect();
+        }
+    }
+    
     public void deleteTeam(Long id) throws IOException {
         URL url = new URL(BASE_URL + "/api/teams/" + id);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("DELETE");
-        conn.setRequestProperty("Authorization", "Bearer " + tokens.getAccess_token());
+        conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
         
         try {
             String stream = HttpUtils.getRequestInputStream(conn);
-            System.out.println(stream);
+//            System.out.println(stream);
         } 
         catch (IOException e) {
             throw new RuntimeException("Erro ao excluir a equipe:\n" + e.getMessage());

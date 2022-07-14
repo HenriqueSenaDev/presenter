@@ -39,7 +39,7 @@ import javax.swing.table.DefaultTableModel;
 public class presenterGui extends javax.swing.JFrame {
 
     private PresenterApi api = new PresenterApi();
-
+    
     private String duracaoString;
     private String[] duracaoNumber;
     private List<String> equipesSorteador = new ArrayList<>();
@@ -1471,13 +1471,12 @@ public class presenterGui extends javax.swing.JFrame {
                 List<String> alunos = new ArrayList<>();
                 int n = equipeAlunosDaEquipeLista.getModel().getSize();
                 for (int i = 0; i < n; i++) {
-                    String nomeAluno = listModel.getElementAt(i).toString();
-                    alunos.add(nomeAluno);
+                    alunos.add(listModel.getElementAt(i).toString());
                 }
-                
+
                 List<AppUser> savedUsers = api.saveAppUsers(alunos);
                 team = api.saveTeam(team);
-                
+
                 for (AppUser savedUser : savedUsers) {
                     api.addMemberParticipation(team, savedUser);
                 }
@@ -1555,8 +1554,7 @@ public class presenterGui extends javax.swing.JFrame {
                 Long n = Long.parseLong(equipeTabela.getValueAt(equipeTabela.getSelectedRow(), 0).toString());
                 api.deleteTeam(n);
                 JOptionPane.showMessageDialog(null, "Equipe excluída.");
-            } 
-            catch (IOException e) {
+            } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
 
@@ -1568,26 +1566,27 @@ public class presenterGui extends javax.swing.JFrame {
     private void equipeEditarBotaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipeEditarBotaoMouseClicked
         int confirm = JOptionPane.showConfirmDialog(null, "Deseja atualizar os dados editados?");
         if (confirm == 0) {
+            Long id = Long.parseLong(equipeTabela.getValueAt(equipeTabela.getSelectedRow(), 0).toString());
             String nomeEquipe = equipeNomeTextField.getText();
             String projetoEquipe = equipeProjetoTextField.getText();
             String turmaEquipe = equipeTurmaComboBox.getSelectedItem().toString();
-            Equipe equipeDados = new Equipe(nomeEquipe, projetoEquipe, turmaEquipe);
+            Team team = new Team(id, nomeEquipe, projetoEquipe, turmaEquipe, null, null, null);
 
             try {
-                Equipe equipeEditada = edao.getEquipeWithId(equipeDados);
-                edao.editarEquipe(equipeEditada);
-                adao.excluirAlunos(equipeEditada);
+                team = api.updateTeam(team);
 
+                List<String> usernames = new ArrayList<>();
                 int n = equipeAlunosDaEquipeLista.getModel().getSize();
                 for (int i = 0; i < n; i++) {
-                    String nomeAluno = listModel.getElementAt(i).toString();
-                    adao.salvarAluno(nomeAluno, equipeEditada);
+                    usernames.add(listModel.getElementAt(i).toString());
                 }
+                api.updateMembersParticipations(team, usernames);
+                
                 Utilities utl = new Utilities();
                 utl.limparTela(equipeCadastro);
 
                 JOptionPane.showMessageDialog(null, "Equipe editada.");
-            } catch (SQLException e) {
+            } catch (RuntimeException | IOException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
         }
