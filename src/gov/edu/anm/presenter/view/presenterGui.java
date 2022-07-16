@@ -30,6 +30,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -39,16 +40,17 @@ import javax.swing.table.DefaultTableModel;
 public class presenterGui extends javax.swing.JFrame {
 
     private PresenterApi api = new PresenterApi();
-    
+    private List<Team> eventTeams = new ArrayList<>();
+    private List<String> teamsToPresent = new ArrayList<>();
+
     private String duracaoString;
     private String[] duracaoNumber;
-    private List<String> equipesSorteador = new ArrayList<>();
     private Timer mainTimer;
     private Timer sortear;
     private DefaultListModel listModel = new DefaultListModel(); //Global obrigatório
     private int totalSeconds;
     private int countTotalSorteio = 0;
-    private int indexSorteio = equipesSorteador.size();
+    private int indexSorteio = teamsToPresent.size();
     private final EquipeDAO edao = new EquipeDAO();
     private final AlunoDAO adao = new AlunoDAO();
     private final Connection con;
@@ -1229,7 +1231,7 @@ public class presenterGui extends javax.swing.JFrame {
 
         getContentPane().add(mainPanel);
 
-        setSize(new java.awt.Dimension(899, 547));
+        setSize(new java.awt.Dimension(1050, 589));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -1313,13 +1315,11 @@ public class presenterGui extends javax.swing.JFrame {
         menuBar.setEnabled(false);
 
         try {
-            equipesSorteador.clear();
-            List<Equipe> equipesProv = edao.listarEquipes();
-            equipesProv.removeIf(x -> x.getApresentou() == true);
-
-            int n = equipesProv.size();
+            eventTeams = api.findEventTeams();
+            eventTeams.removeIf(x -> x.getPresented() == true);
 
             String label;
+            int n = eventTeams.size();
             if (n == 0) {
                 label = "Nenhuma equipe restando";
             } else {
@@ -1330,10 +1330,8 @@ public class presenterGui extends javax.swing.JFrame {
             }
             sorteadorEquipesRestandoLabel.setText(label);
 
-            for (Equipe equipe : equipesProv) {
-                equipesSorteador.add(equipe.getNome());
-            }
-        } catch (SQLException e) {
+            teamsToPresent = eventTeams.stream().map(team -> team.getName()).collect(Collectors.toList());
+        } catch (IOException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }//GEN-LAST:event_sorteadorMenuLabelMouseClicked
@@ -1427,14 +1425,14 @@ public class presenterGui extends javax.swing.JFrame {
     }//GEN-LAST:event_rankingMenuLabelMouseExited
 
     private void sorteadorSortearBotaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sorteadorSortearBotaoMouseClicked
-        if (!equipesSorteador.isEmpty()) {
+        if (!teamsToPresent.isEmpty()) {
             sortear = new Timer(100, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evt) {
                     if (indexSorteio <= 0) {
-                        indexSorteio = equipesSorteador.size();
+                        indexSorteio = teamsToPresent.size();
                     }
-                    sorteadorEquipeLabel.setText(equipesSorteador.get(indexSorteio - 1));
+                    sorteadorEquipeLabel.setText(teamsToPresent.get(indexSorteio - 1));
                     indexSorteio--;
                     countTotalSorteio++;
 
@@ -1581,7 +1579,7 @@ public class presenterGui extends javax.swing.JFrame {
                     usernames.add(listModel.getElementAt(i).toString());
                 }
                 api.updateMembersParticipations(team, usernames);
-                
+
                 Utilities utl = new Utilities();
                 utl.limparTela(equipeCadastro);
 
@@ -1627,22 +1625,35 @@ public class presenterGui extends javax.swing.JFrame {
     private void sorteadorApresentouLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sorteadorApresentouLabelMouseClicked
         int confirm = JOptionPane.showConfirmDialog(null, "Confirmar apresentação da equipe?");
         if (confirm == 0) {
-            String equipeName = sorteadorEquipeLabel.getText();
+
             try {
-                edao.apresentou(equipeName);
-                equipesSorteador.removeIf(x -> x.equals(equipeName));
+                Team team = eventTeams.stream().filter(x -> x.getName()
+                    .equals(sorteadorEquipeLabel.getText()))
+                    .findFirst().orElseThrow(() -> new IOException("Nenhuma equipe restante."));
+                
+                team.setPresented(true);
+                api.updateTeam(team);
 
+                eventTeams = api.findEventTeams();
+                eventTeams.removeIf(x -> x.getPresented() == true);
+
+                String label;
+                int n = eventTeams.size();
+                if (n == 0) {
+                    label = "Nenhuma equipe restando";
+                } else {
+                    label = (n >= 10 ? String.valueOf(n) : "0" + n)
+                            + " equipe"
+                            + (n <= 1 ? "" : "s")
+                            + " restando";
+                }
+                sorteadorEquipesRestandoLabel.setText(label);
                 sorteadorEquipeLabel.setText("Equipe Selecionada");
-                int n = equipesSorteador.size();
-                sorteadorEquipesRestandoLabel.setText(
-                        (n >= 10 ? String.valueOf(n) : "0" + n)
-                        + " equipe"
-                        + (n > 1 ? "" : "s")
-                        + " restando"
-                );
-
+                
+                teamsToPresent = eventTeams.stream().map(x -> x.getName()).collect(Collectors.toList());
+                
                 JOptionPane.showMessageDialog(null, "Apresentação registrada.");
-            } catch (SQLException e) {
+            } catch (IOException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
         }
@@ -1782,10 +1793,10 @@ public class presenterGui extends javax.swing.JFrame {
     //**Sorteador
     /* Timer sortear */
     public void resultadoSorteio() {
-        int max = equipesSorteador.size() - 1;
+        int max = teamsToPresent.size() - 1;
         int random = (int) Math.floor(Math.random() * (max + 1));
-        String chosenEquipe = equipesSorteador.get(random);
-        sorteadorEquipeLabel.setText(chosenEquipe);
+        String chosenTeam = teamsToPresent.get(random);
+        sorteadorEquipeLabel.setText(chosenTeam);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
