@@ -5,11 +5,7 @@
  */
 package gov.edu.anm.presenter.view;
 
-import gov.edu.anm.presenter.dao.AlunoDAO;
-import gov.edu.anm.presenter.dao.EquipeDAO;
-import gov.edu.anm.presenter.jdbc.ConnectionFactory;
 import gov.edu.anm.presenter.model.entities.AppUser;
-import gov.edu.anm.presenter.model.entities.Equipe;
 import gov.edu.anm.presenter.model.entities.Team;
 import gov.edu.anm.presenter.model.entities.Utilities;
 import gov.edu.anm.presenter.services.PresenterApi;
@@ -25,8 +21,6 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 import javax.swing.JOptionPane;
 
-import java.sql.SQLException;
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -42,6 +36,7 @@ public class presenterGui extends javax.swing.JFrame {
     private PresenterApi api = new PresenterApi();
     private List<Team> eventTeams = new ArrayList<>();
     private List<String> teamsToPresent = new ArrayList<>();
+    private int indexSorteio = teamsToPresent.size();
 
     private String duracaoString;
     private String[] duracaoNumber;
@@ -50,10 +45,6 @@ public class presenterGui extends javax.swing.JFrame {
     private DefaultListModel listModel = new DefaultListModel(); //Global obrigatório
     private int totalSeconds;
     private int countTotalSorteio = 0;
-    private int indexSorteio = teamsToPresent.size();
-    private final EquipeDAO edao = new EquipeDAO();
-    private final AlunoDAO adao = new AlunoDAO();
-    private final Connection con;
 
     public presenterGui() {
         initComponents();
@@ -64,12 +55,12 @@ public class presenterGui extends javax.swing.JFrame {
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-
-        //Estabelecendo conexão
-        con = new ConnectionFactory().getConnection();
-
+        
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
+        listModel.setSize(0);
+        equipeAlunosDaEquipeLista.setModel(listModel);
+        
         //Dimensões de inicialização de painéis
         Dimension abasPreferredSize = new Dimension(1400, 730);
         abas.setPreferredSize(abasPreferredSize);
@@ -982,32 +973,32 @@ public class presenterGui extends javax.swing.JFrame {
         rankingTabela.setForeground(new java.awt.Color(255, 255, 255));
         rankingTabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Equipe", "Projeto", "Turma", "Média Geral"
+                "Equipe", "Projeto", "Turma", "Avaliações", "Média Geral"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1018,8 +1009,10 @@ public class presenterGui extends javax.swing.JFrame {
         rankingTabela.setRowHeight(25);
         rankingTabelaContent.setViewportView(rankingTabela);
         if (rankingTabela.getColumnModel().getColumnCount() > 0) {
-            rankingTabela.getColumnModel().getColumn(3).setMinWidth(130);
-            rankingTabela.getColumnModel().getColumn(3).setMaxWidth(130);
+            rankingTabela.getColumnModel().getColumn(3).setMinWidth(80);
+            rankingTabela.getColumnModel().getColumn(3).setMaxWidth(80);
+            rankingTabela.getColumnModel().getColumn(4).setMinWidth(100);
+            rankingTabela.getColumnModel().getColumn(4).setMaxWidth(100);
         }
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1231,7 +1224,7 @@ public class presenterGui extends javax.swing.JFrame {
 
         getContentPane().add(mainPanel);
 
-        setSize(new java.awt.Dimension(1050, 589));
+        setSize(new java.awt.Dimension(896, 589));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -1395,23 +1388,24 @@ public class presenterGui extends javax.swing.JFrame {
         menuBar.setEnabled(false);
 
         try {
-            List<Equipe> equipesSemAlunos = edao.listarEquipes();
+            List<Team> teams = api.findEventTeams();
             DefaultTableModel dados = (DefaultTableModel) rankingTabela.getModel();
             dados.setNumRows(0);
 
-            for (Equipe equipe : equipesSemAlunos) {
+            for (Team team : teams) {
                 dados.addRow(new Object[]{
-                    equipe.getNome(),
-                    equipe.getProjeto(),
-                    equipe.getTurma(),
-                    String.format("%.2f", equipe.getMedia())
+                    team.getName(),
+                    team.getProject(),
+                    team.getClassRoom(),
+                    team.getAvaliationsQuantity(),
+                    String.format("%.2f", team.getAverage())
                 });
             }
 
             while (dados.getRowCount() < 19) {
                 dados.addRow(new Object[]{});
             }
-        } catch (SQLException e) {
+        } catch (IOException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }//GEN-LAST:event_rankingMenuLabelMouseClicked
@@ -1451,7 +1445,6 @@ public class presenterGui extends javax.swing.JFrame {
     }//GEN-LAST:event_sorteadorSortearBotaoMouseClicked
 
     private void equipeAddAlunoBotaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipeAddAlunoBotaoMouseClicked
-        int n = equipeAlunosDaEquipeLista.getModel().getSize();
         listModel.add(0, equipeAlunoTextField.getText());
         equipeAlunosDaEquipeLista.setModel(listModel);
         equipeAlunoTextField.setText("");
@@ -1464,7 +1457,7 @@ public class presenterGui extends javax.swing.JFrame {
             String project = equipeProjetoTextField.getText();
             String classRoom = equipeTurmaComboBox.getSelectedItem().toString();
             Team team = new Team(null, teamName, project, classRoom, null, null, null);
-
+            
             try {
                 List<String> alunos = new ArrayList<>();
                 int n = equipeAlunosDaEquipeLista.getModel().getSize();
@@ -1527,29 +1520,31 @@ public class presenterGui extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void equipeTabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipeTabelaMouseClicked
-        equipeNomeTextField.setText(equipeTabela.getValueAt(equipeTabela.getSelectedRow(), 1).toString());
-        equipeProjetoTextField.setText(equipeTabela.getValueAt(equipeTabela.getSelectedRow(), 2).toString());
-        equipeTurmaComboBox.setSelectedItem(equipeTabela.getValueAt(equipeTabela.getSelectedRow(), 3).toString());
-        String alunosProv = equipeTabela.getValueAt(equipeTabela.getSelectedRow(), 4).toString();
+        int n = equipeTabela.getSelectedRow() == -1 
+                ? equipeTabela.getSelectedRow() + 1 : equipeTabela.getSelectedRow();
+        
+        equipeNomeTextField.setText(equipeTabela.getValueAt(n, 1).toString());
+        equipeProjetoTextField.setText(equipeTabela.getValueAt(n, 2).toString());
+        equipeTurmaComboBox.setSelectedItem(equipeTabela.getValueAt(n, 3).toString());
+        String alunosProv = equipeTabela.getValueAt(n, 4).toString();
 
         String[] alunos = alunosProv.split(", ");
         String ultimoAluno = alunos[alunos.length - 1].replace(".", "");
-
-        listModel = new DefaultListModel();
+        
         listModel.clear();
         for (int i = 0; i < alunos.length - 1; i++) {
             listModel.addElement(alunos[i]);
         }
         listModel.addElement(ultimoAluno);
-        equipeAlunosDaEquipeLista.setModel(listModel);
-
     }//GEN-LAST:event_equipeTabelaMouseClicked
 
     private void equipeExcluirBotaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipeExcluirBotaoMouseClicked
         int confirm = JOptionPane.showConfirmDialog(null, "Deseja excluir a equipe?");
         if (confirm == 0) {
             try {
-                Long n = Long.parseLong(equipeTabela.getValueAt(equipeTabela.getSelectedRow(), 0).toString());
+                int x = equipeTabela.getSelectedRow() == -1 
+                        ? equipeTabela.getSelectedRow() + 1 : equipeTabela.getSelectedRow();
+                Long n = Long.parseLong(equipeTabela.getValueAt(x, 0).toString());
                 api.deleteTeam(n);
                 JOptionPane.showMessageDialog(null, "Equipe excluída.");
             } catch (IOException e) {
@@ -1564,17 +1559,19 @@ public class presenterGui extends javax.swing.JFrame {
     private void equipeEditarBotaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipeEditarBotaoMouseClicked
         int confirm = JOptionPane.showConfirmDialog(null, "Deseja atualizar os dados editados?");
         if (confirm == 0) {
-            Long id = Long.parseLong(equipeTabela.getValueAt(equipeTabela.getSelectedRow(), 0).toString());
+            int row = equipeTabela.getSelectedRow() == -1 
+                    ? 0 : equipeTabela.getSelectedRow();
+            Long id = Long.parseLong(equipeTabela.getValueAt(row, 0).toString());
             String nomeEquipe = equipeNomeTextField.getText();
             String projetoEquipe = equipeProjetoTextField.getText();
             String turmaEquipe = equipeTurmaComboBox.getSelectedItem().toString();
             Team team = new Team(id, nomeEquipe, projetoEquipe, turmaEquipe, null, null, null);
-
+            
             try {
                 team = api.updateTeam(team);
 
                 List<String> usernames = new ArrayList<>();
-                int n = equipeAlunosDaEquipeLista.getModel().getSize();
+                int n = listModel.getSize();
                 for (int i = 0; i < n; i++) {
                     usernames.add(listModel.getElementAt(i).toString());
                 }
@@ -1591,34 +1588,39 @@ public class presenterGui extends javax.swing.JFrame {
     }//GEN-LAST:event_equipeEditarBotaoMouseClicked
 
     private void equipeRemoveAlunoBotaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_equipeRemoveAlunoBotaoMouseClicked
-        listModel.remove(0);
+        if (equipeAlunosDaEquipeLista.getSelectedIndex() == -1) {
+            JOptionPane.showMessageDialog(null, "Selecione um aluno para remover.");
+        }
+        else {
+            listModel.remove(equipeAlunosDaEquipeLista.getSelectedIndex());
+        }
     }//GEN-LAST:event_equipeRemoveAlunoBotaoMouseClicked
 
     private void equipePesquisaTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_equipePesquisaTextFieldKeyPressed
         String pesquisa = equipePesquisaTextField.getText();
         String metodoDeBusca = equipePorComboBox.getSelectedItem().toString().toLowerCase();
 
-        try {
-            List<Equipe> equipes = edao.buscarEquipes(pesquisa, metodoDeBusca);
-            DefaultTableModel dados = (DefaultTableModel) equipeTabela.getModel();
-            dados.setNumRows(0);
-
-            for (Equipe equipe : equipes) {
-                Equipe equipeComId = edao.getEquipeWithId(equipe);
-                String alunosDaEquipe = adao.alunosDaEquipe(equipe);
-
-                dados.addRow(new Object[]{
-                    equipeComId.getId(),
-                    equipeComId.getNome(),
-                    equipeComId.getProjeto(),
-                    equipeComId.getTurma(),
-                    alunosDaEquipe
-                });
-            }
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
+//        try {
+//            List<Equipe> equipes = edao.buscarEquipes(pesquisa, metodoDeBusca);
+//            DefaultTableModel dados = (DefaultTableModel) equipeTabela.getModel();
+//            dados.setNumRows(0);
+//
+//            for (Equipe equipe : equipes) {
+//                Equipe equipeComId = edao.getEquipeWithId(equipe);
+//                String alunosDaEquipe = adao.alunosDaEquipe(equipe);
+//
+//                dados.addRow(new Object[]{
+//                    equipeComId.getId(),
+//                    equipeComId.getNome(),
+//                    equipeComId.getProjeto(),
+//                    equipeComId.getTurma(),
+//                    alunosDaEquipe
+//                });
+//            }
+//
+//        } catch (SQLException e) {
+//            JOptionPane.showMessageDialog(null, e.getMessage());
+//        }
 
     }//GEN-LAST:event_equipePesquisaTextFieldKeyPressed
 

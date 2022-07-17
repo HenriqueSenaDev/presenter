@@ -265,10 +265,15 @@ public class PresenterApi {
         conn.setDoOutput(true);
         
         String bodyJSON = "[";
-        for (String username : usernames) {
-            bodyJSON += "\"" + username + "\",";
+        if (!usernames.isEmpty()) {
+            for (String username : usernames) {
+                bodyJSON += "\"" + username + "\",";
+            }
+            bodyJSON = bodyJSON.substring(0, bodyJSON.length() - 1) + "]";
         }
-        bodyJSON = bodyJSON.substring(0, bodyJSON.length() - 1) + "]";
+        else {
+            bodyJSON += "]";
+        }
 //        System.out.println(bodyJSON);
         
         try(OutputStream os = conn.getOutputStream()) {
