@@ -7,7 +7,7 @@ package gov.edu.anm.presenter.view;
 
 import gov.edu.anm.presenter.model.entities.AppUser;
 import gov.edu.anm.presenter.model.entities.Team;
-import gov.edu.anm.presenter.model.entities.Utilities;
+import gov.edu.anm.presenter.model.utils.Utilities;
 import gov.edu.anm.presenter.services.PresenterApi;
 
 import java.awt.Color;

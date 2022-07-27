@@ -1,4 +1,4 @@
-package gov.edu.anm.presenter.model.entities;
+package gov.edu.anm.presenter.model.utils;
 
 import java.awt.Component;
 import javax.swing.DefaultListModel;

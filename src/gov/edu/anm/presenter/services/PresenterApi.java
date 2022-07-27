@@ -1,7 +1,7 @@
 package gov.edu.anm.presenter.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gov.edu.anm.presenter.mode.utils.HttpUtils;
+import gov.edu.anm.presenter.model.utils.HttpUtils;
 import gov.edu.anm.presenter.model.entities.AppUser;
 import gov.edu.anm.presenter.model.entities.Event;
 import gov.edu.anm.presenter.model.entities.JWT;
@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PresenterApi {

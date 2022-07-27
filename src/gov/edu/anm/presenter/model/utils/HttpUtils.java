@@ -1,4 +1,4 @@
-package gov.edu.anm.presenter.mode.utils;
+package gov.edu.anm.presenter.model.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
