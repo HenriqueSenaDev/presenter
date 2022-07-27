@@ -14,6 +14,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 
 import javax.swing.DefaultListModel;
@@ -25,6 +26,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -1350,6 +1356,7 @@ public class presenterGui extends javax.swing.JFrame {
                    whiteCountdown();
                    mainTimer.stop();
                    returnPlay();
+                   playTimesOverSound();
                 }
              }
           });
@@ -1371,6 +1378,7 @@ public class presenterGui extends javax.swing.JFrame {
                    whiteCountdown();
                    mainTimer.stop();
                    returnPlay();
+                   playTimesOverSound();
                 }
              }
           });
@@ -1611,7 +1619,7 @@ public class presenterGui extends javax.swing.JFrame {
     }//GEN-LAST:event_equipeRemoveAlunoBotaoMouseClicked
 
     private void equipePesquisaTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_equipePesquisaTextFieldKeyPressed
-       
+
        String value = equipePesquisaTextField.getText();
        String metodoDeBusca = equipePorComboBox.getSelectedItem().toString().toLowerCase();
 
@@ -1823,6 +1831,19 @@ public class presenterGui extends javax.swing.JFrame {
       tempoPlayLabel.setVisible(true);
       tempoDivideBar.setVisible(true);
       tempoConfigPanel.setPreferredSize(new Dimension(615, 200));
+   }
+
+   public void playTimesOverSound() {
+      try {
+         File file = new File("src/gov/edu/anm/presenter/sounds/TimeOver.wav");
+         AudioInputStream inputStream = AudioSystem.getAudioInputStream(file);
+         Clip audio = AudioSystem.getClip();
+         audio.open(inputStream);
+         audio.start();
+      }
+      catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
+         JOptionPane.showMessageDialog(null, "Erro no play do clip:\n" + e.getMessage());
+      }
    }
 
    //**Sorteador
