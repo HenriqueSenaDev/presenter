@@ -16,14 +16,14 @@ import java.util.List;
 
 public class PresenterApi {
 
-    private static final String BASE_URL = "http://localhost:8080";
-
     private AppUser user;
     private JWT tokens;
     private Event event;
 
+    private static final String BASE_URL = "http://localhost:8080";
+    private static final ObjectMapper mapper = new ObjectMapper();
+
     public void login(String username, String password) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
 
         URL url = new URL(BASE_URL + "/login?username=" + username + "&password=" + password);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -55,7 +55,6 @@ public class PresenterApi {
     }
 
     public void findEvent(Integer eventCode) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
 
         URL url = new URL(BASE_URL + "/api/events/code/" + eventCode);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -77,7 +76,7 @@ public class PresenterApi {
     }
 
     public List<Team> findEventTeams() throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
+        
         URL url = new URL(BASE_URL + "/api/events/teams/" + event.getId());
 
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -98,9 +97,38 @@ public class PresenterApi {
             conn.disconnect();
         }
     }
+    
+    public List<Team> findEventTeamsByQuery(String value, String queryBy) throws IOException {
+       value = value.replace(" ", "+");
+       if (queryBy.equals("nome")) queryBy = "name";
+       if (queryBy.equals("projeto")) queryBy = "project";
+       if (queryBy.equals("aluno")) queryBy = "member";
+       
+       URL url = new URL(BASE_URL + "/api/teams/query?queryBy=" + queryBy 
+                              + "&eventId=" + this.event.getId()
+                              + "&value=" + value);
+       
+       HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+       conn.setRequestMethod("GET");
+       conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
+       
+       try {
+            String stream = HttpUtils.getRequestInputStream(conn);
+            List<Team> teams = mapper.readValue(stream, mapper.getTypeFactory()
+                    .constructCollectionType(List.class, Team.class));
+//            teams.forEach(team -> System.out.println(team));
+            return teams;
+        } 
+        catch (IOException e) {
+            throw new RuntimeException("Erro na busca das equipes:\n" + e.getMessage());
+        } 
+        finally {
+            conn.disconnect();
+        }
+    }
 
     public List<String> findTeamMembersUsernames(Team team) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
+        
         URL url = new URL(BASE_URL + "/api/teams/members/" + team.getId());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
@@ -122,8 +150,6 @@ public class PresenterApi {
     }
 
     public List<AppUser> saveAppUsers(List<String> usernames) throws IOException {
-        List<AppUser> savedUsers = new ArrayList<>();
-        ObjectMapper mapper = new ObjectMapper();
         
         URL url = new URL(BASE_URL + "/api/appusers/saveAll");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -151,7 +177,7 @@ public class PresenterApi {
             if (stream.contains("is already in use")) {
                 String existingUser = 
                         stream.replace("{\"error_message\":\"Request processing failed; nested exception is java.lang.RuntimeException: The username ", "")
-                              .replace(" is already in use.\"}", "");
+                        .replace(" is already in use.\"}", "");
                 throw new IOException("O nome de usuário " + existingUser + " já está em uso.");
             } 
             return mapper.readValue(stream, mapper.getTypeFactory()
@@ -166,7 +192,7 @@ public class PresenterApi {
     }
     
     public Team saveTeam(Team team) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
+        
         URL url = new URL(BASE_URL + "/api/teams");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
@@ -199,6 +225,7 @@ public class PresenterApi {
     }
     
     public void addMemberParticipation(Team team, AppUser user) throws IOException {
+       
         URL url = new URL(BASE_URL + "/api/events/participations/add/member" +
                             "?eventCode=" + this.event.getCode() +
                             "&appUserId=" + user.getId() +
@@ -221,7 +248,7 @@ public class PresenterApi {
     }
     
     public Team updateTeam(Team team) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
+        
         URL url = new URL(BASE_URL + "/api/teams/" + team.getId());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("PUT");
@@ -256,7 +283,8 @@ public class PresenterApi {
     }
     
     public void updateMembersParticipations(Team team, List<String> usernames) throws IOException {
-        URL url = new URL(BASE_URL + "/api/events/teams/members/" + team.getId() +
+        
+       URL url = new URL(BASE_URL + "/api/events/teams/members/" + team.getId() +
                         "?eventCode=" + this.event.getCode());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("PUT");
@@ -292,6 +320,7 @@ public class PresenterApi {
     }
     
     public void deleteTeam(Long id) throws IOException {
+       
         URL url = new URL(BASE_URL + "/api/teams/" + id);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("DELETE");
