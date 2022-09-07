@@ -23,6 +23,8 @@ import javax.swing.Timer;
 import javax.swing.JOptionPane;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -1406,6 +1408,8 @@ public class presenterGui extends javax.swing.JFrame {
           List<Team> teams = api.findEventTeams();
           DefaultTableModel dados = (DefaultTableModel) rankingTabela.getModel();
           dados.setNumRows(0);
+          
+          Collections.sort(teams, (Team t1, Team t2) -> t2.getAverage().compareTo(t1.getAverage()));
 
           for (Team team : teams) {
              dados.addRow(new Object[]{
@@ -1413,7 +1417,7 @@ public class presenterGui extends javax.swing.JFrame {
                 team.getProject(),
                 team.getClassRoom(),
                 team.getAvaliationsQuantity(),
-                String.format("%.2f", team.getAverage())
+                String.format("%.1f", team.getAverage())
              });
           }
 

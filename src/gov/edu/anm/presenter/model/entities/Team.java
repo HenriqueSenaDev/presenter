@@ -21,7 +21,7 @@ public class Team {
         this.presented = presented;
         this.avaliationsQuantity = avaliationsQuantity;
     }
-
+    
     public Long getId() {
         return id;
     }

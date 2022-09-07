@@ -15,326 +15,403 @@ import java.util.List;
 
 public class PresenterApi {
 
-    private AppUser user;
-    private JWT tokens;
-    private Event event;
+   private AppUser user;
+   private JWT tokens;
+   private Event event;
 
-    private static final String BASE_URL = "http://localhost:8080";
-    private static final ObjectMapper mapper = new ObjectMapper();
+   private static final String BASE_URL = "https://presenter-api.herokuapp.com";
+   private static final ObjectMapper mapper = new ObjectMapper();
 
-    public void login(String username, String password) throws IOException {
+   public void login(String username, String password) throws IOException {
 
-        URL url = new URL(BASE_URL + "/login?username=" + username + "&password=" + password);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("POST");
+      URL url = new URL(BASE_URL + "/login?username=" + username + "&password=" + password);
+      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+      conn.setRequestMethod("POST");
 
-        try {
-            String stream = HttpUtils.getRequestInputStream(conn);
-            LoginResponse loginResponse = mapper.readValue(stream, LoginResponse.class);
-            JWT tokens = new JWT(loginResponse.getAccess_token(), loginResponse.getRefresh_token());
-            this.tokens = tokens;
+      try {
+         String stream = HttpUtils.getRequestInputStream(conn);
+         LoginResponse loginResponse = mapper.readValue(stream, LoginResponse.class);
+         JWT tokens = new JWT(loginResponse.getAccess_token(), loginResponse.getRefresh_token());
+         this.tokens = tokens;
 //            System.out.println(loginResponse);
 
-            url = new URL(BASE_URL + "/api/appusers?username=" + loginResponse.getUser());
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("Authorization", "Bearer " + tokens.getAccess_token());
+         url = new URL(BASE_URL + "/api/appusers?username=" + loginResponse.getUser());
+         conn = (HttpURLConnection) url.openConnection();
+         conn.setRequestMethod("GET");
+         conn.setRequestProperty("Authorization", "Bearer " + tokens.getAccess_token());
 
-            stream = HttpUtils.getRequestInputStream(conn);
-            AppUser user = mapper.readValue(stream, AppUser.class);
-            this.user = user;
+         stream = HttpUtils.getRequestInputStream(conn);
+         AppUser user = mapper.readValue(stream, AppUser.class);
+         this.user = user;
 //            System.out.println(user);
-        } 
-        catch (IOException e) {
-            throw new RuntimeException("Erro ao realizar o login:\n" + e.getMessage());
-        } 
-        finally {
-            conn.disconnect();
-        }
-    }
+      }
+      catch (IOException e) {
+         throw new RuntimeException("Erro ao realizar o login:\n" + e.getMessage());
+      }
+      finally {
+         conn.disconnect();
+      }
+   }
 
-    public void findEvent(Integer eventCode) throws IOException {
+   public void refreshToken() throws IOException {
 
-        URL url = new URL(BASE_URL + "/api/events/code/" + eventCode);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
+      URL url = new URL(BASE_URL + "/api/refreshtoken");
+      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+      conn.setRequestMethod("GET");
+      conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getRefresh_token());
 
-        try {
-            String stream = HttpUtils.getRequestInputStream(conn);
-            Event event = mapper.readValue(stream, Event.class);
-            this.event = event;
+      try {
+         String stream = HttpUtils.getRequestInputStream(conn);
+         LoginResponse loginResponse = mapper.readValue(stream, LoginResponse.class);
+         JWT tokens = new JWT(loginResponse.getAccess_token(), loginResponse.getRefresh_token());
+         this.tokens = tokens;
+         System.out.println("Refresh");
+//            System.out.println(loginResponse);
+      }
+      catch (IOException e) {
+         throw new RuntimeException("Erro ao realizar o login:\n" + e.getMessage());
+      }
+      finally {
+         conn.disconnect();
+      }
+   }
+
+   public void findEvent(Integer eventCode) throws IOException {
+
+      URL url = new URL(BASE_URL + "/api/events/code/" + eventCode);
+      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+      conn.setRequestMethod("GET");
+      conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
+
+      try {
+         String stream = HttpUtils.getRequestInputStream(conn);
+         if (stream.contains("The Token has expired")) {
+            refreshToken();
+            findEvent(eventCode);
+            return;
+         }
+         
+         Event event = mapper.readValue(stream, Event.class);
+         this.event = event;
 //            System.out.println(event);
-        } 
-        catch (IOException | IllegalArgumentException e) {
-            throw new RuntimeException("Erro ao buscar event:\n" + e.getMessage());
-        } 
-        finally {
-            conn.disconnect();
-        }
-    }
+      }
+      catch (IOException | IllegalArgumentException e) {
+         throw new RuntimeException("Erro ao buscar event:\n" + e.getMessage());
+      }
+      finally {
+         conn.disconnect();
+      }
+   }
 
-    public List<Team> findEventTeams() throws IOException {
-        
-        URL url = new URL(BASE_URL + "/api/events/teams/" + event.getId());
+   public List<Team> findEventTeams() throws IOException {
 
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
+      URL url = new URL(BASE_URL + "/api/events/teams/" + event.getId());
 
-        try {
-            String stream = HttpUtils.getRequestInputStream(conn);
-            List<Team> teams = mapper.readValue(stream, mapper.getTypeFactory()
-                    .constructCollectionType(List.class, Team.class));
+      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+      conn.setRequestMethod("GET");
+      conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
+
+      try {
+         String stream = HttpUtils.getRequestInputStream(conn);
+         if (stream.contains("The Token has expired")) {
+            refreshToken();
+            return findEventTeams();
+         }
+         
+         List<Team> teams = mapper.readValue(stream, mapper.getTypeFactory()
+                 .constructCollectionType(List.class, Team.class));
 //            teams.forEach(team -> System.out.println(team));
-            return teams;
-        } 
-        catch (IOException e) {
-            throw new RuntimeException("Erro na busca das equipes:\n" + e.getMessage());
-        } 
-        finally {
-            conn.disconnect();
-        }
-    }
-    
-    public List<Team> findEventTeamsByQuery(String value, String queryBy) throws IOException {
-       value = value.replace(" ", "+");
-       if (queryBy.equals("nome")) queryBy = "name";
-       if (queryBy.equals("projeto")) queryBy = "project";
-       if (queryBy.equals("aluno")) queryBy = "member";
-       
-       URL url = new URL(BASE_URL + "/api/teams/query?queryBy=" + queryBy 
-                              + "&eventId=" + this.event.getId()
-                              + "&value=" + value);
-       
-       HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-       conn.setRequestMethod("GET");
-       conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
-       
-       try {
-            String stream = HttpUtils.getRequestInputStream(conn);
-            List<Team> teams = mapper.readValue(stream, mapper.getTypeFactory()
-                    .constructCollectionType(List.class, Team.class));
-//            teams.forEach(team -> System.out.println(team));
-            return teams;
-        } 
-        catch (IOException e) {
-            throw new RuntimeException("Erro na busca das equipes:\n" + e.getMessage());
-        } 
-        finally {
-            conn.disconnect();
-        }
-    }
+         return teams;
+      }
+      catch (IOException e) {
+         throw new RuntimeException("Erro na busca das equipes:\n" + e.getMessage());
+      }
+      finally {
+         conn.disconnect();
+      }
+   }
 
-    public List<String> findTeamMembersUsernames(Team team) throws IOException {
-        
-        URL url = new URL(BASE_URL + "/api/teams/members/" + team.getId());
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
-        
-        try {
-            String stream = HttpUtils.getRequestInputStream(conn);
-            List<String> usernames = mapper.readValue(stream, mapper.getTypeFactory()
-                    .constructCollectionType(List.class, String.class));
+   public List<Team> findEventTeamsByQuery(String value, String queryBy) throws IOException {
+      value = value.replace(" ", "+");
+      if (queryBy.equals("nome")) {
+         queryBy = "name";
+      }
+      if (queryBy.equals("projeto")) {
+         queryBy = "project";
+      }
+      if (queryBy.equals("aluno")) {
+         queryBy = "member";
+      }
+
+      URL url = new URL(BASE_URL + "/api/teams/query?queryBy=" + queryBy
+              + "&eventId=" + this.event.getId()
+              + "&value=" + value);
+
+      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+      conn.setRequestMethod("GET");
+      conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
+
+      try {
+         String stream = HttpUtils.getRequestInputStream(conn);
+         if (stream.contains("The Token has expired")) {
+            refreshToken();
+            return findEventTeamsByQuery(value, queryBy);
+         }
+         
+         List<Team> teams = mapper.readValue(stream, mapper.getTypeFactory()
+                 .constructCollectionType(List.class, Team.class));
+//            teams.forEach(team -> System.out.println(team));
+         return teams;
+      }
+      catch (IOException e) {
+         throw new RuntimeException("Erro na busca das equipes:\n" + e.getMessage());
+      }
+      finally {
+         conn.disconnect();
+      }
+   }
+
+   public List<String> findTeamMembersUsernames(Team team) throws IOException {
+
+      URL url = new URL(BASE_URL + "/api/teams/members/" + team.getId());
+      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+      conn.setRequestMethod("GET");
+      conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
+
+      try {
+         String stream = HttpUtils.getRequestInputStream(conn);
+         if (stream.contains("The Token has expired")) {
+            refreshToken();
+            return findTeamMembersUsernames(team);
+         }
+         
+         List<String> usernames = mapper.readValue(stream, mapper.getTypeFactory()
+                 .constructCollectionType(List.class, String.class));
 //            usernames.forEach(username -> System.out.println(username));
-            return usernames;
-        } 
-        catch (IOException e) {
-            throw new RuntimeException("Erro na busca dos integrantes da equipe:\n" + e.getMessage());
-        }
-        finally {
-            conn.disconnect();
-        }
-    }
+         return usernames;
+      }
+      catch (IOException e) {
+         throw new RuntimeException("Erro na busca dos integrantes da equipe:\n" + e.getMessage());
+      }
+      finally {
+         conn.disconnect();
+      }
+   }
 
-    public List<AppUser> saveAppUsers(List<String> usernames) throws IOException {
-        
-        URL url = new URL(BASE_URL + "/api/appusers/saveAll");
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
-        conn.setRequestProperty("Content-Type", "application/json");
-        conn.setDoOutput(true);
-        
-        String bodyJSON = "[";
-        for (String username : usernames) {
-            bodyJSON += "{" +
-                            "\"username\": \"" + username + "\", " +
-                            "\"password\": " + "\"testpassforstudent\"" +
-                        "}, ";
-        }
-        bodyJSON = bodyJSON.substring(0, bodyJSON.length() - 2) + "]";
+   public List<AppUser> saveAppUsers(List<String> usernames) throws IOException {
+
+      URL url = new URL(BASE_URL + "/api/appusers/saveAll");
+      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+      conn.setRequestMethod("POST");
+      conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
+      conn.setRequestProperty("Content-Type", "application/json");
+      conn.setDoOutput(true);
+
+      String bodyJSON = "[";
+      for (String username : usernames) {
+         bodyJSON += "{"
+                 + "\"username\": \"" + username + "\", "
+                 + "\"password\": " + "\"testpassforstudent\""
+                 + "}, ";
+      }
+      bodyJSON = bodyJSON.substring(0, bodyJSON.length() - 2) + "]";
 //        System.out.println(bodyJSON);
-        
-        try(OutputStream os = conn.getOutputStream()) {
-            byte[] input = bodyJSON.getBytes("utf-8");
-            os.write(input, 0, input.length);
-            
-            String stream = HttpUtils.getRequestInputStream(conn);
+
+      try ( OutputStream os = conn.getOutputStream()) {
+         byte[] input = bodyJSON.getBytes("utf-8");
+         os.write(input, 0, input.length);
+
+         String stream = HttpUtils.getRequestInputStream(conn);
+         if (stream.contains("The Token has expired")) {
+            refreshToken();
+            return saveAppUsers(usernames);
+         }
+         
 //            System.out.println(stream);
-            if (stream.contains("is already in use")) {
-                String existingUser = 
-                        stream.replace("{\"error_message\":\"Request processing failed; nested exception is java.lang.RuntimeException: The username ", "")
-                        .replace(" is already in use.\"}", "");
-                throw new IOException("O nome de usuário " + existingUser + " já está em uso.");
-            } 
-            return mapper.readValue(stream, mapper.getTypeFactory()
-                    .constructCollectionType(List.class, AppUser.class));
-        }
-        catch (RuntimeException e) {
-            throw new RuntimeException("Erro ao salvar usuários:\n" + e.getMessage());
-        }
-        finally {
-            conn.disconnect();
-        }
-    }
-    
-    public Team saveTeam(Team team) throws IOException {
-        
-        URL url = new URL(BASE_URL + "/api/teams");
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
-        conn.setRequestProperty("Content-Type", "application/json");
-        conn.setDoOutput(true);
-        
-        String customJSONString = 
-                    "{" +
-                        "\"name\": \"" + team.getName() + "\", " +
-                        "\"project\": \"" + team.getProject() + "\", " +
-                        "\"classRoom\": \"" + team.getClassRoom() + "\"" +
-                    "}";
-        
-        try(OutputStream os = conn.getOutputStream()) {
-            byte[] input = customJSONString.getBytes("utf-8");
-            os.write(input, 0, input.length);
-            
-            String stream = HttpUtils.getRequestInputStream(conn);
-            Team savedTeam = mapper.readValue(stream, Team.class);
+         if (stream.contains("is already in use")) {
+            String existingUser
+                    = stream.replace("{\"error_message\":\"Request processing failed; nested exception is java.lang.RuntimeException: The username ", "")
+                            .replace(" is already in use.\"}", "");
+            throw new IOException("O nome de usuário " + existingUser + " já está em uso.");
+         }
+         return mapper.readValue(stream, mapper.getTypeFactory()
+                 .constructCollectionType(List.class, AppUser.class));
+      }
+      catch (RuntimeException e) {
+         throw new RuntimeException("Erro ao salvar usuários:\n" + e.getMessage());
+      }
+      finally {
+         conn.disconnect();
+      }
+   }
+
+   public Team saveTeam(Team team) throws IOException {
+
+      URL url = new URL(BASE_URL + "/api/teams");
+      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+      conn.setRequestMethod("POST");
+      conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
+      conn.setRequestProperty("Content-Type", "application/json");
+      conn.setDoOutput(true);
+
+      String customJSONString
+              = "{"
+              + "\"name\": \"" + team.getName() + "\", "
+              + "\"project\": \"" + team.getProject() + "\", "
+              + "\"classRoom\": \"" + team.getClassRoom() + "\""
+              + "}";
+
+      try ( OutputStream os = conn.getOutputStream()) {
+         byte[] input = customJSONString.getBytes("utf-8");
+         os.write(input, 0, input.length);
+
+         String stream = HttpUtils.getRequestInputStream(conn);
+         if (stream.contains("The Token has expired")) {
+            refreshToken();
+            return saveTeam(team);
+         }
+         
+         Team savedTeam = mapper.readValue(stream, Team.class);
 //            System.out.println(savedTeam);
-            return savedTeam;
-        }
-        catch (IOException e) {
-            throw new RuntimeException("Erro ao salvar equipe:\n" + e.getMessage());
-        }
-        finally {
-            conn.disconnect();
-        }
-    }
-    
-    public void addMemberParticipation(Team team, AppUser user) throws IOException {
-       
-        URL url = new URL(BASE_URL + "/api/events/participations/add/member" +
-                            "?eventCode=" + this.event.getCode() +
-                            "&appUserId=" + user.getId() +
-                            "&teamId=" + team.getId()
-                        );
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
-        
-        try {
-            String stream = HttpUtils.getRequestInputStream(conn);
+         return savedTeam;
+      }
+      catch (IOException e) {
+         throw new RuntimeException("Erro ao salvar equipe:\n" + e.getMessage());
+      }
+      finally {
+         conn.disconnect();
+      }
+   }
+
+   public void addMemberParticipation(Team team, AppUser user) throws IOException {
+
+      URL url = new URL(BASE_URL + "/api/events/participations/add/member"
+              + "?eventCode=" + this.event.getCode()
+              + "&appUserId=" + user.getId()
+              + "&teamId=" + team.getId()
+      );
+      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+      conn.setRequestMethod("POST");
+      conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
+
+      try {
+         String stream = HttpUtils.getRequestInputStream(conn);
+         if (stream.contains("The Token has expired")) {
+            refreshToken();
+            addMemberParticipation(team, user);
+         }
 //            System.out.println(stream);
-        } 
-        catch (IOException e) {
-            throw new IOException("Erro ao adicionar a participação:\n" + e.getMessage());
-        }
-        finally {
-            conn.disconnect();
-        }
-    }
-    
-    public Team updateTeam(Team team) throws IOException {
-        
-        URL url = new URL(BASE_URL + "/api/teams/" + team.getId());
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("PUT");
-        conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
-        conn.setRequestProperty("Content-Type", "application/json");
-        conn.setDoOutput(true);
-        
-        String customJSONString = 
-                    "{" +
-                        "\"name\": \"" + team.getName() + "\", " +
-                        "\"project\": \"" + team.getProject() + "\", " +
-                        "\"classRoom\": \"" + team.getClassRoom() + "\", " +
-                        "\"presented\": \"" + team.getPresented() + "\"" +
-                    "}";
+      }
+      catch (IOException e) {
+         throw new IOException("Erro ao adicionar a participação:\n" + e.getMessage());
+      }
+      finally {
+         conn.disconnect();
+      }
+   }
+
+   public Team updateTeam(Team team) throws IOException {
+
+      URL url = new URL(BASE_URL + "/api/teams/" + team.getId());
+      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+      conn.setRequestMethod("PUT");
+      conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
+      conn.setRequestProperty("Content-Type", "application/json");
+      conn.setDoOutput(true);
+
+      String customJSONString
+              = "{"
+              + "\"name\": \"" + team.getName() + "\", "
+              + "\"project\": \"" + team.getProject() + "\", "
+              + "\"classRoom\": \"" + team.getClassRoom() + "\", "
+              + "\"presented\": \"" + team.getPresented() + "\""
+              + "}";
 //        System.out.println(customJSONString);
-        
-        try(OutputStream os = conn.getOutputStream()) {
-            byte[] input = customJSONString.getBytes("utf-8");
-            os.write(input, 0, input.length);
-            
-            String stream = HttpUtils.getRequestInputStream(conn);
-            Team savedTeam = mapper.readValue(stream, Team.class);
+
+      try ( OutputStream os = conn.getOutputStream()) {
+         byte[] input = customJSONString.getBytes("utf-8");
+         os.write(input, 0, input.length);
+
+         String stream = HttpUtils.getRequestInputStream(conn);
+         if (stream.contains("The Token has expired")) {
+            refreshToken();
+            return updateTeam(team);
+         }
+         
+         Team savedTeam = mapper.readValue(stream, Team.class);
 //            System.out.println(savedTeam);
-            return savedTeam;
-        }
-        catch (IOException e) {
-            throw new IOException("Erro ao editar a equipe:\n" + e.getMessage());
-        }
-        finally {
-            conn.disconnect();
-        }
-    }
-    
-    public void updateMembersParticipations(Team team, List<String> usernames) throws IOException {
-        
-       URL url = new URL(BASE_URL + "/api/events/teams/members/" + team.getId() +
-                        "?eventCode=" + this.event.getCode());
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("PUT");
-        conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
-        conn.setRequestProperty("Content-Type", "application/json");
-        conn.setDoOutput(true);
-        
-        String bodyJSON = "[";
-        if (!usernames.isEmpty()) {
-            for (String username : usernames) {
-                bodyJSON += "\"" + username + "\",";
-            }
-            bodyJSON = bodyJSON.substring(0, bodyJSON.length() - 1) + "]";
-        }
-        else {
-            bodyJSON += "]";
-        }
+         return savedTeam;
+      }
+      catch (IOException e) {
+         throw new IOException("Erro ao editar a equipe:\n" + e.getMessage());
+      }
+      finally {
+         conn.disconnect();
+      }
+   }
+
+   public void updateMembersParticipations(Team team, List<String> usernames) throws IOException {
+
+      URL url = new URL(BASE_URL + "/api/events/teams/members/" + team.getId()
+              + "?eventCode=" + this.event.getCode());
+      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+      conn.setRequestMethod("PUT");
+      conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
+      conn.setRequestProperty("Content-Type", "application/json");
+      conn.setDoOutput(true);
+
+      String bodyJSON = "[";
+      if (!usernames.isEmpty()) {
+         for (String username : usernames) {
+            bodyJSON += "\"" + username + "\",";
+         }
+         bodyJSON = bodyJSON.substring(0, bodyJSON.length() - 1) + "]";
+      }
+      else {
+         bodyJSON += "]";
+      }
 //        System.out.println(bodyJSON);
-        
-        try(OutputStream os = conn.getOutputStream()) {
-            byte[] input = bodyJSON.getBytes("utf-8");
-            os.write(input, 0, input.length);
-            
-            String stream = HttpUtils.getRequestInputStream(conn);
+
+      try ( OutputStream os = conn.getOutputStream()) {
+         byte[] input = bodyJSON.getBytes("utf-8");
+         os.write(input, 0, input.length);
+
+         String stream = HttpUtils.getRequestInputStream(conn);
+         if (stream.contains("The Token has expired")) {
+            refreshToken();
+            updateMembersParticipations(team, usernames);
+         }
 //            System.out.println(stream);
-        } 
-        catch (IOException e) {
-            throw new IOException("Erro ao editar os usuários:\n" + e.getMessage());
-        }
-        finally {
-            conn.disconnect();
-        }
-    }
-    
-    public void deleteTeam(Long id) throws IOException {
-       
-        URL url = new URL(BASE_URL + "/api/teams/" + id);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("DELETE");
-        conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
-        
-        try {
-            String stream = HttpUtils.getRequestInputStream(conn);
+      }
+      catch (IOException e) {
+         throw new IOException("Erro ao editar os usuários:\n" + e.getMessage());
+      }
+      finally {
+         conn.disconnect();
+      }
+   }
+
+   public void deleteTeam(Long id) throws IOException {
+
+      URL url = new URL(BASE_URL + "/api/teams/" + id);
+      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+      conn.setRequestMethod("DELETE");
+      conn.setRequestProperty("Authorization", "Bearer " + this.tokens.getAccess_token());
+
+      try {
+         String stream = HttpUtils.getRequestInputStream(conn);
+         if (stream.contains("The Token has expired")) {
+            refreshToken();
+            deleteTeam(id);
+         }
 //            System.out.println(stream);
-        } 
-        catch (IOException e) {
-            throw new RuntimeException("Erro ao excluir a equipe:\n" + e.getMessage());
-        }
-        finally {
-            conn.disconnect();
-        }
-    }
-    
+      }
+      catch (IOException e) {
+         throw new RuntimeException("Erro ao excluir a equipe:\n" + e.getMessage());
+      }
+      finally {
+         conn.disconnect();
+      }
+   }
+
 }
