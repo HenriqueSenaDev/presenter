@@ -1,13 +1,13 @@
-package gov.edu.anm.presenter.model.entities;
+package gov.edu.anm.presenter.domain.appuser;
 
-public class JWT {
+public class AppUserTokens {
     private String access_token;
     private String refresh_token;
 
-    public JWT(){
+    public AppUserTokens(){
     }
     
-    public JWT(String access_token, String refresh_token) {
+    public AppUserTokens(String access_token, String refresh_token) {
         this.access_token = access_token;
         this.refresh_token = refresh_token;
     }
