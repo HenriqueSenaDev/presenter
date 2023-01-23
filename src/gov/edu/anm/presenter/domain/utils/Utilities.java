@@ -1,4 +1,4 @@
-package gov.edu.anm.presenter.model.utils;
+package gov.edu.anm.presenter.domain.utils;
 
 import java.awt.Component;
 import javax.swing.DefaultListModel;
