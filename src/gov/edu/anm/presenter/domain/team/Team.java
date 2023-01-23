@@ -1,27 +1,28 @@
-package gov.edu.anm.presenter.model.entities;
+package gov.edu.anm.presenter.domain.team;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Team {
     private Long id;
     private String name;
     private String project;
-    private String classRoom;
+    private String clasroom;
     private Double average;
     private Boolean presented;
-    private Integer avaliationsQuantity;
+    private List<String> members = new ArrayList<>();
 
-    public Team() {
-    }
-
-    public Team(Long id, String name, String project, String classRoom, Double average, Boolean presented, Integer avaliationsQuantity) {
+    public Team(Long id, String name, String project, String clasroom, Double average,
+                Boolean presented, List<String> members) {
         this.id = id;
         this.name = name;
         this.project = project;
-        this.classRoom = classRoom;
+        this.clasroom = clasroom;
         this.average = average;
         this.presented = presented;
-        this.avaliationsQuantity = avaliationsQuantity;
+        this.members = members;
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -46,12 +47,12 @@ public class Team {
         this.project = project;
     }
 
-    public String getClassRoom() {
-        return classRoom;
+    public String getClasroom() {
+        return clasroom;
     }
 
-    public void setClassRoom(String classRoom) {
-        this.classRoom = classRoom;
+    public void setClasroom(String clasroom) {
+        this.clasroom = clasroom;
     }
 
     public Double getAverage() {
@@ -70,17 +71,11 @@ public class Team {
         this.presented = presented;
     }
 
-    public Integer getAvaliationsQuantity() {
-        return avaliationsQuantity;
+    public List<String> getMembers() {
+        return members;
     }
 
-    public void setAvaliationsQuantity(Integer avaliationsQuantity) {
-        this.avaliationsQuantity = avaliationsQuantity;
+    public void setMembers(List<String> members) {
+        this.members = members;
     }
-
-    @Override
-    public String toString() {
-        return "Team{" + "id=" + id + ", name=" + name + ", project=" + project + ", classRoom=" + classRoom + ", average=" + average + ", presented=" + presented + ", avaliationsQuantity=" + avaliationsQuantity + '}';
-    }
-    
 }
