@@ -1,0 +1,133 @@
+package gov.edu.anm.presenter.services;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import gov.edu.anm.presenter.domain.appuser.AppUserTokens;
+import gov.edu.anm.presenter.domain.auth.AuthRequestDto;
+import gov.edu.anm.presenter.domain.auth.AuthResponseDto;
+import gov.edu.anm.presenter.domain.auth.RefreshRequestDto;
+import gov.edu.anm.presenter.domain.auth.RefreshResponseDto;
+import gov.edu.anm.presenter.domain.event.Event;
+import gov.edu.anm.presenter.domain.team.Team;
+import gov.edu.anm.presenter.domain.team.TeamCreateDto;
+import gov.edu.anm.presenter.domain.team.TeamUpdateDto;
+
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+
+public class PresenterService {
+    private final HttpClient httpClient;
+    private final ObjectMapper mapper;
+
+    private static final String SERVER_HOST = "http://localhost:8080";
+    private static final String BASE_URL = SERVER_HOST + "/api";
+
+    public PresenterService(HttpClient httpClient, ObjectMapper mapper) {
+        this.httpClient = httpClient;
+        this.mapper = mapper;
+    }
+
+    public AuthResponseDto authenticate(String username, String password) throws RuntimeException {
+       try {
+           var authBody = new AuthRequestDto(username, password);
+           HttpRequest req = HttpRequest.newBuilder()
+                   .uri(URI.create(BASE_URL + "/auth/authenticate"))
+                   .POST(HttpRequest.BodyPublishers.ofString(this.mapper.writeValueAsString(authBody)))
+                   .timeout(Duration.ofSeconds(3))
+                   .build();
+
+          HttpResponse<String> res = this.httpClient.send(req, HttpResponse.BodyHandlers.ofString());
+          return mapper.readValue(res.body(), AuthResponseDto.class);
+       }
+       catch (Exception e) {
+          throw new RuntimeException("Erro ao realizar login:\n" + e.getMessage());
+       }
+    }
+
+    public RefreshResponseDto refreshToken(String refresh_token) throws RuntimeException {
+        try {
+            var refreshBody = new RefreshRequestDto(refresh_token);
+            HttpRequest req = HttpRequest.newBuilder()
+                    .uri(URI.create(BASE_URL + "/auth/refresh"))
+                    .POST(HttpRequest.BodyPublishers.ofString(this.mapper.writeValueAsString(refreshBody)))
+                    .timeout(Duration.ofSeconds(3))
+                    .build();
+
+            HttpResponse<String> res = this.httpClient.send(req, HttpResponse.BodyHandlers.ofString());
+            return mapper.readValue(res.body(), RefreshResponseDto.class);
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Erro ao atualizar sessão:\n" + e.getMessage());
+        }
+    }
+
+    public Event findEventByJoinCode(String eventJoinCode, AppUserTokens tokens) throws RuntimeException {
+        try {
+            HttpRequest req = HttpRequest.newBuilder()
+                    .uri(URI.create(BASE_URL + "/events/code/" + eventJoinCode))
+                    .GET()
+                    .header("Authorization", "Bearer " + tokens.getAccess_token())
+                    .timeout(Duration.ofSeconds(3))
+                    .build();
+
+            HttpResponse<String> res = this.httpClient.send(req, HttpResponse.BodyHandlers.ofString());
+            return mapper.readValue(res.body(), Event.class);
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Erro ao buscar evento:\n" + e.getMessage());
+        }
+    }
+
+    public Event putTeamInEvent(TeamCreateDto teamCreateDto, Long eventId, AppUserTokens tokens) throws RuntimeException {
+        try {
+            HttpRequest req = HttpRequest.newBuilder()
+                    .uri(URI.create(BASE_URL + "/events/" + eventId + "/teams"))
+                    .PUT(HttpRequest.BodyPublishers.ofString(this.mapper.writeValueAsString(teamCreateDto)))
+                    .header("Authorization", "Bearer " + tokens.getAccess_token())
+                    .timeout(Duration.ofSeconds(3))
+                    .build();
+
+            HttpResponse<String> res = this.httpClient.send(req, HttpResponse.BodyHandlers.ofString());
+            return mapper.readValue(res.body(), Event.class);
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Erro ao salvar equipe:\n" + e.getMessage());
+        }
+    }
+
+    public Team updateTeam(TeamUpdateDto teamUpdateDto, Long teamId, AppUserTokens tokens) throws RuntimeException {
+        try {
+            HttpRequest req = HttpRequest.newBuilder()
+                    .uri(URI.create(BASE_URL + "/teams/" + teamId))
+                    .PUT(HttpRequest.BodyPublishers.ofString(this.mapper.writeValueAsString(teamUpdateDto)))
+                    .header("Authorization", "Bearer " + tokens.getAccess_token())
+                    .timeout(Duration.ofSeconds(3))
+                    .build();
+
+            HttpResponse<String> res = this.httpClient.send(req, HttpResponse.BodyHandlers.ofString());
+            return mapper.readValue(res.body(), Team.class);
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Erro ao atualizar equipe:\n" + e.getMessage());
+        }
+    }
+
+    public void deleteTeam(Long teamId, AppUserTokens tokens) throws RuntimeException {
+        try {
+            HttpRequest req = HttpRequest.newBuilder()
+                    .uri(URI.create(BASE_URL + "/teams/" + teamId))
+                    .DELETE()
+                    .header("Authorization", "Bearer " + tokens.getAccess_token())
+                    .timeout(Duration.ofSeconds(3))
+                    .build();
+
+            this.httpClient.send(req, HttpResponse.BodyHandlers.ofString());
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Erro ao excluir a equipe:\n" + e.getMessage());
+        }
+    }
+
+}
