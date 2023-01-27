@@ -10,12 +10,12 @@ import gov.edu.anm.presenter.domain.event.Event;
 import gov.edu.anm.presenter.domain.team.Team;
 import gov.edu.anm.presenter.domain.team.TeamCreateDto;
 import gov.edu.anm.presenter.domain.team.TeamUpdateDto;
+import gov.edu.anm.presenter.domain.utils.HttpUtils;
 
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.time.Duration;
 
 public class PresenterService {
     private final HttpClient httpClient;
@@ -32,11 +32,7 @@ public class PresenterService {
     public AuthResponseDto authenticate(String username, String password) throws RuntimeException {
        try {
            var authBody = new AuthRequestDto(username, password);
-           HttpRequest req = HttpRequest.newBuilder()
-                   .uri(URI.create(BASE_URL + "/auth/authenticate"))
-                   .POST(HttpRequest.BodyPublishers.ofString(this.mapper.writeValueAsString(authBody)))
-                   .timeout(Duration.ofSeconds(3))
-                   .build();
+           HttpRequest req = HttpUtils.createPostRequest(URI.create(BASE_URL + "/auth/authenticate"), authBody, mapper);
 
           HttpResponse<String> res = this.httpClient.send(req, HttpResponse.BodyHandlers.ofString());
           return mapper.readValue(res.body(), AuthResponseDto.class);
@@ -49,11 +45,9 @@ public class PresenterService {
     public RefreshResponseDto refreshToken(String refresh_token) throws RuntimeException {
         try {
             var refreshBody = new RefreshRequestDto(refresh_token);
-            HttpRequest req = HttpRequest.newBuilder()
-                    .uri(URI.create(BASE_URL + "/auth/refresh"))
-                    .POST(HttpRequest.BodyPublishers.ofString(this.mapper.writeValueAsString(refreshBody)))
-                    .timeout(Duration.ofSeconds(3))
-                    .build();
+            HttpRequest req = HttpUtils.createPostRequest(
+                    URI.create(BASE_URL + "/auth/refresh"), refreshBody, mapper
+            );
 
             HttpResponse<String> res = this.httpClient.send(req, HttpResponse.BodyHandlers.ofString());
             return mapper.readValue(res.body(), RefreshResponseDto.class);
@@ -65,12 +59,10 @@ public class PresenterService {
 
     public Event findEventByJoinCode(String eventJoinCode, AppUserTokens tokens) throws RuntimeException {
         try {
-            HttpRequest req = HttpRequest.newBuilder()
-                    .uri(URI.create(BASE_URL + "/events/code/" + eventJoinCode))
-                    .GET()
-                    .header("Authorization", "Bearer " + tokens.getAccess_token())
-                    .timeout(Duration.ofSeconds(3))
-                    .build();
+            HttpRequest req = HttpUtils.createGetRequestWithBearerAuth(
+                    URI.create(BASE_URL + "/events/code/" + eventJoinCode),
+                    tokens.getAccess_token()
+            );
 
             HttpResponse<String> res = this.httpClient.send(req, HttpResponse.BodyHandlers.ofString());
             return mapper.readValue(res.body(), Event.class);
@@ -82,12 +74,12 @@ public class PresenterService {
 
     public Event putTeamInEvent(TeamCreateDto teamCreateDto, Long eventId, AppUserTokens tokens) throws RuntimeException {
         try {
-            HttpRequest req = HttpRequest.newBuilder()
-                    .uri(URI.create(BASE_URL + "/events/" + eventId + "/teams"))
-                    .PUT(HttpRequest.BodyPublishers.ofString(this.mapper.writeValueAsString(teamCreateDto)))
-                    .header("Authorization", "Bearer " + tokens.getAccess_token())
-                    .timeout(Duration.ofSeconds(3))
-                    .build();
+            HttpRequest req = HttpUtils.createPutRequestWithBearerAuth(
+                    URI.create(BASE_URL + "/events/" + eventId + "/teams"),
+                    teamCreateDto,
+                    tokens.getAccess_token(),
+                    mapper
+            );
 
             HttpResponse<String> res = this.httpClient.send(req, HttpResponse.BodyHandlers.ofString());
             return mapper.readValue(res.body(), Event.class);
@@ -99,12 +91,12 @@ public class PresenterService {
 
     public Team updateTeam(TeamUpdateDto teamUpdateDto, Long teamId, AppUserTokens tokens) throws RuntimeException {
         try {
-            HttpRequest req = HttpRequest.newBuilder()
-                    .uri(URI.create(BASE_URL + "/teams/" + teamId))
-                    .PUT(HttpRequest.BodyPublishers.ofString(this.mapper.writeValueAsString(teamUpdateDto)))
-                    .header("Authorization", "Bearer " + tokens.getAccess_token())
-                    .timeout(Duration.ofSeconds(3))
-                    .build();
+            HttpRequest req = HttpUtils.createPutRequestWithBearerAuth(
+                    URI.create(BASE_URL + "/teams/" + teamId),
+                    teamUpdateDto,
+                    tokens.getAccess_token(),
+                    mapper
+            );
 
             HttpResponse<String> res = this.httpClient.send(req, HttpResponse.BodyHandlers.ofString());
             return mapper.readValue(res.body(), Team.class);
@@ -116,12 +108,9 @@ public class PresenterService {
 
     public void deleteTeam(Long teamId, AppUserTokens tokens) throws RuntimeException {
         try {
-            HttpRequest req = HttpRequest.newBuilder()
-                    .uri(URI.create(BASE_URL + "/teams/" + teamId))
-                    .DELETE()
-                    .header("Authorization", "Bearer " + tokens.getAccess_token())
-                    .timeout(Duration.ofSeconds(3))
-                    .build();
+            HttpRequest req = HttpUtils.createDeleteRequestWithBearerAuth(
+                    URI.create(BASE_URL + "/teams/" + teamId), tokens.getAccess_token()
+            );
 
             this.httpClient.send(req, HttpResponse.BodyHandlers.ofString());
         }
