@@ -4,8 +4,7 @@ public class AppUserTokens {
     private String access_token;
     private String refresh_token;
 
-    public AppUserTokens(){
-    }
+    public AppUserTokens(){}
     
     public AppUserTokens(String access_token, String refresh_token) {
         this.access_token = access_token;

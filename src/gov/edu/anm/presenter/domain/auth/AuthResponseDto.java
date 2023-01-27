@@ -7,6 +7,7 @@ public class AuthResponseDto {
     private String refresh_token;
     private AppUser profile;
 
+    public AuthResponseDto() {}
     public AuthResponseDto(String access_token, String refresh_token, AppUser profile) {
         this.access_token = access_token;
         this.refresh_token = refresh_token;
