@@ -201,7 +201,7 @@ public class presenterGui extends javax.swing.JFrame {
       minemizeLabel.setPreferredSize(new java.awt.Dimension(25, 23));
       minemizeLabel.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {
-            minemizeLabelMouseClicked(evt);
+            minimizeWindow(evt);
          }
       });
       gridBagConstraints = new java.awt.GridBagConstraints();
@@ -214,7 +214,7 @@ public class presenterGui extends javax.swing.JFrame {
       closeLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/assets/images/closeIcon.png"))); // NOI18N
       closeLabel.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {
-            closeLabelMouseClicked(evt);
+            closeWindow(evt);
          }
       });
       gridBagConstraints = new java.awt.GridBagConstraints();
@@ -238,7 +238,7 @@ public class presenterGui extends javax.swing.JFrame {
       menuIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/assets/images/menuIcon.png"))); // NOI18N
       menuIcon.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {
-            menuIconMouseClicked(evt);
+            toggleMenu(evt);
          }
       });
       gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1214,34 +1214,34 @@ public class presenterGui extends javax.swing.JFrame {
       setSize(new java.awt.Dimension(899, 589));
       setLocationRelativeTo(null);
    }// </editor-fold>//GEN-END:initComponents
-   
-   // Program bar and header event buttons
-    private void minemizeLabelMouseClicked(java.awt.event.MouseEvent evt) {
-       this.setState(JFrame.ICONIFIED);
-    }
 
-   private void closeLabelMouseClicked(java.awt.event.MouseEvent evt) {
+   // Program bar and header event buttons
+   private void minimizeWindow(java.awt.event.MouseEvent evt) {
+      this.setState(JFrame.ICONIFIED);
+   }
+
+   private void closeWindow(java.awt.event.MouseEvent evt) {
       System.exit(0);
    }
 
-    private void menuIconMouseClicked(java.awt.event.MouseEvent evt) {
-       if (contentPanel.isVisible()) {
-          contentPanel.setVisible(false);
-          contentPanel.setEnabled(false);
-          menuBar.setVisible(true);
-          menuBar.setEnabled(true);
-          menuRightPanel.setVisible(true);
-          menuRightPanel.setEnabled(true);
-       }
-       else {
-          contentPanel.setVisible(true);
-          contentPanel.setEnabled(true);
-          menuBar.setVisible(false);
-          menuBar.setEnabled(false);
-          menuRightPanel.setVisible(false);
-          menuRightPanel.setEnabled(false);
-       }
-    }
+   private void toggleMenu(java.awt.event.MouseEvent evt) {
+      if (contentPanel.isVisible()) {
+         contentPanel.setVisible(false);
+         contentPanel.setEnabled(false);
+         menuBar.setVisible(true);
+         menuBar.setEnabled(true);
+         menuRightPanel.setVisible(true);
+         menuRightPanel.setEnabled(true);
+      }
+      else {
+         contentPanel.setVisible(true);
+         contentPanel.setEnabled(true);
+         menuBar.setVisible(false);
+         menuBar.setEnabled(false);
+         menuRightPanel.setVisible(false);
+         menuRightPanel.setEnabled(false);
+      }
+   }
 
     // Menu bar mouse hover events
     private void equipesMenuLabelMouseEntered(java.awt.event.MouseEvent evt) {
