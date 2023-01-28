@@ -8,7 +8,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JViewport;
 
-public class Utilities {
+public class SwingUtils {
     
     public void limparTela(JPanel panel) {
         Component components[] = panel.getComponents();
