@@ -609,26 +609,26 @@ public class presenterGui extends javax.swing.JFrame {
       equipeTabela.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
       equipeTabela.setForeground(new java.awt.Color(255, 255, 255));
       equipeTabela.setModel(new javax.swing.table.DefaultTableModel(
-         new Object [][] {
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null}
-         },
-         new String [] {
-            "Id", "Nome", "Projeto", "Turma", "Alunos"
-         }
+              new Object [][] {
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null}
+              },
+              new String [] {
+                      "Id", "Nome", "Projeto", "Turma", "Alunos"
+              }
       ) {
          boolean[] canEdit = new boolean [] {
-            false, false, false, false, false
+                 false, false, false, false, false
          };
 
          public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -959,33 +959,33 @@ public class presenterGui extends javax.swing.JFrame {
       rankingTabela.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
       rankingTabela.setForeground(new java.awt.Color(255, 255, 255));
       rankingTabela.setModel(new javax.swing.table.DefaultTableModel(
-         new Object [][] {
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null}
-         },
-         new String [] {
-            "Equipe", "Projeto", "Turma", "Avaliações", "Média Geral"
-         }
+              new Object [][] {
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null}
+              },
+              new String [] {
+                      "Equipe", "Projeto", "Turma", "Avaliações", "Média Geral"
+              }
       ) {
          boolean[] canEdit = new boolean [] {
-            false, false, false, false, false
+                 false, false, false, false, false
          };
 
          public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1055,10 +1055,10 @@ public class presenterGui extends javax.swing.JFrame {
             equipesMenuLabelMouseClicked(evt);
          }
          public void mouseEntered(java.awt.event.MouseEvent evt) {
-            equipesMenuLabelMouseEntered(evt);
+            menuLabelBackgroundHover(equipesActivePanel);
          }
          public void mouseExited(java.awt.event.MouseEvent evt) {
-            equipesMenuLabelMouseExited(evt);
+            menuLabelBackgroundOut(equipesActivePanel);
          }
       });
       gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1090,10 +1090,10 @@ public class presenterGui extends javax.swing.JFrame {
             tempMenuLabelMouseClicked(evt);
          }
          public void mouseEntered(java.awt.event.MouseEvent evt) {
-            tempMenuLabelMouseEntered(evt);
+            menuLabelBackgroundHover(temporizadorActivePanel);
          }
          public void mouseExited(java.awt.event.MouseEvent evt) {
-            tempMenuLabelMouseExited(evt);
+            menuLabelBackgroundOut(temporizadorActivePanel);
          }
       });
       gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1124,10 +1124,10 @@ public class presenterGui extends javax.swing.JFrame {
             sorteadorMenuLabelMouseClicked(evt);
          }
          public void mouseEntered(java.awt.event.MouseEvent evt) {
-            sorteadorMenuLabelMouseEntered(evt);
+            menuLabelBackgroundHover(sorteadorMenuActivePanel);
          }
          public void mouseExited(java.awt.event.MouseEvent evt) {
-            sorteadorMenuLabelMouseExited(evt);
+            menuLabelBackgroundOut(sorteadorMenuActivePanel);
          }
       });
       gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1243,30 +1243,14 @@ public class presenterGui extends javax.swing.JFrame {
       }
    }
 
-    // Menu bar mouse hover events
-    private void equipesMenuLabelMouseEntered(java.awt.event.MouseEvent evt) {
-       equipesActivePanel.setBackground(new Color(255, 255, 255));
-    }
+   // Menu mouse hover events
+   private void menuLabelBackgroundHover(JPanel panel){
+      panel.setBackground(new Color(255, 255, 255));
+   }
 
-    private void equipesMenuLabelMouseExited(java.awt.event.MouseEvent evt) {
-       equipesActivePanel.setBackground(new Color(173, 211, 250));
-    }
-
-    private void tempMenuLabelMouseEntered(java.awt.event.MouseEvent evt) {
-       temporizadorActivePanel.setBackground(new Color(255, 255, 255));
-    }
-
-    private void tempMenuLabelMouseExited(java.awt.event.MouseEvent evt) {
-       temporizadorActivePanel.setBackground(new Color(173, 211, 250));
-    }
-
-    private void sorteadorMenuLabelMouseEntered(java.awt.event.MouseEvent evt) {
-       sorteadorMenuActivePanel.setBackground(new Color(255, 255, 255));
-    }
-
-    private void sorteadorMenuLabelMouseExited(java.awt.event.MouseEvent evt) {
-       sorteadorMenuActivePanel.setBackground(new Color(173, 211, 250));
-    }
+   private void menuLabelBackgroundOut(JPanel panel){
+      panel.setBackground(new Color(173, 211, 250));
+   }
 
     // Menu items clicked events
     private void equipesMenuLabelMouseClicked(java.awt.event.MouseEvent evt) {
