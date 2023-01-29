@@ -5,11 +5,13 @@ import gov.edu.anm.presenter.domain.appuser.AppUser;
 import gov.edu.anm.presenter.domain.appuser.AppUserTokens;
 import gov.edu.anm.presenter.domain.auth.AuthResponseDto;
 import gov.edu.anm.presenter.domain.event.Event;
+import gov.edu.anm.presenter.domain.team.Team;
 import gov.edu.anm.presenter.domain.utils.SwingUtils;
 import gov.edu.anm.presenter.services.PresenterService;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +20,7 @@ import java.io.IOException;
 import java.net.http.HttpClient;
 import java.time.Duration;
 import java.util.Locale;
+import java.util.List;
 
 public class presenterGui extends javax.swing.JFrame {
 
@@ -1293,12 +1296,24 @@ public class presenterGui extends javax.swing.JFrame {
           }
           sorteadorEquipesRestandoLabel.setText(label);
 
-          teamsToPresent = eventTeams.stream().map(team -> team.getName()).collect(Collectors.toList());
-       }
-       catch (IOException e) {
-          JOptionPane.showMessageDialog(null, e.getMessage());
-       }
-    }//GEN-LAST:event_sorteadorMenuLabelMouseClicked
+   // Window activated
+   private void addEventTeamsToTable() {
+      DefaultTableModel dados = (DefaultTableModel) equipeTabela.getModel();
+      dados.setNumRows(0);
+
+      this.event.getTeams().forEach(team ->
+              dados.addRow(new Object[]{
+                      team.getId(),
+                      team.getName(),
+                      team.getProject(),
+                      team.getClassroom(),
+                      team.getMembersToString()
+              }));
+   }
+
+   private void formWindowActivated(java.awt.event.WindowEvent evt) {
+      addEventTeamsToTable();
+   }
 
     private void tempoPlayLabelMouseClicked(java.awt.event.MouseEvent evt) {
        if (tempoDuracaoComboBox.getSelectedItem().toString().equals("Customizado")) {

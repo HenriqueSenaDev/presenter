@@ -2,24 +2,29 @@ package gov.edu.anm.presenter.domain.team;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Team {
     private Long id;
     private String name;
     private String project;
-    private String clasroom;
+    private String classroom;
     private Double average;
     private Boolean presented;
+    private Integer avaliationsQuantity;
     private List<String> members = new ArrayList<>();
 
-    public Team(Long id, String name, String project, String clasroom, Double average,
-                Boolean presented, List<String> members) {
+    public Team(){}
+
+    public Team(Long id, String name, String project, String classroom, Double average,
+                Boolean presented, Integer avaliationsQuantity, List<String> members) {
         this.id = id;
         this.name = name;
         this.project = project;
-        this.clasroom = clasroom;
+        this.classroom = classroom;
         this.average = average;
         this.presented = presented;
+        this.avaliationsQuantity = avaliationsQuantity;
         this.members = members;
     }
 
@@ -47,12 +52,12 @@ public class Team {
         this.project = project;
     }
 
-    public String getClasroom() {
-        return clasroom;
+    public String getClassroom() {
+        return classroom;
     }
 
-    public void setClasroom(String clasroom) {
-        this.clasroom = clasroom;
+    public void setClassroom(String classroom) {
+        this.classroom = classroom;
     }
 
     public Double getAverage() {
@@ -71,6 +76,14 @@ public class Team {
         this.presented = presented;
     }
 
+    public Integer getAvaliationsQuantity() {
+        return avaliationsQuantity;
+    }
+
+    public void setAvaliationsQuantity(Integer avaliationsQuantity) {
+        this.avaliationsQuantity = avaliationsQuantity;
+    }
+
     public List<String> getMembers() {
         return members;
     }
@@ -78,4 +91,11 @@ public class Team {
     public void setMembers(List<String> members) {
         this.members = members;
     }
+
+    public String getMembersToString() {
+        Optional<String> membersToString = this.members.stream()
+                .reduce((a, b) -> a + ", " + b);
+        return membersToString.map(s -> s + ".").orElse("");
+    }
+
 }
