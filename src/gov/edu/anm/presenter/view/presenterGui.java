@@ -5,7 +5,6 @@ import gov.edu.anm.presenter.domain.appuser.AppUser;
 import gov.edu.anm.presenter.domain.appuser.AppUserTokens;
 import gov.edu.anm.presenter.domain.auth.AuthResponseDto;
 import gov.edu.anm.presenter.domain.event.Event;
-import gov.edu.anm.presenter.domain.team.Team;
 import gov.edu.anm.presenter.domain.utils.SwingUtils;
 import gov.edu.anm.presenter.services.PresenterService;
 
@@ -20,7 +19,6 @@ import java.io.IOException;
 import java.net.http.HttpClient;
 import java.time.Duration;
 import java.util.Locale;
-import java.util.List;
 
 public class presenterGui extends javax.swing.JFrame {
 
@@ -37,7 +35,6 @@ public class presenterGui extends javax.swing.JFrame {
    private String[] duracaoNumber;
    private Timer mainTimer;
    private Timer sortear;
-   private DefaultListModel listModel = new DefaultListModel(); //Global obrigatório
    private int totalSeconds;
    private int countTotalSorteio = 0;
 
@@ -58,6 +55,7 @@ public class presenterGui extends javax.swing.JFrame {
 
       this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
+      DefaultListModel<String> listModel = new DefaultListModel<String>();
       listModel.setSize(0);
       equipeAlunosDaEquipeLista.setModel(listModel);
 
@@ -472,7 +470,7 @@ public class presenterGui extends javax.swing.JFrame {
       equipeAddAlunoBotao.setPreferredSize(new java.awt.Dimension(95, 32));
       equipeAddAlunoBotao.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {
-            equipeAddAlunoBotaoMouseClicked(evt);
+            addMemberInTeam(evt);
          }
       });
       gridBagConstraints = new java.awt.GridBagConstraints();
@@ -494,7 +492,7 @@ public class presenterGui extends javax.swing.JFrame {
       equipeRemoveAlunoBotao.setPreferredSize(new java.awt.Dimension(95, 32));
       equipeRemoveAlunoBotao.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {
-            equipeRemoveAlunoBotaoMouseClicked(evt);
+            removeMemberFromTeam(evt);
          }
       });
       gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1161,10 +1159,10 @@ public class presenterGui extends javax.swing.JFrame {
             rankingMenuLabelMouseClicked(evt);
          }
          public void mouseEntered(java.awt.event.MouseEvent evt) {
-            rankingMenuLabelMouseEntered(evt);
+            menuLabelBackgroundHover(rankingMenuActivePanel);
          }
          public void mouseExited(java.awt.event.MouseEvent evt) {
-            rankingMenuLabelMouseExited(evt);
+            menuLabelBackgroundOut(rankingMenuActivePanel);
          }
       });
       gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1315,10 +1313,27 @@ public class presenterGui extends javax.swing.JFrame {
       addEventTeamsToTable();
    }
 
-    private void tempoPlayLabelMouseClicked(java.awt.event.MouseEvent evt) {
-       if (tempoDuracaoComboBox.getSelectedItem().toString().equals("Customizado")) {
-          getCustomTime();
-          justDelete();
+   // Cadastro de equipes panel methods
+   private void addMemberInTeam(java.awt.event.MouseEvent evt) {
+      ((DefaultListModel<String>) equipeAlunosDaEquipeLista.getModel())
+              .add(0, equipeAlunoTextField.getText());
+      equipeAlunoTextField.setText("");
+   }
+
+   private void removeMemberFromTeam(java.awt.event.MouseEvent evt) {
+      if (equipeAlunosDaEquipeLista.getSelectedIndex() == -1) {
+         JOptionPane.showMessageDialog(null, "Selecione um aluno para remover.");
+      }
+      else {
+         ((DefaultListModel<String>) equipeAlunosDaEquipeLista.getModel())
+                 .remove(equipeAlunosDaEquipeLista.getSelectedIndex());
+      }
+   }
+
+   private void tempoPlayLabelMouseClicked(java.awt.event.MouseEvent evt) {
+      if (tempoDuracaoComboBox.getSelectedItem().toString().equals("Customizado")) {
+         getCustomTime();
+         justDelete();
 
           mainTimer = new Timer(1000, new ActionListener() {
              @Override
@@ -1402,15 +1417,7 @@ public class presenterGui extends javax.swing.JFrame {
 //       catch (IOException e) {
 //          JOptionPane.showMessageDialog(null, e.getMessage());
 //       }
-    }
-
-    private void rankingMenuLabelMouseEntered(java.awt.event.MouseEvent evt) {
-       rankingMenuActivePanel.setBackground(new Color(255, 255, 255));
-    }
-
-    private void rankingMenuLabelMouseExited(java.awt.event.MouseEvent evt) {
-       rankingMenuActivePanel.setBackground(new Color(173, 211, 250));
-    }
+   }
 
     private void sorteadorSortearBotaoMouseClicked(java.awt.event.MouseEvent evt) {
 //       if (!namesOfTeamsToPresent.isEmpty()) {
@@ -1441,13 +1448,7 @@ public class presenterGui extends javax.swing.JFrame {
 //          JOptionPane.showMessageDialog(null, "Não há mais equipes para apresentação.");
 //       }
 
-    }
-
-    private void equipeAddAlunoBotaoMouseClicked(java.awt.event.MouseEvent evt) {
-       listModel.add(0, equipeAlunoTextField.getText());
-       equipeAlunosDaEquipeLista.setModel(listModel);
-       equipeAlunoTextField.setText("");
-    }
+   }
 
     private void equipeSalvarBotaoMouseClicked(java.awt.event.MouseEvent evt) {
 //       int confirm = JOptionPane.showConfirmDialog(null, "Deseja salvar a equipe?");
@@ -1489,39 +1490,7 @@ public class presenterGui extends javax.swing.JFrame {
        }
     }
 
-    private void formWindowActivated(java.awt.event.WindowEvent evt) {
-//       try {
-//          List<Team> teams = api.findEventTeams();
-//          DefaultTableModel dados = (DefaultTableModel) equipeTabela.getModel();
-//          dados.setNumRows(0);
-//
-//          for (Team team : teams) {
-//             List<String> usernames = api.findTeamMembersUsernames(team);
-//             String members = "";
-//             for (String username : usernames) {
-//                if (usernames.indexOf(username) == usernames.size() - 1) {
-//                   members += username + ".";
-//                }
-//                else {
-//                   members += username + ", ";
-//                }
-//             }
-//
-//             dados.addRow(new Object[]{
-//                team.getId(),
-//                team.getName(),
-//                team.getProject(),
-//                team.getClassRoom(),
-//                members
-//             });
-//          }
-//       }
-//       catch (IOException e) {
-//          JOptionPane.showMessageDialog(null, e.getMessage());
-//       }
-    }
-
-    private void equipeTabelaMouseClicked(java.awt.event.MouseEvent evt) {
+   private void equipeTabelaMouseClicked(java.awt.event.MouseEvent evt) {
 //       int n = equipeTabela.getSelectedRow() == -1
 //               ? equipeTabela.getSelectedRow() + 1 : equipeTabela.getSelectedRow();
 //
@@ -1589,16 +1558,7 @@ public class presenterGui extends javax.swing.JFrame {
 //             JOptionPane.showMessageDialog(null, e.getMessage());
 //          }
 //       }
-    }
-
-    private void equipeRemoveAlunoBotaoMouseClicked(java.awt.event.MouseEvent evt) {
-       if (equipeAlunosDaEquipeLista.getSelectedIndex() == -1) {
-          JOptionPane.showMessageDialog(null, "Selecione um aluno para remover.");
-       }
-       else {
-          listModel.remove(equipeAlunosDaEquipeLista.getSelectedIndex());
-       }
-    }
+   }
 
     private void equipePesquisaTextFieldKeyPressed(java.awt.event.KeyEvent evt) {
 
