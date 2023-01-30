@@ -10,16 +10,16 @@ import javax.swing.JViewport;
 
 public class SwingUtils {
     
-    public void limparTela(JPanel panel) {
-        Component components[] = panel.getComponents();
+    public static void cleanPanelRecordFields(JPanel panel) {
+        Component[] components = panel.getComponents();
         for (Component component : components) {
             if(component instanceof JTextField){
                 ((JTextField) component).setText(null);
             }
             if(component instanceof JScrollPane){
                 JViewport a = (JViewport) ((JScrollPane) component).getComponent(0);
-                JList b = (JList)a.getComponent(0);
-                DefaultListModel model = (DefaultListModel)b.getModel();
+                JList<String> b = (JList<String>) a.getComponent(0);
+                DefaultListModel<String> model = (DefaultListModel<String>) b.getModel();
                 model.removeAllElements();
                 b.setModel(model);
             }
