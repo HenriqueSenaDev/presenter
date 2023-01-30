@@ -5,6 +5,7 @@ import gov.edu.anm.presenter.domain.appuser.AppUser;
 import gov.edu.anm.presenter.domain.appuser.AppUserTokens;
 import gov.edu.anm.presenter.domain.auth.AuthResponseDto;
 import gov.edu.anm.presenter.domain.event.Event;
+import gov.edu.anm.presenter.domain.team.TeamCreateDto;
 import gov.edu.anm.presenter.domain.utils.SwingUtils;
 import gov.edu.anm.presenter.services.PresenterService;
 
@@ -18,7 +19,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.http.HttpClient;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Locale;
+import java.util.List;
 
 public class presenterGui extends javax.swing.JFrame {
 
@@ -26,7 +29,7 @@ public class presenterGui extends javax.swing.JFrame {
            .connectTimeout(Duration.ofSeconds(3))
            .build();
    private final ObjectMapper mapper = new ObjectMapper();
-   private final PresenterService api = new PresenterService(httpClient, mapper);
+   private final PresenterService presenterService = new PresenterService(httpClient, mapper);
 
    private AppUser user;
    private AppUserTokens userTokens;
@@ -43,11 +46,11 @@ public class presenterGui extends javax.swing.JFrame {
 
       // login
       try {
-         AuthResponseDto authRes = api.authenticate("master", "masteranmadmin");
+         AuthResponseDto authRes = presenterService.authenticate("master", "masteranmadmin");
          this.user = authRes.getProfile();
          this.userTokens = new AppUserTokens(authRes.getAccess_token(), authRes.getRefresh_token());
 
-         this.event = api.findEventByJoinCode("joinCode", this.userTokens);
+         this.event = presenterService.findEventByJoinCode("joinCode", this.userTokens);
       }
       catch (RuntimeException e) {
          JOptionPane.showMessageDialog(null, e.getMessage());
@@ -381,7 +384,7 @@ public class presenterGui extends javax.swing.JFrame {
       equipeSalvarBotao.setPreferredSize(new java.awt.Dimension(70, 32));
       equipeSalvarBotao.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {
-            equipeSalvarBotaoMouseClicked(evt);
+            createTeamInEvent(evt);
          }
       });
       gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1330,6 +1333,145 @@ public class presenterGui extends javax.swing.JFrame {
       }
    }
 
+   private void createTeamInEvent(java.awt.event.MouseEvent evt) {
+      int confirm = JOptionPane.showConfirmDialog(null, "Deseja salvar a equipe?");
+      if (confirm != 0) return;
+
+      List<String> teamMembers = new ArrayList<>();
+      for (int i = 0; i < equipeAlunosDaEquipeLista.getModel().getSize(); i++) {
+         teamMembers.add(equipeAlunosDaEquipeLista.getModel().getElementAt(i));
+      }
+
+      TeamCreateDto teamCreateDto = new TeamCreateDto(
+              equipeNomeTextField.getText(),
+              equipeProjetoTextField.getText(),
+              equipeTurmaComboBox.getSelectedItem().toString(),
+              teamMembers
+              );
+
+      this.event = this.presenterService.createTeamInEvent(teamCreateDto, this.event.getId(), this.userTokens);
+
+      SwingUtils.cleanPanelRecordFields(equipeCadastro);
+      JOptionPane.showMessageDialog(null, "Equipe cadastrada.");
+   }
+
+   private void equipeNovaBotaoMouseClicked(java.awt.event.MouseEvent evt) {
+      int confirm = JOptionPane.showConfirmDialog(null, "Deseja limpar todos os campos?");
+      if (confirm == 0) {
+         SwingUtils utl = new SwingUtils();
+         utl.cleanPanelRecordFields(equipeCadastro);
+      }
+   }
+
+   private void equipeTabelaMouseClicked(java.awt.event.MouseEvent evt) {
+//       int n = equipeTabela.getSelectedRow() == -1
+//               ? equipeTabela.getSelectedRow() + 1 : equipeTabela.getSelectedRow();
+//
+//       equipeNomeTextField.setText(equipeTabela.getValueAt(n, 1).toString());
+//       equipeProjetoTextField.setText(equipeTabela.getValueAt(n, 2).toString());
+//       equipeTurmaComboBox.setSelectedItem(equipeTabela.getValueAt(n, 3).toString());
+//       String alunosProv = equipeTabela.getValueAt(n, 4).toString();
+//
+//       String[] alunos = alunosProv.split(", ");
+//       String ultimoAluno = alunos[alunos.length - 1].replace(".", "");
+//
+//       listModel.clear();
+//       for (int i = 0; i < alunos.length - 1; i++) {
+//          listModel.addElement(alunos[i]);
+//       }
+//       listModel.addElement(ultimoAluno);
+   }
+
+   private void equipeExcluirBotaoMouseClicked(java.awt.event.MouseEvent evt) {
+//       int confirm = JOptionPane.showConfirmDialog(null, "Deseja excluir a equipe?");
+//       if (confirm == 0) {
+//          try {
+//             int x = equipeTabela.getSelectedRow() == -1
+//                     ? equipeTabela.getSelectedRow() + 1 : equipeTabela.getSelectedRow();
+//             Long n = Long.parseLong(equipeTabela.getValueAt(x, 0).toString());
+//             api.deleteTeam(n);
+//             JOptionPane.showMessageDialog(null, "Equipe excluída.");
+//          }
+//          catch (IOException e) {
+//             JOptionPane.showMessageDialog(null, e.getMessage());
+//          }
+//
+//          Utilities utl = new Utilities();
+//          utl.limparTela(equipeCadastro);
+//       }
+   }
+
+   private void equipeEditarBotaoMouseClicked(java.awt.event.MouseEvent evt) {
+//       int confirm = JOptionPane.showConfirmDialog(null, "Deseja atualizar os dados editados?");
+//       if (confirm == 0) {
+//          int row = equipeTabela.getSelectedRow() == -1
+//                  ? 0 : equipeTabela.getSelectedRow();
+//          Long id = Long.parseLong(equipeTabela.getValueAt(row, 0).toString());
+//          String nomeEquipe = equipeNomeTextField.getText();
+//          String projetoEquipe = equipeProjetoTextField.getText();
+//          String turmaEquipe = equipeTurmaComboBox.getSelectedItem().toString();
+//          Team team = new Team(id, nomeEquipe, projetoEquipe, turmaEquipe, null, null, null);
+//
+//          try {
+//             team = api.updateTeam(team);
+//
+//             List<String> usernames = new ArrayList<>();
+//             int n = listModel.getSize();
+//             for (int i = 0; i < n; i++) {
+//                usernames.add(listModel.getElementAt(i).toString());
+//             }
+//             api.updateMembersParticipations(team, usernames);
+//
+//             Utilities utl = new Utilities();
+//             utl.limparTela(equipeCadastro);
+//
+//             JOptionPane.showMessageDialog(null, "Equipe editada.");
+//          }
+//          catch (RuntimeException | IOException e) {
+//             JOptionPane.showMessageDialog(null, e.getMessage());
+//          }
+//       }
+   }
+
+   private void equipePesquisaTextFieldKeyPressed(java.awt.event.KeyEvent evt) {
+
+//       String value = equipePesquisaTextField.getText();
+//       String metodoDeBusca = equipePorComboBox.getSelectedItem().toString().toLowerCase();
+//
+//       try {
+//          List<Team> teams = api.findEventTeamsByQuery(value, metodoDeBusca);
+//          DefaultTableModel dados = (DefaultTableModel) equipeTabela.getModel();
+//          dados.setNumRows(0);
+//
+//          for (Team team : teams) {
+//             List<String> usernames = api.findTeamMembersUsernames(team);
+//             String members = "";
+//             for (String username : usernames) {
+//                if (usernames.indexOf(username) == usernames.size() - 1) {
+//                   members += username + ".";
+//                }
+//                else {
+//                   members += username + ", ";
+//                }
+//             }
+//
+//             dados.addRow(new Object[]{
+//                team.getId(),
+//                team.getName(),
+//                team.getProject(),
+//                team.getClassRoom(),
+//                members
+//             });
+//          }
+//
+//       }
+//       catch (IOException e) {
+//          JOptionPane.showMessageDialog(null, e.getMessage());
+//       }
+
+   }
+
+   // Sorteador panel methods
    private void tempoPlayLabelMouseClicked(java.awt.event.MouseEvent evt) {
       if (tempoDuracaoComboBox.getSelectedItem().toString().equals("Customizado")) {
          getCustomTime();
