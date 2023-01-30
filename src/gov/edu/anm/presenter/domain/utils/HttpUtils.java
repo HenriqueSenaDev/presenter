@@ -8,13 +8,14 @@ import java.net.http.HttpRequest;
 import java.time.Duration;
 
 public class HttpUtils {
+    private static final int TIMEOUT = 10;
 
     public static HttpRequest createGetRequestWithBearerAuth(URI uri, String token) {
         return HttpRequest.newBuilder()
                 .GET()
                 .uri(uri)
                 .header("Authorization", "Bearer " + token)
-                .timeout(Duration.ofSeconds(3))
+                .timeout(Duration.ofSeconds(TIMEOUT))
                 .build();
     }
 
@@ -24,7 +25,18 @@ public class HttpUtils {
                 .uri(uri)
                 .POST(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(body)))
                 .header("content-type", "application/json")
-                .timeout(Duration.ofSeconds(3))
+                .timeout(Duration.ofSeconds(TIMEOUT))
+                .build();
+    }
+
+    public static HttpRequest createPostRequestWithBearerAuth(URI uri, Object body, String token, ObjectMapper mapper)
+            throws JsonProcessingException {
+        return HttpRequest.newBuilder()
+                .uri(uri)
+                .POST(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(body)))
+                .header("content-type", "application/json")
+                .header("Authorization", "Bearer " + token)
+                .timeout(Duration.ofSeconds(TIMEOUT))
                 .build();
     }
 
@@ -35,7 +47,7 @@ public class HttpUtils {
                 .PUT(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(body)))
                 .header("content-type", "application/json")
                 .header("Authorization", "Bearer " + token)
-                .timeout(Duration.ofSeconds(3))
+                .timeout(Duration.ofSeconds(TIMEOUT))
                 .build();
     }
 
@@ -44,7 +56,7 @@ public class HttpUtils {
                 .uri(uri)
                 .DELETE()
                 .header("Authorization", "Bearer " + token)
-                .timeout(Duration.ofSeconds(3))
+                .timeout(Duration.ofSeconds(TIMEOUT))
                 .build();
     }
 }
