@@ -1,24 +1,18 @@
 package gov.edu.anm.presenter.domain.team;
 
+import java.util.List;
+
 public class TeamCreateDto {
-    private Long id;
     private String name;
     private String project;
     private String classroom;
+    private List<String> members;
 
-    public TeamCreateDto(Long id, String name, String project, String classroom) {
-        this.id = id;
+    public TeamCreateDto(String name, String project, String classroom, List<String> members) {
         this.name = name;
         this.project = project;
         this.classroom = classroom;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        this.members = members;
     }
 
     public String getName() {
@@ -43,5 +37,13 @@ public class TeamCreateDto {
 
     public void setClassroom(String classroom) {
         this.classroom = classroom;
+    }
+
+    public List<String> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<String> members) {
+        this.members = members;
     }
 }

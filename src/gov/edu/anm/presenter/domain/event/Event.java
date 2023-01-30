@@ -13,6 +13,8 @@ public class Event {
     private String description;
     private Set<Team> teams = new HashSet<>();
 
+    public Event(){}
+
     public Event(Long id, String name, String joinCode, String jurorCode, String description, Set<Team> teams) {
         this.id = id;
         this.name = name;
