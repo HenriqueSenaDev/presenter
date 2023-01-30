@@ -72,9 +72,9 @@ public class PresenterService {
         }
     }
 
-    public Event putTeamInEvent(TeamCreateDto teamCreateDto, Long eventId, AppUserTokens tokens) throws RuntimeException {
+    public Event createTeamInEvent(TeamCreateDto teamCreateDto, Long eventId, AppUserTokens tokens) throws RuntimeException {
         try {
-            HttpRequest req = HttpUtils.createPutRequestWithBearerAuth(
+            HttpRequest req = HttpUtils.createPostRequestWithBearerAuth(
                     URI.create(BASE_URL + "/events/" + eventId + "/teams"),
                     teamCreateDto,
                     tokens.getAccess_token(),
