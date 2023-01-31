@@ -41,7 +41,6 @@ public class presenterGui extends javax.swing.JFrame {
    private Timer mainTimer;
    private Timer sortear;
    private int totalSeconds;
-   private int countTotalSorteio = 0;
 
    public presenterGui() {
       initComponents();
@@ -184,7 +183,7 @@ public class presenterGui extends javax.swing.JFrame {
       setUndecorated(true);
       addWindowListener(new java.awt.event.WindowAdapter() {
          public void windowActivated(java.awt.event.WindowEvent evt) {
-            formWindowActivated(evt);
+            formWindowActivated();
          }
       });
       getContentPane().setLayout(new javax.swing.OverlayLayout(getContentPane()));
@@ -207,7 +206,7 @@ public class presenterGui extends javax.swing.JFrame {
       minemizeLabel.setPreferredSize(new java.awt.Dimension(25, 23));
       minemizeLabel.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {
-            minimizeWindow(evt);
+            minimizeWindow();
          }
       });
       gridBagConstraints = new java.awt.GridBagConstraints();
@@ -220,7 +219,7 @@ public class presenterGui extends javax.swing.JFrame {
       closeLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/assets/images/closeIcon.png"))); // NOI18N
       closeLabel.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {
-            closeWindow(evt);
+            closeWindow();
          }
       });
       gridBagConstraints = new java.awt.GridBagConstraints();
@@ -244,7 +243,7 @@ public class presenterGui extends javax.swing.JFrame {
       menuIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/assets/images/menuIcon.png"))); // NOI18N
       menuIcon.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {
-            toggleMenu(evt);
+            toggleMenu();
          }
       });
       gridBagConstraints = new java.awt.GridBagConstraints();
@@ -364,7 +363,7 @@ public class presenterGui extends javax.swing.JFrame {
       equipeNovaBotao.setPreferredSize(new java.awt.Dimension(80, 32));
       equipeNovaBotao.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {
-            cleanTeamRecordFields(evt);
+            cleanTeamRecordFields();
          }
       });
       gridBagConstraints = new java.awt.GridBagConstraints();
@@ -386,7 +385,7 @@ public class presenterGui extends javax.swing.JFrame {
       equipeSalvarBotao.setPreferredSize(new java.awt.Dimension(70, 32));
       equipeSalvarBotao.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {
-            createTeamInEvent(evt);
+            createTeamInEvent();
          }
       });
       gridBagConstraints = new java.awt.GridBagConstraints();
@@ -408,7 +407,7 @@ public class presenterGui extends javax.swing.JFrame {
       equipeEditarBotao.setPreferredSize(new java.awt.Dimension(70, 32));
       equipeEditarBotao.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {
-            updateTeam(evt);
+            updateTeam();
          }
       });
       gridBagConstraints = new java.awt.GridBagConstraints();
@@ -430,7 +429,7 @@ public class presenterGui extends javax.swing.JFrame {
       equipeExcluirBotao.setPreferredSize(new java.awt.Dimension(75, 32));
       equipeExcluirBotao.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {
-            deleteTeam(evt);
+            deleteTeam();
          }
       });
       gridBagConstraints = new java.awt.GridBagConstraints();
@@ -475,7 +474,7 @@ public class presenterGui extends javax.swing.JFrame {
       equipeAddAlunoBotao.setPreferredSize(new java.awt.Dimension(95, 32));
       equipeAddAlunoBotao.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {
-            addMemberInTeam(evt);
+            addMemberInTeam();
          }
       });
       gridBagConstraints = new java.awt.GridBagConstraints();
@@ -497,7 +496,7 @@ public class presenterGui extends javax.swing.JFrame {
       equipeRemoveAlunoBotao.setPreferredSize(new java.awt.Dimension(95, 32));
       equipeRemoveAlunoBotao.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {
-            removeMemberFromTeam(evt);
+            removeMemberFromTeam();
          }
       });
       gridBagConstraints = new java.awt.GridBagConstraints();
@@ -563,7 +562,7 @@ public class presenterGui extends javax.swing.JFrame {
       equipePesquisaTextField.setPreferredSize(new java.awt.Dimension(350, 35));
       equipePesquisaTextField.addKeyListener(new java.awt.event.KeyAdapter() {
          public void keyPressed(java.awt.event.KeyEvent evt) {
-            equipePesquisaTextFieldKeyPressed(evt);
+            equipePesquisaTextFieldKeyPressed();
          }
       });
       gridBagConstraints = new java.awt.GridBagConstraints();
@@ -650,7 +649,7 @@ public class presenterGui extends javax.swing.JFrame {
       equipeTabela.setShowGrid(false);
       equipeTabela.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {
-            teamsTableRowClicked(evt);
+            teamsTableRowClicked();
          }
       });
       equipeTabelaContent.setViewportView(equipeTabela);
@@ -1058,7 +1057,7 @@ public class presenterGui extends javax.swing.JFrame {
       equipesMenuLabel.setPreferredSize(new java.awt.Dimension(183, 35));
       equipesMenuLabel.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {
-            equipesMenuLabelMouseClicked(evt);
+            equipesMenuLabelMouseClicked();
          }
          public void mouseEntered(java.awt.event.MouseEvent evt) {
             menuLabelBackgroundHover(equipesActivePanel);
@@ -1093,7 +1092,7 @@ public class presenterGui extends javax.swing.JFrame {
       tempMenuLabel.setPreferredSize(new java.awt.Dimension(174, 35));
       tempMenuLabel.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {
-            tempMenuLabelMouseClicked(evt);
+            tempMenuLabelMouseClicked();
          }
          public void mouseEntered(java.awt.event.MouseEvent evt) {
             menuLabelBackgroundHover(temporizadorActivePanel);
@@ -1127,7 +1126,7 @@ public class presenterGui extends javax.swing.JFrame {
       sorteadorMenuLabel.setPreferredSize(new java.awt.Dimension(113, 35));
       sorteadorMenuLabel.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {
-            sorteadorMenuLabelMouseClicked(evt);
+            sorteadorMenuLabelMouseClicked();
          }
          public void mouseEntered(java.awt.event.MouseEvent evt) {
             menuLabelBackgroundHover(sorteadorMenuActivePanel);
@@ -1222,15 +1221,15 @@ public class presenterGui extends javax.swing.JFrame {
    }// </editor-fold>//GEN-END:initComponents
 
    // Program bar and header event buttons
-   private void minimizeWindow(java.awt.event.MouseEvent evt) {
+   private void minimizeWindow() {
       this.setState(JFrame.ICONIFIED);
    }
 
-   private void closeWindow(java.awt.event.MouseEvent evt) {
+   private void closeWindow() {
       System.exit(0);
    }
 
-   private void toggleMenu(java.awt.event.MouseEvent evt) {
+   private void toggleMenu() {
       if (contentPanel.isVisible()) {
          contentPanel.setVisible(false);
          contentPanel.setEnabled(false);
@@ -1258,29 +1257,29 @@ public class presenterGui extends javax.swing.JFrame {
       panel.setBackground(new Color(173, 211, 250));
    }
 
-    // Menu items clicked events
-    private void equipesMenuLabelMouseClicked(java.awt.event.MouseEvent evt) {
-       abas.setSelectedIndex(0);
-       contentPanel.setVisible(true);
-       contentPanel.setEnabled(true);
-       menuBar.setVisible(false);
-       menuBar.setEnabled(false);
-    }
+   // Menu items clicked events
+   private void equipesMenuLabelMouseClicked() {
+      abas.setSelectedIndex(0);
+      contentPanel.setVisible(true);
+      contentPanel.setEnabled(true);
+      menuBar.setVisible(false);
+      menuBar.setEnabled(false);
+   }
 
-    private void tempMenuLabelMouseClicked(java.awt.event.MouseEvent evt) {
-       abas.setSelectedIndex(1);
-       contentPanel.setVisible(true);
-       contentPanel.setEnabled(true);
-       menuBar.setVisible(false);
-       menuBar.setEnabled(false);
-    }
+   private void tempMenuLabelMouseClicked() {
+      abas.setSelectedIndex(1);
+      contentPanel.setVisible(true);
+      contentPanel.setEnabled(true);
+      menuBar.setVisible(false);
+      menuBar.setEnabled(false);
+   }
 
-    private void sorteadorMenuLabelMouseClicked(java.awt.event.MouseEvent evt) {
-       abas.setSelectedIndex(2);
-       contentPanel.setVisible(true);
-       contentPanel.setEnabled(true);
-       menuBar.setVisible(false);
-       menuBar.setEnabled(false);
+   private void sorteadorMenuLabelMouseClicked() {
+      abas.setSelectedIndex(2);
+      contentPanel.setVisible(true);
+      contentPanel.setEnabled(true);
+      menuBar.setVisible(false);
+      menuBar.setEnabled(false);
 
        try {
           eventTeams = api.findEventTeams();
@@ -1314,18 +1313,18 @@ public class presenterGui extends javax.swing.JFrame {
               }));
    }
 
-   private void formWindowActivated(java.awt.event.WindowEvent evt) {
+   private void formWindowActivated() {
       addEventTeamsToTable();
    }
 
    // TeamRecordsPanel methods
-   private void addMemberInTeam(java.awt.event.MouseEvent evt) {
+   private void addMemberInTeam() {
       ((DefaultListModel<String>) equipeAlunosDaEquipeLista.getModel())
               .add(0, equipeAlunoTextField.getText());
       equipeAlunoTextField.setText("");
    }
 
-   private void removeMemberFromTeam(java.awt.event.MouseEvent evt) {
+   private void removeMemberFromTeam() {
       if (equipeAlunosDaEquipeLista.getSelectedIndex() == -1) {
          JOptionPane.showMessageDialog(null, "Selecione um aluno para remover.");
       }
@@ -1335,13 +1334,13 @@ public class presenterGui extends javax.swing.JFrame {
       }
    }
 
-   private void cleanTeamRecordFields(java.awt.event.MouseEvent evt) {
+   private void cleanTeamRecordFields() {
       int confirm = JOptionPane.showConfirmDialog(null, "Deseja limpar todos os campos?");
       if (confirm != 0) return;
       SwingUtils.cleanPanelRecordFields(equipeCadastro);
    }
 
-   private void createTeamInEvent(java.awt.event.MouseEvent evt) {
+   private void createTeamInEvent() {
       int confirm = JOptionPane.showConfirmDialog(null, "Deseja salvar a equipe?");
       if (confirm != 0) return;
 
@@ -1363,7 +1362,7 @@ public class presenterGui extends javax.swing.JFrame {
       JOptionPane.showMessageDialog(null, "Equipe cadastrada.");
    }
 
-   private void updateTeam(java.awt.event.MouseEvent evt) {
+   private void updateTeam() {
       Optional<Team> teamToUpdate = this.event.getTeams().stream()
               .filter(x -> x.getName().equals(equipeNomeTextField.getText())).findFirst();
       if (teamToUpdate.isEmpty()) {
@@ -1394,7 +1393,7 @@ public class presenterGui extends javax.swing.JFrame {
       JOptionPane.showMessageDialog(null, "Equipe atualizada.");
    }
 
-   private void teamsTableRowClicked(java.awt.event.MouseEvent evt) {
+   private void teamsTableRowClicked() {
        int rowIndex = equipeTabela.getSelectedRow();
        equipeNomeTextField.setText(equipeTabela.getValueAt(rowIndex, 1).toString());
        equipeProjetoTextField.setText(equipeTabela.getValueAt(rowIndex, 2).toString());
@@ -1408,7 +1407,7 @@ public class presenterGui extends javax.swing.JFrame {
       Arrays.stream(members).forEach(membersListModel::addElement);
    }
 
-   private void deleteTeam(java.awt.event.MouseEvent evt) {
+   private void deleteTeam() {
       if (equipeTabela.getSelectedRow() == -1)
          JOptionPane.showMessageDialog(null, "Selecione a equipe para excluir.");
 
@@ -1425,7 +1424,7 @@ public class presenterGui extends javax.swing.JFrame {
       JOptionPane.showMessageDialog(null, "Equipe excluída.");
    }
 
-   private void equipePesquisaTextFieldKeyPressed(java.awt.event.KeyEvent evt) {
+   private void equipePesquisaTextFieldKeyPressed() {
 
 //       String value = equipePesquisaTextField.getText();
 //       String metodoDeBusca = equipePorComboBox.getSelectedItem().toString().toLowerCase();
@@ -1469,63 +1468,63 @@ public class presenterGui extends javax.swing.JFrame {
          getCustomTime();
          justDelete();
 
-          mainTimer = new Timer(1000, new ActionListener() {
-             @Override
-             public void actionPerformed(ActionEvent e) {
-                countdownWorking();
-                if (totalSeconds < 60 && totalSeconds >= 0) {
-                   finalCountdown();
-                }
-                else if (totalSeconds < 0) {
-                   oscilar.stop();
-                   whiteCountdown();
-                   mainTimer.stop();
-                   returnPlay();
-                   playTimesOverSound();
-                }
-             }
-          });
-          mainTimer.start();
-       }
-       else {
-          getDefinedTime();
-          justDelete();
+         mainTimer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               countdownWorking();
+               if (totalSeconds < 60 && totalSeconds >= 0) {
+                  finalCountdown();
+               }
+               else if (totalSeconds < 0) {
+                  oscilar.stop();
+                  whiteCountdown();
+                  mainTimer.stop();
+                  returnPlay();
+                  playTimesOverSound();
+               }
+            }
+         });
+         mainTimer.start();
+      }
+      else {
+         getDefinedTime();
+         justDelete();
 
-          mainTimer = new Timer(1000, new ActionListener() {
-             @Override
-             public void actionPerformed(ActionEvent e) {
-                countdownWorking();
-                if (totalSeconds < 60 && totalSeconds >= 0) {
-                   finalCountdown();
-                }
-                else if (totalSeconds < 0) {
-                   oscilar.stop();
-                   whiteCountdown();
-                   mainTimer.stop();
-                   returnPlay();
-                   playTimesOverSound();
-                }
-             }
-          });
-          mainTimer.start();
-       }
-    }
+         mainTimer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               countdownWorking();
+               if (totalSeconds < 60 && totalSeconds >= 0) {
+                  finalCountdown();
+               }
+               else if (totalSeconds < 0) {
+                  oscilar.stop();
+                  whiteCountdown();
+                  mainTimer.stop();
+                  returnPlay();
+                  playTimesOverSound();
+               }
+            }
+         });
+         mainTimer.start();
+      }
+   }
 
-    private void tempoDeleteLabelMouseClicked(java.awt.event.MouseEvent evt) {
-       oscilar.stop();
-       whiteCountdown();
-       mainTimer.stop();
-       returnPlay();
-       tempoNumbers.setText("00:00");
-       tempoNumbers.setVisible(true);
-    }
+   private void tempoDeleteLabelMouseClicked(java.awt.event.MouseEvent evt) {
+      oscilar.stop();
+      whiteCountdown();
+      mainTimer.stop();
+      returnPlay();
+      tempoNumbers.setText("00:00");
+      tempoNumbers.setVisible(true);
+   }
 
-    private void rankingMenuLabelMouseClicked(java.awt.event.MouseEvent evt) {
-       abas.setSelectedIndex(3);
-       contentPanel.setVisible(true);
-       contentPanel.setEnabled(true);
-       menuBar.setVisible(false);
-       menuBar.setEnabled(false);
+   private void rankingMenuLabelMouseClicked(java.awt.event.MouseEvent evt) {
+      abas.setSelectedIndex(3);
+      contentPanel.setVisible(true);
+      contentPanel.setEnabled(true);
+      menuBar.setVisible(false);
+      menuBar.setEnabled(false);
 
 //       try {
 //          List<Team> teams = List.copyOf(this.event.getTeams());
@@ -1553,7 +1552,7 @@ public class presenterGui extends javax.swing.JFrame {
 //       }
    }
 
-    private void sorteadorSortearBotaoMouseClicked(java.awt.event.MouseEvent evt) {
+   private void sorteadorSortearBotaoMouseClicked(java.awt.event.MouseEvent evt) {
 //       if (!namesOfTeamsToPresent.isEmpty()) {
 //          sortear = new Timer(100, new ActionListener() {
 //             private int countTotalSorteio = 0;
@@ -1584,155 +1583,7 @@ public class presenterGui extends javax.swing.JFrame {
 
    }
 
-    private void equipeSalvarBotaoMouseClicked(java.awt.event.MouseEvent evt) {
-//       int confirm = JOptionPane.showConfirmDialog(null, "Deseja salvar a equipe?");
-//       if (confirm == 0) {
-//          String teamName = equipeNomeTextField.getText();
-//          String project = equipeProjetoTextField.getText();
-//          String classRoom = equipeTurmaComboBox.getSelectedItem().toString();
-//          Team team = new Team(null, teamName, project, classRoom, null, null, null);
-//
-//          try {
-//             List<String> alunos = new ArrayList<>();
-//             int n = equipeAlunosDaEquipeLista.getModel().getSize();
-//             for (int i = 0; i < n; i++) {
-//                alunos.add(listModel.getElementAt(i).toString());
-//             }
-//
-//             List<AppUser> savedUsers = api.saveAppUsers(alunos);
-//             team = api.saveTeam(team);
-//
-//             for (AppUser savedUser : savedUsers) {
-//                api.addMemberParticipation(team, savedUser);
-//             }
-//
-//             JOptionPane.showMessageDialog(null, "Equipe cadastrada.");
-//             Utilities utl = new Utilities();
-//             utl.limparTela(equipeCadastro);
-//          }
-//          catch (RuntimeException | IOException e) {
-//             JOptionPane.showMessageDialog(null, e.getMessage());
-//          }
-//       }
-    }
-
-    private void equipeNovaBotaoMouseClicked(java.awt.event.MouseEvent evt) {
-       int confirm = JOptionPane.showConfirmDialog(null, "Deseja limpar todos os campos?");
-       if (confirm == 0) {
-          SwingUtils utl = new SwingUtils();
-          utl.limparTela(equipeCadastro);
-       }
-    }
-
-   private void equipeTabelaMouseClicked(java.awt.event.MouseEvent evt) {
-//       int n = equipeTabela.getSelectedRow() == -1
-//               ? equipeTabela.getSelectedRow() + 1 : equipeTabela.getSelectedRow();
-//
-//       equipeNomeTextField.setText(equipeTabela.getValueAt(n, 1).toString());
-//       equipeProjetoTextField.setText(equipeTabela.getValueAt(n, 2).toString());
-//       equipeTurmaComboBox.setSelectedItem(equipeTabela.getValueAt(n, 3).toString());
-//       String alunosProv = equipeTabela.getValueAt(n, 4).toString();
-//
-//       String[] alunos = alunosProv.split(", ");
-//       String ultimoAluno = alunos[alunos.length - 1].replace(".", "");
-//
-//       listModel.clear();
-//       for (int i = 0; i < alunos.length - 1; i++) {
-//          listModel.addElement(alunos[i]);
-//       }
-//       listModel.addElement(ultimoAluno);
-    }
-
-    private void equipeExcluirBotaoMouseClicked(java.awt.event.MouseEvent evt) {
-//       int confirm = JOptionPane.showConfirmDialog(null, "Deseja excluir a equipe?");
-//       if (confirm == 0) {
-//          try {
-//             int x = equipeTabela.getSelectedRow() == -1
-//                     ? equipeTabela.getSelectedRow() + 1 : equipeTabela.getSelectedRow();
-//             Long n = Long.parseLong(equipeTabela.getValueAt(x, 0).toString());
-//             api.deleteTeam(n);
-//             JOptionPane.showMessageDialog(null, "Equipe excluída.");
-//          }
-//          catch (IOException e) {
-//             JOptionPane.showMessageDialog(null, e.getMessage());
-//          }
-//
-//          Utilities utl = new Utilities();
-//          utl.limparTela(equipeCadastro);
-//       }
-    }
-
-    private void equipeEditarBotaoMouseClicked(java.awt.event.MouseEvent evt) {
-//       int confirm = JOptionPane.showConfirmDialog(null, "Deseja atualizar os dados editados?");
-//       if (confirm == 0) {
-//          int row = equipeTabela.getSelectedRow() == -1
-//                  ? 0 : equipeTabela.getSelectedRow();
-//          Long id = Long.parseLong(equipeTabela.getValueAt(row, 0).toString());
-//          String nomeEquipe = equipeNomeTextField.getText();
-//          String projetoEquipe = equipeProjetoTextField.getText();
-//          String turmaEquipe = equipeTurmaComboBox.getSelectedItem().toString();
-//          Team team = new Team(id, nomeEquipe, projetoEquipe, turmaEquipe, null, null, null);
-//
-//          try {
-//             team = api.updateTeam(team);
-//
-//             List<String> usernames = new ArrayList<>();
-//             int n = listModel.getSize();
-//             for (int i = 0; i < n; i++) {
-//                usernames.add(listModel.getElementAt(i).toString());
-//             }
-//             api.updateMembersParticipations(team, usernames);
-//
-//             Utilities utl = new Utilities();
-//             utl.limparTela(equipeCadastro);
-//
-//             JOptionPane.showMessageDialog(null, "Equipe editada.");
-//          }
-//          catch (RuntimeException | IOException e) {
-//             JOptionPane.showMessageDialog(null, e.getMessage());
-//          }
-//       }
-   }
-
-    private void equipePesquisaTextFieldKeyPressed(java.awt.event.KeyEvent evt) {
-
-//       String value = equipePesquisaTextField.getText();
-//       String metodoDeBusca = equipePorComboBox.getSelectedItem().toString().toLowerCase();
-//
-//       try {
-//          List<Team> teams = api.findEventTeamsByQuery(value, metodoDeBusca);
-//          DefaultTableModel dados = (DefaultTableModel) equipeTabela.getModel();
-//          dados.setNumRows(0);
-//
-//          for (Team team : teams) {
-//             List<String> usernames = api.findTeamMembersUsernames(team);
-//             String members = "";
-//             for (String username : usernames) {
-//                if (usernames.indexOf(username) == usernames.size() - 1) {
-//                   members += username + ".";
-//                }
-//                else {
-//                   members += username + ", ";
-//                }
-//             }
-//
-//             dados.addRow(new Object[]{
-//                team.getId(),
-//                team.getName(),
-//                team.getProject(),
-//                team.getClassRoom(),
-//                members
-//             });
-//          }
-//
-//       }
-//       catch (IOException e) {
-//          JOptionPane.showMessageDialog(null, e.getMessage());
-//       }
-
-    }
-
-    private void sorteadorApresentouLabelMouseClicked(java.awt.event.MouseEvent evt) {
+   private void sorteadorApresentouLabelMouseClicked(java.awt.event.MouseEvent evt) {
 //       int confirm = JOptionPane.showConfirmDialog(null, "Confirmar apresentação da equipe?");
 //       if (confirm == 0) {
 //
@@ -1769,22 +1620,22 @@ public class presenterGui extends javax.swing.JFrame {
 //             JOptionPane.showMessageDialog(null, e.getMessage());
 //          }
 //       }
-    }
+   }
 
-    private void sorteadorNaoAprensentouLabelMouseClicked(java.awt.event.MouseEvent evt) {
-       int confirm = JOptionPane.showConfirmDialog(null, "Confirmar problema na apresentação da equipe?");
-       if (confirm == 0) {
-          sorteadorEquipeLabel.setText("Equipe Selecionada");
-          JOptionPane.showMessageDialog(null, "Erro na apresentação confirmado.");
-       }
-    }
+   private void sorteadorNaoAprensentouLabelMouseClicked(java.awt.event.MouseEvent evt) {
+      int confirm = JOptionPane.showConfirmDialog(null, "Confirmar problema na apresentação da equipe?");
+      if (confirm == 0) {
+         sorteadorEquipeLabel.setText("Equipe Selecionada");
+         JOptionPane.showMessageDialog(null, "Erro na apresentação confirmado.");
+      }
+   }
 
    public static void main(String args[]) {
       Locale.setDefault(Locale.US);
       /* Set the Nimbus look and feel */
       //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
       /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+       * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
        */
       try {
          for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
