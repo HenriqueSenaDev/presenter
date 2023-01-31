@@ -8,7 +8,7 @@ public class TeamUpdateDto {
     private String project;
     private String classroom;
     private Boolean presented;
-    private List<String> members = new ArrayList<>();
+    private List<String> members;
 
     public TeamUpdateDto(String name, String project, String classroom, Boolean presented, List<String> members) {
         this.name = name;

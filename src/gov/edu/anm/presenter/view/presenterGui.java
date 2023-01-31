@@ -5,12 +5,15 @@ import gov.edu.anm.presenter.domain.appuser.AppUser;
 import gov.edu.anm.presenter.domain.appuser.AppUserTokens;
 import gov.edu.anm.presenter.domain.auth.AuthResponseDto;
 import gov.edu.anm.presenter.domain.event.Event;
+import gov.edu.anm.presenter.domain.team.Team;
 import gov.edu.anm.presenter.domain.team.TeamCreateDto;
+import gov.edu.anm.presenter.domain.team.TeamUpdateDto;
 import gov.edu.anm.presenter.domain.utils.SwingUtils;
 import gov.edu.anm.presenter.services.PresenterService;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
+import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,8 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.http.HttpClient;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Locale;
+import java.util.*;
 import java.util.List;
 
 public class presenterGui extends javax.swing.JFrame {
@@ -362,7 +364,7 @@ public class presenterGui extends javax.swing.JFrame {
       equipeNovaBotao.setPreferredSize(new java.awt.Dimension(80, 32));
       equipeNovaBotao.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {
-            equipeNovaBotaoMouseClicked(evt);
+            cleanTeamRecordFields(evt);
          }
       });
       gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1331,6 +1333,12 @@ public class presenterGui extends javax.swing.JFrame {
          ((DefaultListModel<String>) equipeAlunosDaEquipeLista.getModel())
                  .remove(equipeAlunosDaEquipeLista.getSelectedIndex());
       }
+   }
+
+   private void cleanTeamRecordFields(java.awt.event.MouseEvent evt) {
+      int confirm = JOptionPane.showConfirmDialog(null, "Deseja limpar todos os campos?");
+      if (confirm != 0) return;
+      SwingUtils.cleanPanelRecordFields(equipeCadastro);
    }
 
    private void createTeamInEvent(java.awt.event.MouseEvent evt) {
