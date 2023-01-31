@@ -430,7 +430,7 @@ public class presenterGui extends javax.swing.JFrame {
       equipeExcluirBotao.setPreferredSize(new java.awt.Dimension(75, 32));
       equipeExcluirBotao.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {
-            equipeExcluirBotaoMouseClicked(evt);
+            deleteTeam(evt);
          }
       });
       gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1413,36 +1413,21 @@ public class presenterGui extends javax.swing.JFrame {
 //       }
    }
 
-   private void equipeEditarBotaoMouseClicked(java.awt.event.MouseEvent evt) {
-//       int confirm = JOptionPane.showConfirmDialog(null, "Deseja atualizar os dados editados?");
-//       if (confirm == 0) {
-//          int row = equipeTabela.getSelectedRow() == -1
-//                  ? 0 : equipeTabela.getSelectedRow();
-//          Long id = Long.parseLong(equipeTabela.getValueAt(row, 0).toString());
-//          String nomeEquipe = equipeNomeTextField.getText();
-//          String projetoEquipe = equipeProjetoTextField.getText();
-//          String turmaEquipe = equipeTurmaComboBox.getSelectedItem().toString();
-//          Team team = new Team(id, nomeEquipe, projetoEquipe, turmaEquipe, null, null, null);
-//
-//          try {
-//             team = api.updateTeam(team);
-//
-//             List<String> usernames = new ArrayList<>();
-//             int n = listModel.getSize();
-//             for (int i = 0; i < n; i++) {
-//                usernames.add(listModel.getElementAt(i).toString());
-//             }
-//             api.updateMembersParticipations(team, usernames);
-//
-//             Utilities utl = new Utilities();
-//             utl.limparTela(equipeCadastro);
-//
-//             JOptionPane.showMessageDialog(null, "Equipe editada.");
-//          }
-//          catch (RuntimeException | IOException e) {
-//             JOptionPane.showMessageDialog(null, e.getMessage());
-//          }
-//       }
+   private void deleteTeam(java.awt.event.MouseEvent evt) {
+      if (equipeTabela.getSelectedRow() == -1)
+         JOptionPane.showMessageDialog(null, "Selecione a equipe para excluir.");
+
+      int confirm = JOptionPane.showConfirmDialog(null, "Deseja excluir a equipe?");
+      if (confirm != 0) return;
+
+      this.presenterService.deleteTeam(
+              (Long) equipeTabela.getValueAt(equipeTabela.getSelectedRow(), 0),
+              this.userTokens
+      );
+      this.event = this.presenterService.findEventByJoinCode(this.event.getJoinCode(), this.userTokens);
+
+      SwingUtils.cleanPanelRecordFields(equipeCadastro);
+      JOptionPane.showMessageDialog(null, "Equipe excluída.");
    }
 
    private void equipePesquisaTextFieldKeyPressed(java.awt.event.KeyEvent evt) {
