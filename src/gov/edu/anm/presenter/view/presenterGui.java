@@ -650,7 +650,7 @@ public class presenterGui extends javax.swing.JFrame {
       equipeTabela.setShowGrid(false);
       equipeTabela.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {
-            equipeTabelaMouseClicked(evt);
+            teamsTableRowClicked(evt);
          }
       });
       equipeTabelaContent.setViewportView(equipeTabela);
@@ -1394,23 +1394,18 @@ public class presenterGui extends javax.swing.JFrame {
       JOptionPane.showMessageDialog(null, "Equipe atualizada.");
    }
 
-   private void equipeExcluirBotaoMouseClicked(java.awt.event.MouseEvent evt) {
-//       int confirm = JOptionPane.showConfirmDialog(null, "Deseja excluir a equipe?");
-//       if (confirm == 0) {
-//          try {
-//             int x = equipeTabela.getSelectedRow() == -1
-//                     ? equipeTabela.getSelectedRow() + 1 : equipeTabela.getSelectedRow();
-//             Long n = Long.parseLong(equipeTabela.getValueAt(x, 0).toString());
-//             api.deleteTeam(n);
-//             JOptionPane.showMessageDialog(null, "Equipe excluída.");
-//          }
-//          catch (IOException e) {
-//             JOptionPane.showMessageDialog(null, e.getMessage());
-//          }
-//
-//          Utilities utl = new Utilities();
-//          utl.limparTela(equipeCadastro);
-//       }
+   private void teamsTableRowClicked(java.awt.event.MouseEvent evt) {
+       int rowIndex = equipeTabela.getSelectedRow();
+       equipeNomeTextField.setText(equipeTabela.getValueAt(rowIndex, 1).toString());
+       equipeProjetoTextField.setText(equipeTabela.getValueAt(rowIndex, 2).toString());
+       equipeTurmaComboBox.setSelectedItem(equipeTabela.getValueAt(rowIndex, 3).toString());
+       String[] members = equipeTabela.getValueAt(rowIndex, 4).toString()
+               .replace(".", "")
+               .split(", ");
+
+      DefaultListModel<String> membersListModel = (DefaultListModel<String>) equipeAlunosDaEquipeLista.getModel();
+      membersListModel.clear();
+      Arrays.stream(members).forEach(membersListModel::addElement);
    }
 
    private void deleteTeam(java.awt.event.MouseEvent evt) {

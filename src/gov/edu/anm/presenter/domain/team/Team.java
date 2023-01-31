@@ -93,9 +93,10 @@ public class Team {
     }
 
     public String getMembersToString() {
+        if (this.members.size() == 1) return this.members.get(0) + ".";
+
         Optional<String> membersToString = this.members.stream()
                 .reduce((a, b) -> a + ", " + b);
         return membersToString.map(s -> s + ".").orElse("");
     }
-
 }
