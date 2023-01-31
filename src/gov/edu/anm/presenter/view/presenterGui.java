@@ -408,7 +408,7 @@ public class presenterGui extends javax.swing.JFrame {
       equipeEditarBotao.setPreferredSize(new java.awt.Dimension(70, 32));
       equipeEditarBotao.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {
-            equipeEditarBotaoMouseClicked(evt);
+            updateTeam(evt);
          }
       });
       gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1318,7 +1318,7 @@ public class presenterGui extends javax.swing.JFrame {
       addEventTeamsToTable();
    }
 
-   // Cadastro de equipes panel methods
+   // TeamRecordsPanel methods
    private void addMemberInTeam(java.awt.event.MouseEvent evt) {
       ((DefaultListModel<String>) equipeAlunosDaEquipeLista.getModel())
               .add(0, equipeAlunoTextField.getText());
@@ -1363,31 +1363,35 @@ public class presenterGui extends javax.swing.JFrame {
       JOptionPane.showMessageDialog(null, "Equipe cadastrada.");
    }
 
-   private void equipeNovaBotaoMouseClicked(java.awt.event.MouseEvent evt) {
-      int confirm = JOptionPane.showConfirmDialog(null, "Deseja limpar todos os campos?");
-      if (confirm == 0) {
-         SwingUtils utl = new SwingUtils();
-         utl.cleanPanelRecordFields(equipeCadastro);
+   private void updateTeam(java.awt.event.MouseEvent evt) {
+      Optional<Team> teamToUpdate = this.event.getTeams().stream()
+              .filter(x -> x.getName().equals(equipeNomeTextField.getText())).findFirst();
+      if (teamToUpdate.isEmpty()) {
+         JOptionPane.showMessageDialog(null, "Equipe ainda não cadastrada.");
+         return;
       }
-   }
 
-   private void equipeTabelaMouseClicked(java.awt.event.MouseEvent evt) {
-//       int n = equipeTabela.getSelectedRow() == -1
-//               ? equipeTabela.getSelectedRow() + 1 : equipeTabela.getSelectedRow();
-//
-//       equipeNomeTextField.setText(equipeTabela.getValueAt(n, 1).toString());
-//       equipeProjetoTextField.setText(equipeTabela.getValueAt(n, 2).toString());
-//       equipeTurmaComboBox.setSelectedItem(equipeTabela.getValueAt(n, 3).toString());
-//       String alunosProv = equipeTabela.getValueAt(n, 4).toString();
-//
-//       String[] alunos = alunosProv.split(", ");
-//       String ultimoAluno = alunos[alunos.length - 1].replace(".", "");
-//
-//       listModel.clear();
-//       for (int i = 0; i < alunos.length - 1; i++) {
-//          listModel.addElement(alunos[i]);
-//       }
-//       listModel.addElement(ultimoAluno);
+      int confirm = JOptionPane.showConfirmDialog(null, "Deseja atualizar a equipe?");
+      if (confirm != 0) return;
+
+      List<String> teamMembers = new ArrayList<>();
+      for (int i = 0; i < equipeAlunosDaEquipeLista.getModel().getSize(); i++) {
+         teamMembers.add(equipeAlunosDaEquipeLista.getModel().getElementAt(i));
+      }
+
+      TeamUpdateDto teamUpdateDto = new TeamUpdateDto(
+              equipeNomeTextField.getText(),
+              equipeProjetoTextField.getText(),
+              equipeTurmaComboBox.getSelectedItem().toString(),
+              false,
+              teamMembers
+      );
+
+      this.presenterService.updateTeam(teamUpdateDto, teamToUpdate.get().getId(), this.userTokens);
+      this.event = this.presenterService.findEventByJoinCode(this.event.getJoinCode(), this.userTokens);
+
+      SwingUtils.cleanPanelRecordFields(equipeCadastro);
+      JOptionPane.showMessageDialog(null, "Equipe atualizada.");
    }
 
    private void equipeExcluirBotaoMouseClicked(java.awt.event.MouseEvent evt) {
