@@ -112,6 +112,8 @@ public class presenterGui extends javax.swing.JFrame {
       equipeProjetoTextField = new javax.swing.JTextField();
       equipeTurmaLabel = new javax.swing.JLabel();
       equipeTurmaComboBox = new javax.swing.JComboBox<>();
+      equipeApresentouLabel = new javax.swing.JLabel();
+      equipeApresentouComboBox = new javax.swing.JComboBox<>();
       equipeNovaBotao = new javax.swing.JLabel();
       equipeSalvarBotao = new javax.swing.JLabel();
       equipeEditarBotao = new javax.swing.JLabel();
@@ -299,12 +301,12 @@ public class presenterGui extends javax.swing.JFrame {
       equipeNomeTextField.setForeground(new java.awt.Color(255, 255, 255));
       equipeNomeTextField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
       equipeNomeTextField.setMinimumSize(new java.awt.Dimension(350, 30));
-      equipeNomeTextField.setPreferredSize(new java.awt.Dimension(350, 35));
+      equipeNomeTextField.setPreferredSize(new java.awt.Dimension(375, 35));
       gridBagConstraints = new java.awt.GridBagConstraints();
       gridBagConstraints.gridx = 0;
       gridBagConstraints.gridy = 0;
       gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-      gridBagConstraints.insets = new java.awt.Insets(0, 75, 25, 0);
+      gridBagConstraints.insets = new java.awt.Insets(0, 80, 25, 0);
       equipeCadastro.add(equipeNomeTextField, gridBagConstraints);
 
       equipeProjetoLabel.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
@@ -322,7 +324,7 @@ public class presenterGui extends javax.swing.JFrame {
       equipeProjetoTextField.setForeground(new java.awt.Color(255, 255, 255));
       equipeProjetoTextField.setHorizontalAlignment(javax.swing.JTextField.LEFT);
       equipeProjetoTextField.setMinimumSize(new java.awt.Dimension(350, 30));
-      equipeProjetoTextField.setPreferredSize(new java.awt.Dimension(345, 35));
+      equipeProjetoTextField.setPreferredSize(new java.awt.Dimension(375, 35));
       gridBagConstraints = new java.awt.GridBagConstraints();
       gridBagConstraints.gridx = 0;
       gridBagConstraints.gridy = 1;
@@ -351,6 +353,27 @@ public class presenterGui extends javax.swing.JFrame {
       gridBagConstraints.insets = new java.awt.Insets(0, 75, 30, 0);
       equipeCadastro.add(equipeTurmaComboBox, gridBagConstraints);
 
+      equipeApresentouLabel.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
+      equipeApresentouLabel.setForeground(new java.awt.Color(255, 255, 255));
+      equipeApresentouLabel.setText("Apresentou:");
+      gridBagConstraints = new java.awt.GridBagConstraints();
+      gridBagConstraints.gridx = 0;
+      gridBagConstraints.gridy = 3;
+      gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+      gridBagConstraints.insets = new java.awt.Insets(0, 0, 30, 80);
+      equipeCadastro.add(equipeApresentouLabel, gridBagConstraints);
+
+      equipeApresentouComboBox.setBackground(new java.awt.Color(51, 51, 255));
+      equipeApresentouComboBox.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+      equipeApresentouComboBox.setForeground(new java.awt.Color(255, 255, 255));
+      equipeApresentouComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Não", "Sim" }));
+      gridBagConstraints = new java.awt.GridBagConstraints();
+      gridBagConstraints.gridx = 0;
+      gridBagConstraints.gridy = 3;
+      gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+      gridBagConstraints.insets = new java.awt.Insets(0, 10, 30, 0);
+      equipeCadastro.add(equipeApresentouComboBox, gridBagConstraints);
+
       equipeNovaBotao.setBackground(new java.awt.Color(111, 135, 214));
       equipeNovaBotao.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
       equipeNovaBotao.setForeground(new java.awt.Color(255, 255, 255));
@@ -370,7 +393,7 @@ public class presenterGui extends javax.swing.JFrame {
       gridBagConstraints.gridx = 0;
       gridBagConstraints.gridy = 4;
       gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-      gridBagConstraints.insets = new java.awt.Insets(0, 30, 0, 0);
+      gridBagConstraints.insets = new java.awt.Insets(0, 35, 0, 0);
       equipeCadastro.add(equipeNovaBotao, gridBagConstraints);
 
       equipeSalvarBotao.setBackground(new java.awt.Color(111, 135, 214));
@@ -392,7 +415,7 @@ public class presenterGui extends javax.swing.JFrame {
       gridBagConstraints.gridx = 0;
       gridBagConstraints.gridy = 4;
       gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-      gridBagConstraints.insets = new java.awt.Insets(0, 135, 0, 0);
+      gridBagConstraints.insets = new java.awt.Insets(0, 145, 0, 0);
       equipeCadastro.add(equipeSalvarBotao, gridBagConstraints);
 
       equipeEditarBotao.setBackground(new java.awt.Color(111, 135, 214));
@@ -414,7 +437,7 @@ public class presenterGui extends javax.swing.JFrame {
       gridBagConstraints.gridx = 0;
       gridBagConstraints.gridy = 4;
       gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
-      gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 125);
+      gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 135);
       equipeCadastro.add(equipeEditarBotao, gridBagConstraints);
 
       equipeExcluirBotao.setBackground(new java.awt.Color(111, 135, 214));
@@ -614,26 +637,26 @@ public class presenterGui extends javax.swing.JFrame {
       equipeTabela.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
       equipeTabela.setForeground(new java.awt.Color(255, 255, 255));
       equipeTabela.setModel(new javax.swing.table.DefaultTableModel(
-              new Object [][] {
-                      {null, null, null, null, null},
-                      {null, null, null, null, null},
-                      {null, null, null, null, null},
-                      {null, null, null, null, null},
-                      {null, null, null, null, null},
-                      {null, null, null, null, null},
-                      {null, null, null, null, null},
-                      {null, null, null, null, null},
-                      {null, null, null, null, null},
-                      {null, null, null, null, null},
-                      {null, null, null, null, null},
-                      {null, null, null, null, null}
-              },
-              new String [] {
-                      "Id", "Nome", "Projeto", "Turma", "Alunos"
-              }
+         new Object [][] {
+            {null, null, null, null, null, null},
+            {null, null, null, null, null, null},
+            {null, null, null, null, null, null},
+            {null, null, null, null, null, null},
+            {null, null, null, null, null, null},
+            {null, null, null, null, null, null},
+            {null, null, null, null, null, null},
+            {null, null, null, null, null, null},
+            {null, null, null, null, null, null},
+            {null, null, null, null, null, null},
+            {null, null, null, null, null, null},
+            {null, null, null, null, null, null}
+         },
+         new String [] {
+            "Id", "Nome", "Projeto", "Turma", "Apresentou", "Alunos"
+         }
       ) {
          boolean[] canEdit = new boolean [] {
-                 false, false, false, false, false
+            false, false, false, false, false, false
          };
 
          public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -658,7 +681,10 @@ public class presenterGui extends javax.swing.JFrame {
          equipeTabela.getColumnModel().getColumn(0).setMaxWidth(40);
          equipeTabela.getColumnModel().getColumn(3).setMinWidth(170);
          equipeTabela.getColumnModel().getColumn(3).setMaxWidth(170);
-         equipeTabela.getColumnModel().getColumn(4).setMinWidth(280);
+         equipeTabela.getColumnModel().getColumn(4).setMinWidth(80);
+         equipeTabela.getColumnModel().getColumn(4).setPreferredWidth(80);
+         equipeTabela.getColumnModel().getColumn(4).setMaxWidth(80);
+         equipeTabela.getColumnModel().getColumn(5).setMinWidth(280);
       }
 
       gridBagConstraints = new java.awt.GridBagConstraints();
@@ -964,33 +990,33 @@ public class presenterGui extends javax.swing.JFrame {
       rankingTabela.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
       rankingTabela.setForeground(new java.awt.Color(255, 255, 255));
       rankingTabela.setModel(new javax.swing.table.DefaultTableModel(
-              new Object [][] {
-                      {null, null, null, null, null},
-                      {null, null, null, null, null},
-                      {null, null, null, null, null},
-                      {null, null, null, null, null},
-                      {null, null, null, null, null},
-                      {null, null, null, null, null},
-                      {null, null, null, null, null},
-                      {null, null, null, null, null},
-                      {null, null, null, null, null},
-                      {null, null, null, null, null},
-                      {null, null, null, null, null},
-                      {null, null, null, null, null},
-                      {null, null, null, null, null},
-                      {null, null, null, null, null},
-                      {null, null, null, null, null},
-                      {null, null, null, null, null},
-                      {null, null, null, null, null},
-                      {null, null, null, null, null},
-                      {null, null, null, null, null}
-              },
-              new String [] {
-                      "Equipe", "Projeto", "Turma", "Avaliações", "Média Geral"
-              }
+         new Object [][] {
+            {null, null, null, null, null},
+            {null, null, null, null, null},
+            {null, null, null, null, null},
+            {null, null, null, null, null},
+            {null, null, null, null, null},
+            {null, null, null, null, null},
+            {null, null, null, null, null},
+            {null, null, null, null, null},
+            {null, null, null, null, null},
+            {null, null, null, null, null},
+            {null, null, null, null, null},
+            {null, null, null, null, null},
+            {null, null, null, null, null},
+            {null, null, null, null, null},
+            {null, null, null, null, null},
+            {null, null, null, null, null},
+            {null, null, null, null, null},
+            {null, null, null, null, null},
+            {null, null, null, null, null}
+         },
+         new String [] {
+            "Equipe", "Projeto", "Turma", "Avaliações", "Média Geral"
+         }
       ) {
          boolean[] canEdit = new boolean [] {
-                 false, false, false, false, false
+            false, false, false, false, false
          };
 
          public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1216,7 +1242,7 @@ public class presenterGui extends javax.swing.JFrame {
 
       getContentPane().add(mainPanel);
 
-      setSize(new java.awt.Dimension(899, 589));
+      setSize(new java.awt.Dimension(898, 589));
       setLocationRelativeTo(null);
    }// </editor-fold>//GEN-END:initComponents
 
@@ -1309,6 +1335,7 @@ public class presenterGui extends javax.swing.JFrame {
                       team.getName(),
                       team.getProject(),
                       team.getClassroom(),
+                      team.getPresented() ? "Sim" : "Não",
                       team.getMembersToString()
               }));
    }
@@ -1341,6 +1368,11 @@ public class presenterGui extends javax.swing.JFrame {
    }
 
    private void createTeamInEvent() {
+      if (equipeApresentouComboBox.getSelectedItem().toString().equals("Sim")) {
+         JOptionPane.showMessageDialog(null, "Um novo time não pode ter apresentado.");
+         return;
+      }
+
       int confirm = JOptionPane.showConfirmDialog(null, "Deseja salvar a equipe?");
       if (confirm != 0) return;
 
@@ -1382,7 +1414,7 @@ public class presenterGui extends javax.swing.JFrame {
               equipeNomeTextField.getText(),
               equipeProjetoTextField.getText(),
               equipeTurmaComboBox.getSelectedItem().toString(),
-              false,
+              equipeApresentouComboBox.getSelectedItem().toString().equals("Sim"),
               teamMembers
       );
 
@@ -1398,7 +1430,8 @@ public class presenterGui extends javax.swing.JFrame {
        equipeNomeTextField.setText(equipeTabela.getValueAt(rowIndex, 1).toString());
        equipeProjetoTextField.setText(equipeTabela.getValueAt(rowIndex, 2).toString());
        equipeTurmaComboBox.setSelectedItem(equipeTabela.getValueAt(rowIndex, 3).toString());
-       String[] members = equipeTabela.getValueAt(rowIndex, 4).toString()
+       equipeApresentouComboBox.setSelectedItem(equipeTabela.getValueAt(rowIndex, 4).toString());
+       String[] members = equipeTabela.getValueAt(rowIndex, 5).toString()
                .replace(".", "")
                .split(", ");
 
