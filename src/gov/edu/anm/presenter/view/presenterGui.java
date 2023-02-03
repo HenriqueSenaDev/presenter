@@ -12,8 +12,8 @@ import gov.edu.anm.presenter.domain.utils.SwingUtils;
 import gov.edu.anm.presenter.services.PresenterService;
 
 import javax.sound.sampled.*;
-import javax.swing.*;
 import javax.swing.Timer;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -22,8 +22,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.http.HttpClient;
 import java.time.Duration;
-import java.util.*;
 import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class presenterGui extends javax.swing.JFrame {
 
@@ -585,7 +586,7 @@ public class presenterGui extends javax.swing.JFrame {
       equipePesquisaTextField.setPreferredSize(new java.awt.Dimension(350, 35));
       equipePesquisaTextField.addKeyListener(new java.awt.event.KeyAdapter() {
          public void keyPressed(java.awt.event.KeyEvent evt) {
-            equipePesquisaTextFieldKeyPressed();
+            teamsSearchFilter();
          }
       });
       gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1457,42 +1458,42 @@ public class presenterGui extends javax.swing.JFrame {
       JOptionPane.showMessageDialog(null, "Equipe excluída.");
    }
 
-   private void equipePesquisaTextFieldKeyPressed() {
+   private void teamsSearchFilter() {
+      DefaultTableModel teamsTableData = (DefaultTableModel) equipeTabela.getModel();
+      teamsTableData.setNumRows(0);
 
-//       String value = equipePesquisaTextField.getText();
-//       String metodoDeBusca = equipePorComboBox.getSelectedItem().toString().toLowerCase();
-//
-//       try {
-//          List<Team> teams = api.findEventTeamsByQuery(value, metodoDeBusca);
-//          DefaultTableModel dados = (DefaultTableModel) equipeTabela.getModel();
-//          dados.setNumRows(0);
-//
-//          for (Team team : teams) {
-//             List<String> usernames = api.findTeamMembersUsernames(team);
-//             String members = "";
-//             for (String username : usernames) {
-//                if (usernames.indexOf(username) == usernames.size() - 1) {
-//                   members += username + ".";
-//                }
-//                else {
-//                   members += username + ", ";
-//                }
-//             }
-//
-//             dados.addRow(new Object[]{
-//                team.getId(),
-//                team.getName(),
-//                team.getProject(),
-//                team.getClassRoom(),
-//                members
-//             });
-//          }
-//
-//       }
-//       catch (IOException e) {
-//          JOptionPane.showMessageDialog(null, e.getMessage());
-//       }
+      String searchBy = equipePorComboBox.getSelectedItem().toString().toLowerCase();
+      List<Team> searchTeams = new ArrayList<>();
+      String value = equipePesquisaTextField.getText();
 
+      if (value.equals("")){
+         searchTeams = List.copyOf(this.event.getTeams());
+      }
+      else {
+         switch (searchBy) {
+            case "nome" ->
+                    searchTeams = this.event.getTeams().stream()
+                            .filter(x -> x.getName().contains(value)).collect(Collectors.toList());
+            case "projeto" ->
+                    searchTeams = this.event.getTeams().stream()
+                            .filter(x -> x.getProject().contains(value)).collect(Collectors.toList());
+            case "aluno" ->
+                    searchTeams = this.event.getTeams().stream()
+                            .filter(x -> x.getMembersToString().contains(value)).collect(Collectors.toList());
+            default -> {}
+         }
+      }
+
+      searchTeams.forEach(team -> {
+         teamsTableData.addRow(new Object[]{
+                 team.getId(),
+                 team.getName(),
+                 team.getProject(),
+                 team.getClassroom(),
+                 team.getPresented() ? "Sim" : "Não",
+                 team.getMembersToString()
+         });
+      });
    }
 
    // Sorteador panel methods
@@ -1825,6 +1826,8 @@ public class presenterGui extends javax.swing.JFrame {
    private javax.swing.JTextField equipeAlunoTextField;
    private javax.swing.JScrollPane equipeAlunosDaEquipeContentPanel;
    private javax.swing.JList<String> equipeAlunosDaEquipeLista;
+   private javax.swing.JComboBox<String> equipeApresentouComboBox;
+   private javax.swing.JLabel equipeApresentouLabel;
    private javax.swing.JPanel equipeCadastro;
    private javax.swing.JPanel equipeDivideBar;
    private javax.swing.JLabel equipeEditarBotao;
