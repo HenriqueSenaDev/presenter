@@ -1,12 +1,7 @@
 package gov.edu.anm.presenter.domain.utils;
 
-import java.awt.Component;
-import javax.swing.DefaultListModel;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.JViewport;
+import java.awt.*;
+import javax.swing.*;
 
 public class SwingUtils {
     
@@ -24,6 +19,18 @@ public class SwingUtils {
                 b.setModel(model);
             }
         }
+    }
+
+    public static void setRedCountdown(JLabel whiteCircle, JLabel redCircle, JLabel timerLabel) {
+        whiteCircle.setVisible(false);
+        redCircle.setVisible(true);
+        timerLabel.setForeground(new Color(255, 0, 25));
+    }
+
+    public static void setWhiteCountdown(JLabel whiteCircle, JLabel redCircle, JLabel timerLabel) {
+        whiteCircle.setVisible(true);
+        redCircle.setVisible(false);
+        timerLabel.setForeground(new Color(255, 255, 255));
     }
     
 }
