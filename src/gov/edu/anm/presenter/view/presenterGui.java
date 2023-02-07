@@ -909,7 +909,7 @@ public class presenterGui extends javax.swing.JFrame {
       sorteadorSortearBotao.setPreferredSize(new java.awt.Dimension(340, 45));
       sorteadorSortearBotao.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {
-            sorteadorSortearBotaoMouseClicked(evt);
+            drawTeamToPresent(evt);
          }
       });
       gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1556,7 +1556,42 @@ public class presenterGui extends javax.swing.JFrame {
         tempoConfigPanel.setPreferredSize(new Dimension(615, 200));
     }
 
+   // SorteadorPanel methods
+   private void drawTeamToPresent(java.awt.event.MouseEvent evt) {
+      if (this.event.getTeamsToPresent().isEmpty()) {
+         JOptionPane.showMessageDialog(null, "Não há mais equipes para apresentação.");
+         return;
+      }
+      if (teamToPresentDrawTimer != null) teamToPresentDrawTimer.stop();
+      teamToPresentDrawTimer = new Timer(100, new ActionListener() {
+         int drawLabelLoops = 0;
+         int drawIndex = event.getTeamsToPresent().size();
 
+         @Override
+         public void actionPerformed(ActionEvent e) {
+            // Restart the names looping
+            if (drawIndex == 0) {
+               drawIndex = event.getTeamsToPresent().size();
+            }
+
+            sorteadorEquipeLabel.setText(event.getTeamsToPresent().get(drawIndex - 1).getName());
+            drawIndex--;
+            drawLabelLoops++;
+
+            if (drawLabelLoops == 20) {
+               teamToPresentDrawTimer.stop();
+               getTeamToPresentDrawResult();
+            }
+         }
+      });
+      teamToPresentDrawTimer.start();
+   }
+
+   public void getTeamToPresentDrawResult() {
+      int max = this.event.getTeamsToPresent().size();
+      int random = (int) Math.floor(Math.random() * max);
+      String chosenTeam = this.event.getTeamsToPresent().get(random).getName();
+      sorteadorEquipeLabel.setText(chosenTeam);
    }
 
    private void sorteadorApresentouLabelMouseClicked(java.awt.event.MouseEvent evt) {
