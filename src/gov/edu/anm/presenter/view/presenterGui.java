@@ -828,25 +828,25 @@ public class presenterGui extends javax.swing.JFrame {
       tempoActionsPanel.setPreferredSize(new java.awt.Dimension(10, 90));
       tempoActionsPanel.setLayout(new java.awt.GridBagLayout());
 
-      tempoPlayLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/assets/images/playIcon.png"))); // NOI18N
-      tempoPlayLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-         public void mouseClicked(java.awt.event.MouseEvent evt) {
-            tempoPlayLabelMouseClicked(evt);
-         }
-      });
-      gridBagConstraints = new java.awt.GridBagConstraints();
-      gridBagConstraints.insets = new java.awt.Insets(0, 0, 30, 0);
-      tempoActionsPanel.add(tempoPlayLabel, gridBagConstraints);
+        tempoPlayLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/assets/images/playIcon.png"))); // NOI18N
+        tempoPlayLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                playCountdownTimer(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 30, 0);
+        tempoActionsPanel.add(tempoPlayLabel, gridBagConstraints);
 
-      tempoDeleteLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/assets/images/deleteIcon.png"))); // NOI18N
-      tempoDeleteLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-         public void mouseClicked(java.awt.event.MouseEvent evt) {
-            tempoDeleteLabelMouseClicked(evt);
-         }
-      });
-      gridBagConstraints = new java.awt.GridBagConstraints();
-      gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
-      tempoActionsPanel.add(tempoDeleteLabel, gridBagConstraints);
+        tempoDeleteLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/assets/images/deleteIcon.png"))); // NOI18N
+        tempoDeleteLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cancelCountdown(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
+        tempoActionsPanel.add(tempoDeleteLabel, gridBagConstraints);
 
       gridBagConstraints = new java.awt.GridBagConstraints();
       gridBagConstraints.gridy = 1;
@@ -1540,76 +1540,22 @@ public class presenterGui extends javax.swing.JFrame {
         tempoNumbers.setVisible(false);
     }
 
-   private void tempoDeleteLabelMouseClicked(java.awt.event.MouseEvent evt) {
-      oscilar.stop();
-      whiteCountdown();
-      mainTimer.stop();
-      returnPlay();
-      tempoNumbers.setText("00:00");
-      tempoNumbers.setVisible(true);
-   }
+    private void cancelCountdown(java.awt.event.MouseEvent evt) {
+        countdownTimer.stop();
+        oscillationTimer.stop();
 
-   private void rankingMenuLabelMouseClicked(java.awt.event.MouseEvent evt) {
-      abas.setSelectedIndex(3);
-      contentPanel.setVisible(true);
-      contentPanel.setEnabled(true);
-      menuBar.setVisible(false);
-      menuBar.setEnabled(false);
+        SwingUtils.setWhiteCountdown(whiteCircleLabel, redCircleLabel, tempoNumbers);
 
-//       try {
-//          List<Team> teams = List.copyOf(this.event.getTeams());
-//          DefaultTableModel dados = (DefaultTableModel) rankingTabela.getModel();
-//          dados.setNumRows(0);
-//          
-//          teams.sort((Team t1, Team t2) -> t2.getAverage().compareTo(t1.getAverage()));
-//
-//          for (Team team : teams) {
-//             dados.addRow(new Object[]{
-//                team.getName(),
-//                team.getProject(),
-//                team.getClassRoom(),
-//                team.getAvaliationsQuantity(),
-//                String.format("%.1f", team.getAverage())
-//             });
-//          }
-//
-//          while (dados.getRowCount() < 19) {
-//             dados.addRow(new Object[]{});
-//          }
-//       }
-//       catch (IOException e) {
-//          JOptionPane.showMessageDialog(null, e.getMessage());
-//       }
-   }
+        tempoNumbers.setText("00:00");
+        tempoNumbers.setVisible(true);
 
-   private void sorteadorSortearBotaoMouseClicked(java.awt.event.MouseEvent evt) {
-//       if (!namesOfTeamsToPresent.isEmpty()) {
-//          sortear = new Timer(100, new ActionListener() {
-//             private int countTotalSorteio = 0;
-//             private int indexSorteio = namesOfTeamsToPresent.size();
-//
-//             @Override
-//             public void actionPerformed(ActionEvent evt) {
-//                // Restart the array of names
-//                if (indexSorteio == 0) {
-//                   indexSorteio = namesOfTeamsToPresent.size();
-//                }
-//
-//                sorteadorEquipeLabel.setText(namesOfTeamsToPresent.get(indexSorteio - 1));
-//                indexSorteio--;
-//                countTotalSorteio++;
-//
-//                if (countTotalSorteio == 20) {
-//                   sortear.stop();
-//                   resultadoSorteio();
-//                }
-//             }
-//          });
-//          sortear.start();
-//       }
-//       else {
-//          JOptionPane.showMessageDialog(null, "Não há mais equipes para apresentação.");
-//       }
+        tempoDuracaoPanel.setVisible(true);
+        tempoDeleteLabel.setVisible(false);
+        tempoPlayLabel.setVisible(true);
+        tempoDivideBar.setVisible(true);
+        tempoConfigPanel.setPreferredSize(new Dimension(615, 200));
+    }
+
 
    }
 
