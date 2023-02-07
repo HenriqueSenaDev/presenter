@@ -32,14 +32,13 @@ public class presenterGui extends javax.swing.JFrame {
     private final ObjectMapper mapper = new ObjectMapper();
     private final PresenterService presenterService = new PresenterService(httpClient, mapper);
 
-   private AppUser user;
-   private AppUserTokens userTokens;
-   private Event event;
-   private String duracaoString;
-   private String[] duracaoNumber;
-   private Timer mainTimer;
-   private Timer sortear;
-   private int totalSeconds;
+    private AppUser user;
+    private AppUserTokens userTokens;
+    private Event event;
+
+    private Timer countdownTimer;
+    private final Timer oscillationTimer = new Timer(550, actionEvt -> countdownOscillation());
+    private Timer teamToPresentDrawTimer;
 
    public presenterGui() {
       initComponents();
@@ -1480,53 +1479,66 @@ public class presenterGui extends javax.swing.JFrame {
       });
    }
 
-   // Sorteador panel methods
-   private void tempoPlayLabelMouseClicked(java.awt.event.MouseEvent evt) {
-      if (tempoDuracaoComboBox.getSelectedItem().toString().equals("Customizado")) {
-         getCustomTime();
-         justDelete();
+    // TimerPanel methods
+    private void playCountdownTimer(java.awt.event.MouseEvent evt) {
+        String[] time = {"0", "0"};
+        if (tempoDuracaoComboBox.getSelectedItem().toString().equals("Customizado")) {
+            time[0] = tempoCustomTextField.getText().split(":")[0];
+            time[1] = tempoCustomTextField.getText().split(":")[1];
+        } else {
+            time[0] = tempoDuracaoComboBox.getSelectedItem().toString().split(" ")[0];
+        }
 
-         mainTimer = new Timer(1000, new ActionListener() {
+        tempoDeleteLabel.setVisible(true);
+        tempoDuracaoPanel.setVisible(false);
+        tempoPlayLabel.setVisible(false);
+        tempoDivideBar.setVisible(false);
+        tempoConfigPanel.setPreferredSize(new Dimension(615, 150));
+
+        countdownTimer = new Timer(1000, new ActionListener() {
+            int totalSeconds = TimerUtils.getTotalSeconds(Integer.parseInt(time[0]), Integer.parseInt(time[1]));
+
             @Override
             public void actionPerformed(ActionEvent e) {
-               countdownWorking();
-               if (totalSeconds < 60 && totalSeconds >= 0) {
-                  finalCountdown();
-               }
-               else if (totalSeconds < 0) {
-                  oscilar.stop();
-                  whiteCountdown();
-                  mainTimer.stop();
-                  returnPlay();
-                  playTimesOverSound();
-               }
+                if (totalSeconds <= 60) SwingUtils.setRedCountdown(whiteCircleLabel, redCircleLabel, tempoNumbers);
+                countdownTimerOperation(totalSeconds);
+                totalSeconds--;
             }
-         });
-         mainTimer.start();
-      }
-      else {
-         getDefinedTime();
-         justDelete();
+        });
+        countdownTimer.start();
+    }
 
-         mainTimer = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               countdownWorking();
-               if (totalSeconds < 60 && totalSeconds >= 0) {
-                  finalCountdown();
-               }
-               else if (totalSeconds < 0) {
-                  oscilar.stop();
-                  whiteCountdown();
-                  mainTimer.stop();
-                  returnPlay();
-                  playTimesOverSound();
-               }
-            }
-         });
-         mainTimer.start();
-      }
-   }
+    private void countdownTimerOperation(int totalSeconds) {
+        tempoNumbers.setVisible(true);
+        tempoNumbers.setText(TimerUtils.getCountdownLabel(totalSeconds));
+
+        if (totalSeconds == 60) SwingUtils.setRedCountdown(whiteCircleLabel, redCircleLabel, tempoNumbers);
+
+        if (totalSeconds <= 60 && totalSeconds >= 0) {
+            oscillationTimer.stop();
+            tempoNumbers.setVisible(true);
+            oscillationTimer.start();
+        }
+
+        if (totalSeconds == 0) {
+            countdownTimer.stop();
+            oscillationTimer.stop();
+
+            SwingUtils.setWhiteCountdown(whiteCircleLabel, redCircleLabel, tempoNumbers);
+
+            tempoDuracaoPanel.setVisible(true);
+            tempoDeleteLabel.setVisible(false);
+            tempoPlayLabel.setVisible(true);
+            tempoDivideBar.setVisible(true);
+            tempoConfigPanel.setPreferredSize(new Dimension(615, 200));
+
+            SoundsUtils.playTimeOutSound();
+        }
+    }
+
+    public void countdownOscillation() {
+        tempoNumbers.setVisible(false);
+    }
 
    private void tempoDeleteLabelMouseClicked(java.awt.event.MouseEvent evt) {
       oscilar.stop();
