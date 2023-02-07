@@ -8,18 +8,17 @@ import gov.edu.anm.presenter.domain.event.Event;
 import gov.edu.anm.presenter.domain.team.Team;
 import gov.edu.anm.presenter.domain.team.TeamCreateDto;
 import gov.edu.anm.presenter.domain.team.TeamUpdateDto;
+import gov.edu.anm.presenter.domain.utils.SoundsUtils;
 import gov.edu.anm.presenter.domain.utils.SwingUtils;
+import gov.edu.anm.presenter.domain.utils.TimerUtils;
 import gov.edu.anm.presenter.services.PresenterService;
 
-import javax.sound.sampled.*;
 import javax.swing.Timer;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
 import java.net.http.HttpClient;
 import java.time.Duration;
 import java.util.List;
@@ -27,12 +26,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class presenterGui extends javax.swing.JFrame {
-
-   private final HttpClient httpClient = HttpClient.newBuilder()
-           .connectTimeout(Duration.ofSeconds(3))
-           .build();
-   private final ObjectMapper mapper = new ObjectMapper();
-   private final PresenterService presenterService = new PresenterService(httpClient, mapper);
+    private final HttpClient httpClient = HttpClient.newBuilder()
+            .connectTimeout(Duration.ofSeconds(3))
+            .build();
+    private final ObjectMapper mapper = new ObjectMapper();
+    private final PresenterService presenterService = new PresenterService(httpClient, mapper);
 
    private AppUser user;
    private AppUserTokens userTokens;
@@ -1076,30 +1074,31 @@ public class presenterGui extends javax.swing.JFrame {
       gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
       menuBar.add(equipesActivePanel, gridBagConstraints);
 
-      equipesMenuLabel.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
-      equipesMenuLabel.setForeground(new java.awt.Color(255, 255, 255));
-      equipesMenuLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-      equipesMenuLabel.setText("Cadastro de Equipes");
-      equipesMenuLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-      equipesMenuLabel.setPreferredSize(new java.awt.Dimension(183, 35));
-      equipesMenuLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-         public void mouseClicked(java.awt.event.MouseEvent evt) {
-            equipesMenuLabelMouseClicked();
-         }
-         public void mouseEntered(java.awt.event.MouseEvent evt) {
-            menuLabelBackgroundHover(equipesActivePanel);
-         }
-         public void mouseExited(java.awt.event.MouseEvent evt) {
-            menuLabelBackgroundOut(equipesActivePanel);
-         }
-      });
-      gridBagConstraints = new java.awt.GridBagConstraints();
-      gridBagConstraints.gridx = 1;
-      gridBagConstraints.gridy = 0;
-      gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-      gridBagConstraints.weightx = 1.0;
-      gridBagConstraints.insets = new java.awt.Insets(30, 0, 15, 0);
-      menuBar.add(equipesMenuLabel, gridBagConstraints);
+        equipesMenuLabel.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
+        equipesMenuLabel.setForeground(new java.awt.Color(255, 255, 255));
+        equipesMenuLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        equipesMenuLabel.setText("Cadastro de Equipes");
+        equipesMenuLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        equipesMenuLabel.setPreferredSize(new java.awt.Dimension(183, 35));
+        equipesMenuLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                abas.setSelectedIndex(0);
+                closeMenu();
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                menuLabelBackgroundHover(equipesActivePanel);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                menuLabelBackgroundOut(equipesActivePanel);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(30, 0, 15, 0);
+        menuBar.add(equipesMenuLabel, gridBagConstraints);
 
       temporizadorActivePanel.setBackground(new java.awt.Color(173, 211, 250));
       temporizadorActivePanel.setMinimumSize(new java.awt.Dimension(5, 35));
@@ -1111,30 +1110,31 @@ public class presenterGui extends javax.swing.JFrame {
       gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
       menuBar.add(temporizadorActivePanel, gridBagConstraints);
 
-      tempMenuLabel.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
-      tempMenuLabel.setForeground(new java.awt.Color(255, 255, 255));
-      tempMenuLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-      tempMenuLabel.setText("Temporizador");
-      tempMenuLabel.setToolTipText("");
-      tempMenuLabel.setPreferredSize(new java.awt.Dimension(174, 35));
-      tempMenuLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-         public void mouseClicked(java.awt.event.MouseEvent evt) {
-            tempMenuLabelMouseClicked();
-         }
-         public void mouseEntered(java.awt.event.MouseEvent evt) {
-            menuLabelBackgroundHover(temporizadorActivePanel);
-         }
-         public void mouseExited(java.awt.event.MouseEvent evt) {
-            menuLabelBackgroundOut(temporizadorActivePanel);
-         }
-      });
-      gridBagConstraints = new java.awt.GridBagConstraints();
-      gridBagConstraints.gridx = 1;
-      gridBagConstraints.gridy = 1;
-      gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-      gridBagConstraints.weightx = 1.0;
-      gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
-      menuBar.add(tempMenuLabel, gridBagConstraints);
+        tempMenuLabel.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
+        tempMenuLabel.setForeground(new java.awt.Color(255, 255, 255));
+        tempMenuLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tempMenuLabel.setText("Temporizador");
+        tempMenuLabel.setToolTipText("");
+        tempMenuLabel.setPreferredSize(new java.awt.Dimension(174, 35));
+        tempMenuLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                abas.setSelectedIndex(1);
+                closeMenu();
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                menuLabelBackgroundHover(temporizadorActivePanel);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                menuLabelBackgroundOut(temporizadorActivePanel);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
+        menuBar.add(tempMenuLabel, gridBagConstraints);
 
       sorteadorMenuActivePanel.setBackground(new java.awt.Color(173, 211, 250));
       sorteadorMenuActivePanel.setMinimumSize(new java.awt.Dimension(5, 35));
@@ -1146,29 +1146,31 @@ public class presenterGui extends javax.swing.JFrame {
       gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
       menuBar.add(sorteadorMenuActivePanel, gridBagConstraints);
 
-      sorteadorMenuLabel.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
-      sorteadorMenuLabel.setForeground(new java.awt.Color(255, 255, 255));
-      sorteadorMenuLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-      sorteadorMenuLabel.setText("Sorteador");
-      sorteadorMenuLabel.setPreferredSize(new java.awt.Dimension(113, 35));
-      sorteadorMenuLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-         public void mouseClicked(java.awt.event.MouseEvent evt) {
-            sorteadorMenuLabelMouseClicked();
-         }
-         public void mouseEntered(java.awt.event.MouseEvent evt) {
-            menuLabelBackgroundHover(sorteadorMenuActivePanel);
-         }
-         public void mouseExited(java.awt.event.MouseEvent evt) {
-            menuLabelBackgroundOut(sorteadorMenuActivePanel);
-         }
-      });
-      gridBagConstraints = new java.awt.GridBagConstraints();
-      gridBagConstraints.gridx = 1;
-      gridBagConstraints.gridy = 2;
-      gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-      gridBagConstraints.weightx = 1.0;
-      gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
-      menuBar.add(sorteadorMenuLabel, gridBagConstraints);
+        sorteadorMenuLabel.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
+        sorteadorMenuLabel.setForeground(new java.awt.Color(255, 255, 255));
+        sorteadorMenuLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        sorteadorMenuLabel.setText("Sorteador");
+        sorteadorMenuLabel.setPreferredSize(new java.awt.Dimension(113, 35));
+        sorteadorMenuLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                abas.setSelectedIndex(2);
+                closeMenu();
+                setTeamsDrawLabel();
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                menuLabelBackgroundHover(sorteadorMenuActivePanel);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                menuLabelBackgroundOut(sorteadorMenuActivePanel);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
+        menuBar.add(sorteadorMenuLabel, gridBagConstraints);
 
       rankingMenuActivePanel.setBackground(new java.awt.Color(173, 211, 250));
       rankingMenuActivePanel.setMinimumSize(new java.awt.Dimension(5, 35));
@@ -1180,35 +1182,37 @@ public class presenterGui extends javax.swing.JFrame {
       gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
       menuBar.add(rankingMenuActivePanel, gridBagConstraints);
 
-      rankingMenuLabel.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
-      rankingMenuLabel.setForeground(new java.awt.Color(255, 255, 255));
-      rankingMenuLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-      rankingMenuLabel.setText("Ranking");
-      rankingMenuLabel.setPreferredSize(new java.awt.Dimension(113, 35));
-      rankingMenuLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-         public void mouseClicked(java.awt.event.MouseEvent evt) {
-            rankingMenuLabelMouseClicked(evt);
-         }
-         public void mouseEntered(java.awt.event.MouseEvent evt) {
-            menuLabelBackgroundHover(rankingMenuActivePanel);
-         }
-         public void mouseExited(java.awt.event.MouseEvent evt) {
-            menuLabelBackgroundOut(rankingMenuActivePanel);
-         }
-      });
-      gridBagConstraints = new java.awt.GridBagConstraints();
-      gridBagConstraints.gridx = 1;
-      gridBagConstraints.gridy = 3;
-      gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-      gridBagConstraints.weightx = 1.0;
-      gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
-      menuBar.add(rankingMenuLabel, gridBagConstraints);
-      gridBagConstraints = new java.awt.GridBagConstraints();
-      gridBagConstraints.gridx = 1;
-      gridBagConstraints.gridy = 4;
-      gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-      gridBagConstraints.weighty = 1.0;
-      menuBar.add(inMenuBarSpaceLabel, gridBagConstraints);
+        rankingMenuLabel.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
+        rankingMenuLabel.setForeground(new java.awt.Color(255, 255, 255));
+        rankingMenuLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        rankingMenuLabel.setText("Ranking");
+        rankingMenuLabel.setPreferredSize(new java.awt.Dimension(113, 35));
+        rankingMenuLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                abas.setSelectedIndex(3);
+                closeMenu();
+//                populateRankingTable();
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                menuLabelBackgroundHover(rankingMenuActivePanel);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                menuLabelBackgroundOut(rankingMenuActivePanel);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
+        menuBar.add(rankingMenuLabel, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        menuBar.add(inMenuBarSpaceLabel, gridBagConstraints);
 
       gridBagConstraints = new java.awt.GridBagConstraints();
       gridBagConstraints.gridx = 0;
@@ -1284,46 +1288,26 @@ public class presenterGui extends javax.swing.JFrame {
       panel.setBackground(new Color(173, 211, 250));
    }
 
-   // Menu items clicked events
-   private void equipesMenuLabelMouseClicked() {
-      abas.setSelectedIndex(0);
-      contentPanel.setVisible(true);
-      contentPanel.setEnabled(true);
-      menuBar.setVisible(false);
-      menuBar.setEnabled(false);
-   }
+    // Menu items clicked events
+    private void closeMenu(){
+        contentPanel.setVisible(true);
+        contentPanel.setEnabled(true);
+        menuBar.setVisible(false);
+        menuBar.setEnabled(false);
+    }
 
-   private void tempMenuLabelMouseClicked() {
-      abas.setSelectedIndex(1);
-      contentPanel.setVisible(true);
-      contentPanel.setEnabled(true);
-      menuBar.setVisible(false);
-      menuBar.setEnabled(false);
-   }
+    private void setTeamsDrawLabel() {final String label;
+        final int n = this.event.getTeamsToPresent().size();
 
-   private void sorteadorMenuLabelMouseClicked() {
-      abas.setSelectedIndex(2);
-      contentPanel.setVisible(true);
-      contentPanel.setEnabled(true);
-      menuBar.setVisible(false);
-      menuBar.setEnabled(false);
-
-       try {
-          eventTeams = api.findEventTeams();
-          eventTeams.removeIf(x -> x.getPresented() == true);
-
-          String label;
-          int n = eventTeams.size();
-          if (n == 0) {
-             label = "Nenhuma equipe restando";
-          }
-          else {
-             label = (n >= 10 ? String.valueOf(n) : "0" + n)
-                     + " equipe"
-                     + (n <= 1 ? "" : "s")
-                     + " restando";
-          }
-          sorteadorEquipesRestandoLabel.setText(label);
+        if (n == 0) {
+            label = "Nenhuma equipe restando";
+        }
+        else {
+            label = (n >= 10 ? String.valueOf(n) : "0" + n)
+                    + " equipe" + (n == 1 ? "" : "s") + " restando";
+        }
+        sorteadorEquipesRestandoLabel.setText(label);
+    }
 
    // Window activated
    private void addEventTeamsToTable() {
