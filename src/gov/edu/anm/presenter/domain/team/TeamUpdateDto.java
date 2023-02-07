@@ -18,6 +18,14 @@ public class TeamUpdateDto {
         this.members = members;
     }
 
+    public TeamUpdateDto(Team team) {
+        this.name = team.getName();
+        this.project = team.getProject();
+        this.classroom = team.getClassroom();
+        this.presented = team.getPresented();
+        this.members = team.getMembers();
+    }
+
     public String getName() {
         return name;
     }

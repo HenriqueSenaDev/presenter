@@ -928,7 +928,7 @@ public class presenterGui extends javax.swing.JFrame {
       sorteadorApresentouLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/assets/images/doneIcon.png"))); // NOI18N
       sorteadorApresentouLabel.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {
-            sorteadorApresentouLabelMouseClicked(evt);
+            confirmPresentation(evt);
          }
       });
       gridBagConstraints = new java.awt.GridBagConstraints();
@@ -939,7 +939,7 @@ public class presenterGui extends javax.swing.JFrame {
       sorteadorNaoAprensentouLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/assets/images/closeBigIcon.png"))); // NOI18N
       sorteadorNaoAprensentouLabel.addMouseListener(new java.awt.event.MouseAdapter() {
          public void mouseClicked(java.awt.event.MouseEvent evt) {
-            sorteadorNaoAprensentouLabelMouseClicked(evt);
+            cancelPresentation(evt);
          }
       });
       gridBagConstraints = new java.awt.GridBagConstraints();
@@ -1616,46 +1616,26 @@ public class presenterGui extends javax.swing.JFrame {
       sorteadorEquipeLabel.setText(chosenTeam);
    }
 
-   private void sorteadorApresentouLabelMouseClicked(java.awt.event.MouseEvent evt) {
-//       int confirm = JOptionPane.showConfirmDialog(null, "Confirmar apresentação da equipe?");
-//       if (confirm == 0) {
-//
-//          try {
-//             Team team = eventTeams.stream().filter(x -> x.getName()
-//                     .equals(sorteadorEquipeLabel.getText()))
-//                     .findFirst().orElseThrow(() -> new IOException("Nenhuma equipe restante."));
-//
-//             team.setPresented(true);
-//             api.updateTeam(team);
-//
-//             eventTeams = api.findEventTeams();
-//             eventTeams.removeIf(x -> x.getPresented() == true);
-//
-//             String label;
-//             int n = eventTeams.size();
-//             if (n == 0) {
-//                label = "Nenhuma equipe restando";
-//             }
-//             else {
-//                label = (n >= 10 ? String.valueOf(n) : "0" + n)
-//                        + " equipe"
-//                        + (n <= 1 ? "" : "s")
-//                        + " restando";
-//             }
-//             sorteadorEquipesRestandoLabel.setText(label);
-//             sorteadorEquipeLabel.setText("Equipe Selecionada");
-//
-//             namesOfTeamsToPresent = eventTeams.stream().map(x -> x.getName()).collect(Collectors.toList());
-//
-//             JOptionPane.showMessageDialog(null, "Apresentação registrada.");
-//          }
-//          catch (IOException e) {
-//             JOptionPane.showMessageDialog(null, e.getMessage());
-//          }
-//       }
+   private void confirmPresentation(java.awt.event.MouseEvent evt) {
+      int confirm = JOptionPane.showConfirmDialog(null, "Confirmar apresentação da equipe?");
+      if (confirm != 0) return;
+
+      Team team = this.event.getTeams().stream()
+              .filter(x -> x.getName().equals(sorteadorEquipeLabel.getText()))
+              .findFirst().orElseThrow(() -> new RuntimeException("Nenhuma equipe restante."));
+
+      team.setPresented(true);
+      presenterService.updateTeam(new TeamUpdateDto(team), team.getId(), this.userTokens);
+
+      this.event = presenterService.findEventByJoinCode(this.event.getJoinCode(), this.userTokens);
+
+      setTeamsDrawLabel();
+      sorteadorEquipeLabel.setText("Equipe Selecionada");
+
+      JOptionPane.showMessageDialog(null, "Apresentação registrada.");
    }
 
-   private void sorteadorNaoAprensentouLabelMouseClicked(java.awt.event.MouseEvent evt) {
+   private void cancelPresentation(java.awt.event.MouseEvent evt) {
       int confirm = JOptionPane.showConfirmDialog(null, "Confirmar problema na apresentação da equipe?");
       if (confirm == 0) {
          sorteadorEquipeLabel.setText("Equipe Selecionada");
