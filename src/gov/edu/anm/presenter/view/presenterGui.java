@@ -1190,7 +1190,7 @@ public class presenterGui extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 abas.setSelectedIndex(3);
                 closeMenu();
-//                populateRankingTable();
+                populateRankingTable();
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 menuLabelBackgroundHover(rankingMenuActivePanel);
@@ -1307,6 +1307,28 @@ public class presenterGui extends javax.swing.JFrame {
         }
         sorteadorEquipesRestandoLabel.setText(label);
     }
+
+   private void populateRankingTable() {
+      List<Team> teams = List.copyOf(this.event.getTeams());
+      DefaultTableModel dados = (DefaultTableModel) rankingTabela.getModel();
+      dados.setNumRows(0);
+
+      teams.sort((Team t1, Team t2) -> t2.getAverage().compareTo(t1.getAverage()));
+
+      for (Team team : teams) {
+         dados.addRow(new Object[]{
+                 team.getName(),
+                 team.getProject(),
+                 team.getClassroom(),
+                 team.getAvaliationsQuantity(),
+                 String.format("%.1f", team.getAverage())
+         });
+      }
+
+      while (dados.getRowCount() < 19) {
+         dados.addRow(new Object[]{});
+      }
+   }
 
    // Window activated
    private void addEventTeamsToTable() {
