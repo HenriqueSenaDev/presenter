@@ -1309,7 +1309,7 @@ public class presenterGui extends javax.swing.JFrame {
    }
 
    private void populateRankingTable() {
-      List<Team> teams = List.copyOf(this.event.getTeams());
+      List<Team> teams = new ArrayList<>(this.event.getTeams());
       DefaultTableModel dados = (DefaultTableModel) rankingTabela.getModel();
       dados.setNumRows(0);
 
@@ -1670,17 +1670,9 @@ public class presenterGui extends javax.swing.JFrame {
       catch (javax.swing.UnsupportedLookAndFeelException ex) {
          java.util.logging.Logger.getLogger(presenterGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
       }
-      //</editor-fold>
-      //</editor-fold>
-      //</editor-fold>
-      //</editor-fold>
 
       /* Create and display the form */
-      java.awt.EventQueue.invokeLater(new Runnable() {
-         public void run() {
-            new presenterGui().setVisible(true);
-         }
-      });
+      java.awt.EventQueue.invokeLater(() -> new presenterGui().setVisible(true));
    }
    private javax.swing.JPanel abaEquipes;
    private javax.swing.JPanel abaRanking;
