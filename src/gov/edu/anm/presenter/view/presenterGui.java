@@ -26,19 +26,19 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class presenterGui extends javax.swing.JFrame {
-    private final HttpClient httpClient = HttpClient.newBuilder()
-            .connectTimeout(Duration.ofSeconds(3))
-            .build();
-    private final ObjectMapper mapper = new ObjectMapper();
-    private final PresenterService presenterService = new PresenterService(httpClient, mapper);
+   private final HttpClient httpClient = HttpClient.newBuilder()
+           .connectTimeout(Duration.ofSeconds(3))
+           .build();
+   private final ObjectMapper mapper = new ObjectMapper();
+   private final PresenterService presenterService = new PresenterService(httpClient, mapper);
 
-    private AppUser user;
-    private AppUserTokens userTokens;
-    private Event event;
+   private AppUser user;
+   private AppUserTokens userTokens;
+   private Event event;
 
-    private Timer countdownTimer;
-    private final Timer oscillationTimer = new Timer(550, actionEvt -> countdownOscillation());
-    private Timer teamToPresentDrawTimer;
+   private Timer countdownTimer;
+   private final Timer oscillationTimer = new Timer(550, actionEvt -> countdownOscillation());
+   private Timer teamToPresentDrawTimer;
 
    public presenterGui() {
       initComponents();
@@ -635,26 +635,26 @@ public class presenterGui extends javax.swing.JFrame {
       equipeTabela.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
       equipeTabela.setForeground(new java.awt.Color(255, 255, 255));
       equipeTabela.setModel(new javax.swing.table.DefaultTableModel(
-         new Object [][] {
-            {null, null, null, null, null, null},
-            {null, null, null, null, null, null},
-            {null, null, null, null, null, null},
-            {null, null, null, null, null, null},
-            {null, null, null, null, null, null},
-            {null, null, null, null, null, null},
-            {null, null, null, null, null, null},
-            {null, null, null, null, null, null},
-            {null, null, null, null, null, null},
-            {null, null, null, null, null, null},
-            {null, null, null, null, null, null},
-            {null, null, null, null, null, null}
-         },
-         new String [] {
-            "Id", "Nome", "Projeto", "Turma", "Apresentou", "Alunos"
-         }
+              new Object [][] {
+                      {null, null, null, null, null, null},
+                      {null, null, null, null, null, null},
+                      {null, null, null, null, null, null},
+                      {null, null, null, null, null, null},
+                      {null, null, null, null, null, null},
+                      {null, null, null, null, null, null},
+                      {null, null, null, null, null, null},
+                      {null, null, null, null, null, null},
+                      {null, null, null, null, null, null},
+                      {null, null, null, null, null, null},
+                      {null, null, null, null, null, null},
+                      {null, null, null, null, null, null}
+              },
+              new String [] {
+                      "Id", "Nome", "Projeto", "Turma", "Apresentou", "Alunos"
+              }
       ) {
          boolean[] canEdit = new boolean [] {
-            false, false, false, false, false, false
+                 false, false, false, false, false, false
          };
 
          public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -828,25 +828,25 @@ public class presenterGui extends javax.swing.JFrame {
       tempoActionsPanel.setPreferredSize(new java.awt.Dimension(10, 90));
       tempoActionsPanel.setLayout(new java.awt.GridBagLayout());
 
-        tempoPlayLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/assets/images/playIcon.png"))); // NOI18N
-        tempoPlayLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                playCountdownTimer(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 30, 0);
-        tempoActionsPanel.add(tempoPlayLabel, gridBagConstraints);
+      tempoPlayLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/assets/images/playIcon.png"))); // NOI18N
+      tempoPlayLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+         public void mouseClicked(java.awt.event.MouseEvent evt) {
+            playCountdownTimer(evt);
+         }
+      });
+      gridBagConstraints = new java.awt.GridBagConstraints();
+      gridBagConstraints.insets = new java.awt.Insets(0, 0, 30, 0);
+      tempoActionsPanel.add(tempoPlayLabel, gridBagConstraints);
 
-        tempoDeleteLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/assets/images/deleteIcon.png"))); // NOI18N
-        tempoDeleteLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cancelCountdown(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
-        tempoActionsPanel.add(tempoDeleteLabel, gridBagConstraints);
+      tempoDeleteLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/assets/images/deleteIcon.png"))); // NOI18N
+      tempoDeleteLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+         public void mouseClicked(java.awt.event.MouseEvent evt) {
+            cancelCountdown(evt);
+         }
+      });
+      gridBagConstraints = new java.awt.GridBagConstraints();
+      gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
+      tempoActionsPanel.add(tempoDeleteLabel, gridBagConstraints);
 
       gridBagConstraints = new java.awt.GridBagConstraints();
       gridBagConstraints.gridy = 1;
@@ -988,33 +988,33 @@ public class presenterGui extends javax.swing.JFrame {
       rankingTabela.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
       rankingTabela.setForeground(new java.awt.Color(255, 255, 255));
       rankingTabela.setModel(new javax.swing.table.DefaultTableModel(
-         new Object [][] {
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null},
-            {null, null, null, null, null}
-         },
-         new String [] {
-            "Equipe", "Projeto", "Turma", "Avaliações", "Média Geral"
-         }
+              new Object [][] {
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null},
+                      {null, null, null, null, null}
+              },
+              new String [] {
+                      "Equipe", "Projeto", "Turma", "Avaliações", "Média Geral"
+              }
       ) {
          boolean[] canEdit = new boolean [] {
-            false, false, false, false, false
+                 false, false, false, false, false
          };
 
          public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1073,31 +1073,31 @@ public class presenterGui extends javax.swing.JFrame {
       gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
       menuBar.add(equipesActivePanel, gridBagConstraints);
 
-        equipesMenuLabel.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
-        equipesMenuLabel.setForeground(new java.awt.Color(255, 255, 255));
-        equipesMenuLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        equipesMenuLabel.setText("Cadastro de Equipes");
-        equipesMenuLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        equipesMenuLabel.setPreferredSize(new java.awt.Dimension(183, 35));
-        equipesMenuLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                abas.setSelectedIndex(0);
-                closeMenu();
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                menuLabelBackgroundHover(equipesActivePanel);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                menuLabelBackgroundOut(equipesActivePanel);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(30, 0, 15, 0);
-        menuBar.add(equipesMenuLabel, gridBagConstraints);
+      equipesMenuLabel.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
+      equipesMenuLabel.setForeground(new java.awt.Color(255, 255, 255));
+      equipesMenuLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+      equipesMenuLabel.setText("Cadastro de Equipes");
+      equipesMenuLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+      equipesMenuLabel.setPreferredSize(new java.awt.Dimension(183, 35));
+      equipesMenuLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+         public void mouseClicked(java.awt.event.MouseEvent evt) {
+            abas.setSelectedIndex(0);
+            closeMenu();
+         }
+         public void mouseEntered(java.awt.event.MouseEvent evt) {
+            menuLabelBackgroundHover(equipesActivePanel);
+         }
+         public void mouseExited(java.awt.event.MouseEvent evt) {
+            menuLabelBackgroundOut(equipesActivePanel);
+         }
+      });
+      gridBagConstraints = new java.awt.GridBagConstraints();
+      gridBagConstraints.gridx = 1;
+      gridBagConstraints.gridy = 0;
+      gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+      gridBagConstraints.weightx = 1.0;
+      gridBagConstraints.insets = new java.awt.Insets(30, 0, 15, 0);
+      menuBar.add(equipesMenuLabel, gridBagConstraints);
 
       temporizadorActivePanel.setBackground(new java.awt.Color(173, 211, 250));
       temporizadorActivePanel.setMinimumSize(new java.awt.Dimension(5, 35));
@@ -1109,31 +1109,31 @@ public class presenterGui extends javax.swing.JFrame {
       gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
       menuBar.add(temporizadorActivePanel, gridBagConstraints);
 
-        tempMenuLabel.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
-        tempMenuLabel.setForeground(new java.awt.Color(255, 255, 255));
-        tempMenuLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        tempMenuLabel.setText("Temporizador");
-        tempMenuLabel.setToolTipText("");
-        tempMenuLabel.setPreferredSize(new java.awt.Dimension(174, 35));
-        tempMenuLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                abas.setSelectedIndex(1);
-                closeMenu();
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                menuLabelBackgroundHover(temporizadorActivePanel);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                menuLabelBackgroundOut(temporizadorActivePanel);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
-        menuBar.add(tempMenuLabel, gridBagConstraints);
+      tempMenuLabel.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
+      tempMenuLabel.setForeground(new java.awt.Color(255, 255, 255));
+      tempMenuLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+      tempMenuLabel.setText("Temporizador");
+      tempMenuLabel.setToolTipText("");
+      tempMenuLabel.setPreferredSize(new java.awt.Dimension(174, 35));
+      tempMenuLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+         public void mouseClicked(java.awt.event.MouseEvent evt) {
+            abas.setSelectedIndex(1);
+            closeMenu();
+         }
+         public void mouseEntered(java.awt.event.MouseEvent evt) {
+            menuLabelBackgroundHover(temporizadorActivePanel);
+         }
+         public void mouseExited(java.awt.event.MouseEvent evt) {
+            menuLabelBackgroundOut(temporizadorActivePanel);
+         }
+      });
+      gridBagConstraints = new java.awt.GridBagConstraints();
+      gridBagConstraints.gridx = 1;
+      gridBagConstraints.gridy = 1;
+      gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+      gridBagConstraints.weightx = 1.0;
+      gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
+      menuBar.add(tempMenuLabel, gridBagConstraints);
 
       sorteadorMenuActivePanel.setBackground(new java.awt.Color(173, 211, 250));
       sorteadorMenuActivePanel.setMinimumSize(new java.awt.Dimension(5, 35));
@@ -1145,31 +1145,31 @@ public class presenterGui extends javax.swing.JFrame {
       gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
       menuBar.add(sorteadorMenuActivePanel, gridBagConstraints);
 
-        sorteadorMenuLabel.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
-        sorteadorMenuLabel.setForeground(new java.awt.Color(255, 255, 255));
-        sorteadorMenuLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        sorteadorMenuLabel.setText("Sorteador");
-        sorteadorMenuLabel.setPreferredSize(new java.awt.Dimension(113, 35));
-        sorteadorMenuLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                abas.setSelectedIndex(2);
-                closeMenu();
-                setTeamsDrawLabel();
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                menuLabelBackgroundHover(sorteadorMenuActivePanel);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                menuLabelBackgroundOut(sorteadorMenuActivePanel);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
-        menuBar.add(sorteadorMenuLabel, gridBagConstraints);
+      sorteadorMenuLabel.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
+      sorteadorMenuLabel.setForeground(new java.awt.Color(255, 255, 255));
+      sorteadorMenuLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+      sorteadorMenuLabel.setText("Sorteador");
+      sorteadorMenuLabel.setPreferredSize(new java.awt.Dimension(113, 35));
+      sorteadorMenuLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+         public void mouseClicked(java.awt.event.MouseEvent evt) {
+            abas.setSelectedIndex(2);
+            closeMenu();
+            setTeamsDrawLabel();
+         }
+         public void mouseEntered(java.awt.event.MouseEvent evt) {
+            menuLabelBackgroundHover(sorteadorMenuActivePanel);
+         }
+         public void mouseExited(java.awt.event.MouseEvent evt) {
+            menuLabelBackgroundOut(sorteadorMenuActivePanel);
+         }
+      });
+      gridBagConstraints = new java.awt.GridBagConstraints();
+      gridBagConstraints.gridx = 1;
+      gridBagConstraints.gridy = 2;
+      gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+      gridBagConstraints.weightx = 1.0;
+      gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
+      menuBar.add(sorteadorMenuLabel, gridBagConstraints);
 
       rankingMenuActivePanel.setBackground(new java.awt.Color(173, 211, 250));
       rankingMenuActivePanel.setMinimumSize(new java.awt.Dimension(5, 35));
@@ -1181,37 +1181,37 @@ public class presenterGui extends javax.swing.JFrame {
       gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
       menuBar.add(rankingMenuActivePanel, gridBagConstraints);
 
-        rankingMenuLabel.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
-        rankingMenuLabel.setForeground(new java.awt.Color(255, 255, 255));
-        rankingMenuLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        rankingMenuLabel.setText("Ranking");
-        rankingMenuLabel.setPreferredSize(new java.awt.Dimension(113, 35));
-        rankingMenuLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                abas.setSelectedIndex(3);
-                closeMenu();
-                populateRankingTable();
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                menuLabelBackgroundHover(rankingMenuActivePanel);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                menuLabelBackgroundOut(rankingMenuActivePanel);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
-        menuBar.add(rankingMenuLabel, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weighty = 1.0;
-        menuBar.add(inMenuBarSpaceLabel, gridBagConstraints);
+      rankingMenuLabel.setFont(new java.awt.Font("Segoe UI", 1, 22)); // NOI18N
+      rankingMenuLabel.setForeground(new java.awt.Color(255, 255, 255));
+      rankingMenuLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+      rankingMenuLabel.setText("Ranking");
+      rankingMenuLabel.setPreferredSize(new java.awt.Dimension(113, 35));
+      rankingMenuLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+         public void mouseClicked(java.awt.event.MouseEvent evt) {
+            abas.setSelectedIndex(3);
+            closeMenu();
+            populateRankingTable();
+         }
+         public void mouseEntered(java.awt.event.MouseEvent evt) {
+            menuLabelBackgroundHover(rankingMenuActivePanel);
+         }
+         public void mouseExited(java.awt.event.MouseEvent evt) {
+            menuLabelBackgroundOut(rankingMenuActivePanel);
+         }
+      });
+      gridBagConstraints = new java.awt.GridBagConstraints();
+      gridBagConstraints.gridx = 1;
+      gridBagConstraints.gridy = 3;
+      gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+      gridBagConstraints.weightx = 1.0;
+      gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
+      menuBar.add(rankingMenuLabel, gridBagConstraints);
+      gridBagConstraints = new java.awt.GridBagConstraints();
+      gridBagConstraints.gridx = 1;
+      gridBagConstraints.gridy = 4;
+      gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+      gridBagConstraints.weighty = 1.0;
+      menuBar.add(inMenuBarSpaceLabel, gridBagConstraints);
 
       gridBagConstraints = new java.awt.GridBagConstraints();
       gridBagConstraints.gridx = 0;
@@ -1287,26 +1287,26 @@ public class presenterGui extends javax.swing.JFrame {
       panel.setBackground(new Color(173, 211, 250));
    }
 
-    // Menu items clicked events
-    private void closeMenu(){
-        contentPanel.setVisible(true);
-        contentPanel.setEnabled(true);
-        menuBar.setVisible(false);
-        menuBar.setEnabled(false);
-    }
+   // Menu items clicked events
+   private void closeMenu(){
+      contentPanel.setVisible(true);
+      contentPanel.setEnabled(true);
+      menuBar.setVisible(false);
+      menuBar.setEnabled(false);
+   }
 
-    private void setTeamsDrawLabel() {final String label;
-        final int n = this.event.getTeamsToPresent().size();
+   private void setTeamsDrawLabel() {final String label;
+      final int n = this.event.getTeamsToPresent().size();
 
-        if (n == 0) {
-            label = "Nenhuma equipe restando";
-        }
-        else {
-            label = (n >= 10 ? String.valueOf(n) : "0" + n)
-                    + " equipe" + (n == 1 ? "" : "s") + " restando";
-        }
-        sorteadorEquipesRestandoLabel.setText(label);
-    }
+      if (n == 0) {
+         label = "Nenhuma equipe restando";
+      }
+      else {
+         label = (n >= 10 ? String.valueOf(n) : "0" + n)
+                 + " equipe" + (n == 1 ? "" : "s") + " restando";
+      }
+      sorteadorEquipesRestandoLabel.setText(label);
+   }
 
    private void populateRankingTable() {
       List<Team> teams = List.copyOf(this.event.getTeams());
@@ -1392,7 +1392,7 @@ public class presenterGui extends javax.swing.JFrame {
               equipeProjetoTextField.getText(),
               equipeTurmaComboBox.getSelectedItem().toString(),
               teamMembers
-              );
+      );
 
       this.event = this.presenterService.createTeamInEvent(teamCreateDto, this.event.getId(), this.userTokens);
 
@@ -1432,14 +1432,14 @@ public class presenterGui extends javax.swing.JFrame {
    }
 
    private void teamsTableRowClicked() {
-       int rowIndex = equipeTabela.getSelectedRow();
-       equipeNomeTextField.setText(equipeTabela.getValueAt(rowIndex, 1).toString());
-       equipeProjetoTextField.setText(equipeTabela.getValueAt(rowIndex, 2).toString());
-       equipeTurmaComboBox.setSelectedItem(equipeTabela.getValueAt(rowIndex, 3).toString());
-       equipeApresentouComboBox.setSelectedItem(equipeTabela.getValueAt(rowIndex, 4).toString());
-       String[] members = equipeTabela.getValueAt(rowIndex, 5).toString()
-               .replace(".", "")
-               .split(", ");
+      int rowIndex = equipeTabela.getSelectedRow();
+      equipeNomeTextField.setText(equipeTabela.getValueAt(rowIndex, 1).toString());
+      equipeProjetoTextField.setText(equipeTabela.getValueAt(rowIndex, 2).toString());
+      equipeTurmaComboBox.setSelectedItem(equipeTabela.getValueAt(rowIndex, 3).toString());
+      equipeApresentouComboBox.setSelectedItem(equipeTabela.getValueAt(rowIndex, 4).toString());
+      String[] members = equipeTabela.getValueAt(rowIndex, 5).toString()
+              .replace(".", "")
+              .split(", ");
 
       DefaultListModel<String> membersListModel = (DefaultListModel<String>) equipeAlunosDaEquipeLista.getModel();
       membersListModel.clear();
@@ -1501,82 +1501,82 @@ public class presenterGui extends javax.swing.JFrame {
       });
    }
 
-    // TimerPanel methods
-    private void playCountdownTimer(java.awt.event.MouseEvent evt) {
-        String[] time = {"0", "0"};
-        if (tempoDuracaoComboBox.getSelectedItem().toString().equals("Customizado")) {
-            time[0] = tempoCustomTextField.getText().split(":")[0];
-            time[1] = tempoCustomTextField.getText().split(":")[1];
-        } else {
-            time[0] = tempoDuracaoComboBox.getSelectedItem().toString().split(" ")[0];
-        }
+   // TimerPanel methods
+   private void playCountdownTimer(java.awt.event.MouseEvent evt) {
+      String[] time = {"0", "0"};
+      if (tempoDuracaoComboBox.getSelectedItem().toString().equals("Customizado")) {
+         time[0] = tempoCustomTextField.getText().split(":")[0];
+         time[1] = tempoCustomTextField.getText().split(":")[1];
+      } else {
+         time[0] = tempoDuracaoComboBox.getSelectedItem().toString().split(" ")[0];
+      }
 
-        tempoDeleteLabel.setVisible(true);
-        tempoDuracaoPanel.setVisible(false);
-        tempoPlayLabel.setVisible(false);
-        tempoDivideBar.setVisible(false);
-        tempoConfigPanel.setPreferredSize(new Dimension(615, 150));
+      tempoDeleteLabel.setVisible(true);
+      tempoDuracaoPanel.setVisible(false);
+      tempoPlayLabel.setVisible(false);
+      tempoDivideBar.setVisible(false);
+      tempoConfigPanel.setPreferredSize(new Dimension(615, 150));
 
-        countdownTimer = new Timer(1000, new ActionListener() {
-            int totalSeconds = TimerUtils.getTotalSeconds(Integer.parseInt(time[0]), Integer.parseInt(time[1]));
+      countdownTimer = new Timer(1000, new ActionListener() {
+         int totalSeconds = TimerUtils.getTotalSeconds(Integer.parseInt(time[0]), Integer.parseInt(time[1]));
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (totalSeconds <= 60) SwingUtils.setRedCountdown(whiteCircleLabel, redCircleLabel, tempoNumbers);
-                countdownTimerOperation(totalSeconds);
-                totalSeconds--;
-            }
-        });
-        countdownTimer.start();
-    }
+         @Override
+         public void actionPerformed(ActionEvent e) {
+            if (totalSeconds <= 60) SwingUtils.setRedCountdown(whiteCircleLabel, redCircleLabel, tempoNumbers);
+            countdownTimerOperation(totalSeconds);
+            totalSeconds--;
+         }
+      });
+      countdownTimer.start();
+   }
 
-    private void countdownTimerOperation(int totalSeconds) {
-        tempoNumbers.setVisible(true);
-        tempoNumbers.setText(TimerUtils.getCountdownLabel(totalSeconds));
+   private void countdownTimerOperation(int totalSeconds) {
+      tempoNumbers.setVisible(true);
+      tempoNumbers.setText(TimerUtils.getCountdownLabel(totalSeconds));
 
-        if (totalSeconds == 60) SwingUtils.setRedCountdown(whiteCircleLabel, redCircleLabel, tempoNumbers);
+      if (totalSeconds == 60) SwingUtils.setRedCountdown(whiteCircleLabel, redCircleLabel, tempoNumbers);
 
-        if (totalSeconds <= 60 && totalSeconds >= 0) {
-            oscillationTimer.stop();
-            tempoNumbers.setVisible(true);
-            oscillationTimer.start();
-        }
+      if (totalSeconds <= 60 && totalSeconds >= 0) {
+         oscillationTimer.stop();
+         tempoNumbers.setVisible(true);
+         oscillationTimer.start();
+      }
 
-        if (totalSeconds == 0) {
-            countdownTimer.stop();
-            oscillationTimer.stop();
+      if (totalSeconds == 0) {
+         countdownTimer.stop();
+         oscillationTimer.stop();
 
-            SwingUtils.setWhiteCountdown(whiteCircleLabel, redCircleLabel, tempoNumbers);
+         SwingUtils.setWhiteCountdown(whiteCircleLabel, redCircleLabel, tempoNumbers);
 
-            tempoDuracaoPanel.setVisible(true);
-            tempoDeleteLabel.setVisible(false);
-            tempoPlayLabel.setVisible(true);
-            tempoDivideBar.setVisible(true);
-            tempoConfigPanel.setPreferredSize(new Dimension(615, 200));
+         tempoDuracaoPanel.setVisible(true);
+         tempoDeleteLabel.setVisible(false);
+         tempoPlayLabel.setVisible(true);
+         tempoDivideBar.setVisible(true);
+         tempoConfigPanel.setPreferredSize(new Dimension(615, 200));
 
-            SoundsUtils.playTimeOutSound();
-        }
-    }
+         SoundsUtils.playTimeOutSound();
+      }
+   }
 
-    public void countdownOscillation() {
-        tempoNumbers.setVisible(false);
-    }
+   public void countdownOscillation() {
+      tempoNumbers.setVisible(false);
+   }
 
-    private void cancelCountdown(java.awt.event.MouseEvent evt) {
-        countdownTimer.stop();
-        oscillationTimer.stop();
+   private void cancelCountdown(java.awt.event.MouseEvent evt) {
+      countdownTimer.stop();
+      oscillationTimer.stop();
 
-        SwingUtils.setWhiteCountdown(whiteCircleLabel, redCircleLabel, tempoNumbers);
+      SwingUtils.setWhiteCountdown(whiteCircleLabel, redCircleLabel, tempoNumbers);
 
-        tempoNumbers.setText("00:00");
-        tempoNumbers.setVisible(true);
+      tempoNumbers.setText("00:00");
+      tempoNumbers.setVisible(true);
 
-        tempoDuracaoPanel.setVisible(true);
-        tempoDeleteLabel.setVisible(false);
-        tempoPlayLabel.setVisible(true);
-        tempoDivideBar.setVisible(true);
-        tempoConfigPanel.setPreferredSize(new Dimension(615, 200));
-    }
+      tempoDuracaoPanel.setVisible(true);
+      tempoDeleteLabel.setVisible(false);
+      tempoPlayLabel.setVisible(true);
+      tempoDivideBar.setVisible(true);
+      tempoConfigPanel.setPreferredSize(new Dimension(615, 200));
+   }
 
    // SorteadorPanel methods
    private void drawTeamToPresent(java.awt.event.MouseEvent evt) {
@@ -1702,117 +1702,6 @@ public class presenterGui extends javax.swing.JFrame {
          }
       });
    }
-
-   //** Temporizador
-   public void getCustomTime() {
-      duracaoString = tempoCustomTextField.getText();
-      duracaoNumber = duracaoString.split(":");
-      totalSeconds = totalSeconds(Integer.valueOf(duracaoNumber[0]), Integer.valueOf(duracaoNumber[1]));
-   }
-
-   public void getDefinedTime() {
-      duracaoString = tempoDuracaoComboBox.getSelectedItem().toString();
-      duracaoNumber = duracaoString.split(" ");
-      totalSeconds = totalSeconds(Integer.valueOf(duracaoNumber[0]), 0);
-   }
-
-   public int totalSeconds(int minutes, int seconds) {
-      int totalSeconds = (minutes) * 60 + seconds;
-      return totalSeconds;
-   }
-
-   public void redCountdown() {
-      whiteCircleLabel.setVisible(false);
-      redCircleLabel.setVisible(true);
-      tempoNumbers.setForeground(new Color(255, 0, 25));
-   }
-
-   public void whiteCountdown() {
-      whiteCircleLabel.setVisible(true);
-      redCircleLabel.setVisible(false);
-      tempoNumbers.setForeground(new Color(255, 255, 255));
-   }
-
-   /* Troca o valor da label a cada segundo */
-   public void countdownWorking() {
-      tempoNumbers.setVisible(true);
-
-      String tempCount = "";
-      double minutes = Math.floor(totalSeconds / 60);
-      double seconds = totalSeconds % 60;
-
-      if (minutes < 10 && seconds < 10) {
-         tempCount = "0" + String.format("%.0f", minutes) + ":0" + String.format("%.0f", seconds);
-      }
-      else if (minutes < 10 && seconds >= 10) {
-         tempCount = "0" + String.format("%.0f", minutes) + ":" + String.format("%.0f", seconds);
-      }
-      else if (minutes < 10 && seconds >= 10) {
-         tempCount = String.format("%.0f", minutes) + ":0" + String.format("%.0f", seconds);
-      }
-      else {
-         tempCount = String.format("%.0f", minutes) + ":" + String.format("%.0f", seconds);
-      }
-
-      tempoNumbers.setText(tempCount);
-      totalSeconds--;
-   }
-
-   /* Aciona o temporizador vermelho e a oscilação da label */
-   public void finalCountdown() {
-      redCountdown();
-      oscilar.stop();
-      tempoNumbers.setVisible(true);
-      oscilar.start();
-   }
-
-   /* Timer oscilar */
-   Timer oscilar = new Timer(500, new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent evt) {
-         tempoNumbers.setVisible(false);
-      }
-   });
-
-   public void justDelete() {
-      tempoDeleteLabel.setVisible(true);
-      tempoDuracaoPanel.setVisible(false);
-      tempoPlayLabel.setVisible(false);
-      tempoDivideBar.setVisible(false);
-      tempoConfigPanel.setPreferredSize(new Dimension(615, 150));
-   }
-
-   public void returnPlay() {
-      tempoDuracaoPanel.setVisible(true);
-      tempoDeleteLabel.setVisible(false);
-      tempoPlayLabel.setVisible(true);
-      tempoDivideBar.setVisible(true);
-      tempoConfigPanel.setPreferredSize(new Dimension(615, 200));
-   }
-
-   public void playTimesOverSound() {
-      try {
-         File file = new File("src/gov/edu/anm/presenter/sounds/TimeOver.wav");
-         AudioInputStream inputStream = AudioSystem.getAudioInputStream(file);
-         Clip audio = AudioSystem.getClip();
-         audio.open(inputStream);
-         audio.start();
-      }
-      catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
-         JOptionPane.showMessageDialog(null, "Erro no play do clip:\n" + e.getMessage());
-      }
-   }
-
-   //**Sorteador
-   /* Timer sortear */
-   public void resultadoSorteio() {
-//      int max = namesOfTeamsToPresent.size() - 1;
-//      int random = (int) Math.floor(Math.random() * (max + 1));
-//      String chosenTeam = namesOfTeamsToPresent.get(random);
-      sorteadorEquipeLabel.setText("Time");
-   }
-
-   // Variables declaration - do not modify//GEN-BEGIN:variables
    private javax.swing.JPanel abaEquipes;
    private javax.swing.JPanel abaRanking;
    private javax.swing.JPanel abaSorteador;
