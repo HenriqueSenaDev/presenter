@@ -3,7 +3,9 @@ package gov.edu.anm.presenter.domain.event;
 import gov.edu.anm.presenter.domain.team.Team;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Event {
     private Long id;
@@ -71,4 +73,11 @@ public class Event {
     public void setTeams(Set<Team> teams) {
         this.teams = teams;
     }
+
+    public List<Team> getTeamsToPresent() {
+        return this.getTeams().stream()
+                .filter(x -> !x.getPresented())
+                .collect(Collectors.toList());
+    }
+
 }
