@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class presenterGui extends javax.swing.JFrame {
+public class MainGui extends javax.swing.JFrame {
    private final HttpClient httpClient = HttpClient.newBuilder()
            .connectTimeout(Duration.ofSeconds(3))
            .build();
@@ -41,7 +41,7 @@ public class presenterGui extends javax.swing.JFrame {
    private Timer teamToPresentDrawTimer;
    private Long activeTeamId;
 
-   public presenterGui() {
+   public MainGui() {
       initComponents();
 
       // login
@@ -1659,20 +1659,20 @@ public class presenterGui extends javax.swing.JFrame {
          }
       }
       catch (ClassNotFoundException ex) {
-         java.util.logging.Logger.getLogger(presenterGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+         java.util.logging.Logger.getLogger(MainGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
       }
       catch (InstantiationException ex) {
-         java.util.logging.Logger.getLogger(presenterGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+         java.util.logging.Logger.getLogger(MainGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
       }
       catch (IllegalAccessException ex) {
-         java.util.logging.Logger.getLogger(presenterGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+         java.util.logging.Logger.getLogger(MainGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
       }
       catch (javax.swing.UnsupportedLookAndFeelException ex) {
-         java.util.logging.Logger.getLogger(presenterGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+         java.util.logging.Logger.getLogger(MainGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
       }
 
       /* Create and display the form */
-      java.awt.EventQueue.invokeLater(() -> new presenterGui().setVisible(true));
+      java.awt.EventQueue.invokeLater(() -> new MainGui().setVisible(true));
    }
    private javax.swing.JPanel abaEquipes;
    private javax.swing.JPanel abaRanking;
