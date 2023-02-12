@@ -39,6 +39,7 @@ public class presenterGui extends javax.swing.JFrame {
    private Timer countdownTimer;
    private final Timer oscillationTimer = new Timer(550, actionEvt -> countdownOscillation());
    private Timer teamToPresentDrawTimer;
+   private Long activeTeamId;
 
    public presenterGui() {
       initComponents();
@@ -1358,19 +1359,19 @@ public class presenterGui extends javax.swing.JFrame {
    }
 
    private void removeMemberFromTeam() {
-      if (equipeAlunosDaEquipeLista.getSelectedIndex() == -1) {
+      if (equipeAlunosDaEquipeLista.getSelectedIndex() == -1)
          JOptionPane.showMessageDialog(null, "Selecione um aluno para remover.");
-      }
-      else {
+
+      else
          ((DefaultListModel<String>) equipeAlunosDaEquipeLista.getModel())
                  .remove(equipeAlunosDaEquipeLista.getSelectedIndex());
-      }
    }
 
    private void cleanTeamRecordFields() {
       int confirm = JOptionPane.showConfirmDialog(null, "Deseja limpar todos os campos?");
       if (confirm != 0) return;
       SwingUtils.cleanPanelRecordFields(equipeCadastro);
+      activeTeamId = null;
    }
 
    private void createTeamInEvent() {
@@ -1397,13 +1398,12 @@ public class presenterGui extends javax.swing.JFrame {
       this.event = this.presenterService.createTeamInEvent(teamCreateDto, this.event.getId(), this.userTokens);
 
       SwingUtils.cleanPanelRecordFields(equipeCadastro);
+      activeTeamId = null;
       JOptionPane.showMessageDialog(null, "Equipe cadastrada.");
    }
 
    private void updateTeam() {
-      Optional<Team> teamToUpdate = this.event.getTeams().stream()
-              .filter(x -> x.getName().equals(equipeNomeTextField.getText())).findFirst();
-      if (teamToUpdate.isEmpty()) {
+      if (activeTeamId == null) {
          JOptionPane.showMessageDialog(null, "Equipe ainda não cadastrada.");
          return;
       }
@@ -1424,15 +1424,17 @@ public class presenterGui extends javax.swing.JFrame {
               teamMembers
       );
 
-      this.presenterService.updateTeam(teamUpdateDto, teamToUpdate.get().getId(), this.userTokens);
+      this.presenterService.updateTeam(teamUpdateDto, activeTeamId, this.userTokens);
       this.event = this.presenterService.findEventByJoinCode(this.event.getJoinCode(), this.userTokens);
 
       SwingUtils.cleanPanelRecordFields(equipeCadastro);
+      activeTeamId = null;
       JOptionPane.showMessageDialog(null, "Equipe atualizada.");
    }
 
    private void teamsTableRowClicked() {
       int rowIndex = equipeTabela.getSelectedRow();
+      activeTeamId = (long) equipeTabela.getValueAt(rowIndex, 0);
       equipeNomeTextField.setText(equipeTabela.getValueAt(rowIndex, 1).toString());
       equipeProjetoTextField.setText(equipeTabela.getValueAt(rowIndex, 2).toString());
       equipeTurmaComboBox.setSelectedItem(equipeTabela.getValueAt(rowIndex, 3).toString());
@@ -1453,13 +1455,11 @@ public class presenterGui extends javax.swing.JFrame {
       int confirm = JOptionPane.showConfirmDialog(null, "Deseja excluir a equipe?");
       if (confirm != 0) return;
 
-      this.presenterService.deleteTeam(
-              (Long) equipeTabela.getValueAt(equipeTabela.getSelectedRow(), 0),
-              this.userTokens
-      );
+      this.presenterService.deleteTeam(activeTeamId, this.userTokens);
       this.event = this.presenterService.findEventByJoinCode(this.event.getJoinCode(), this.userTokens);
 
       SwingUtils.cleanPanelRecordFields(equipeCadastro);
+      activeTeamId = null;
       JOptionPane.showMessageDialog(null, "Equipe excluída.");
    }
 
@@ -1759,5 +1759,4 @@ public class presenterGui extends javax.swing.JFrame {
    private javax.swing.JPanel titleBar;
    private javax.swing.JLabel titleBarSpaceLabel;
    private javax.swing.JLabel whiteCircleLabel;
-   // End of variables declaration//GEN-END:variables
 }
