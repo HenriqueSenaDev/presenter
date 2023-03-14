@@ -1,6 +1,7 @@
 package gov.edu.anm.presenter.domain.utils;
 
 import java.awt.*;
+import java.io.File;
 import javax.swing.*;
 
 public class SwingUtils {
@@ -31,6 +32,11 @@ public class SwingUtils {
         whiteCircle.setVisible(true);
         redCircle.setVisible(false);
         timerLabel.setForeground(new Color(255, 255, 255));
+    }
+    
+    public static Font getOleoScriptSwashCapsFont(float fontSize) throws Exception {
+      File fontFile = new File("src/gov/edu/anm/presenter/assets/fonts/OleoScriptSwashCaps-Regular.ttf");
+      return Font.createFont(Font.TRUETYPE_FONT, fontFile).deriveFont(fontSize);
     }
     
 }
