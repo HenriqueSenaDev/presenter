@@ -16,14 +16,13 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.concurrent.Callable;
 
 public class PresenterService {
     private final HttpClient httpClient;
     private final ObjectMapper mapper;
 
-    private static final String SERVER_HOST = "http://localhost:8080";
-    private static final String BASE_URL = SERVER_HOST + "/api";
+    private static final String API_HOST = System.getenv("API_HOST");
+    private static final String BASE_URL = API_HOST + "/api/admin";
 
     public PresenterService(HttpClient httpClient, ObjectMapper mapper) {
         this.httpClient = httpClient;
@@ -33,7 +32,7 @@ public class PresenterService {
     public AuthResponseDto authenticate(String username, String password) throws RuntimeException {
         try {
             var authBody = new AuthRequestDto(username, password);
-            HttpRequest req = HttpUtils.createPostRequest(URI.create(BASE_URL + "/auth/authenticate"), authBody, mapper);
+            HttpRequest req = HttpUtils.createPostRequest(URI.create(API_HOST + "/api/auth/authenticate"), authBody, mapper);
 
             HttpResponse<String> res = this.httpClient.send(req, HttpResponse.BodyHandlers.ofString());
             return mapper.readValue(res.body(), AuthResponseDto.class);
@@ -45,7 +44,7 @@ public class PresenterService {
     public RefreshResponseDto refreshToken(String refresh_token) throws RuntimeException {
         try {
             var refreshBody = new RefreshRequestDto(refresh_token);
-            HttpRequest req = HttpUtils.createPostRequest(URI.create(BASE_URL + "/auth/refresh"), refreshBody, mapper);
+            HttpRequest req = HttpUtils.createPostRequest(URI.create(API_HOST + "/api/auth/refresh"), refreshBody, mapper);
 
             HttpResponse<String> res = this.httpClient.send(req, HttpResponse.BodyHandlers.ofString());
             return mapper.readValue(res.body(), RefreshResponseDto.class);
