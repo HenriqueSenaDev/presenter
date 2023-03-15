@@ -5,6 +5,7 @@ import gov.edu.anm.presenter.domain.appuser.AppUserTokens;
 import gov.edu.anm.presenter.domain.event.Event;
 import gov.edu.anm.presenter.domain.utils.SwingUtils;
 import gov.edu.anm.presenter.services.PresenterService;
+import gov.edu.anm.presenter.view.main.MainFrame;
 
 import javax.swing.*;
 
@@ -182,6 +183,7 @@ public class JoinEventFrame extends javax.swing.JFrame {
          String joinCode = eventCodeTextField.getText();
          Event event = presenterService.findEventByJoinCode(joinCode, this.userTokens);
 
+         java.awt.EventQueue.invokeLater(() -> new MainFrame(user, userTokens, event, presenterService).setVisible(true));
          this.dispose();
       }
       catch (RuntimeException e) {

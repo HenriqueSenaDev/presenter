@@ -1,9 +1,7 @@
-package gov.edu.anm.presenter.view;
+package gov.edu.anm.presenter.view.main;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import gov.edu.anm.presenter.domain.appuser.AppUser;
 import gov.edu.anm.presenter.domain.appuser.AppUserTokens;
-import gov.edu.anm.presenter.domain.auth.AuthResponseDto;
 import gov.edu.anm.presenter.domain.auth.RefreshResponseDto;
 import gov.edu.anm.presenter.domain.event.Event;
 import gov.edu.anm.presenter.domain.team.Team;
@@ -14,27 +12,20 @@ import gov.edu.anm.presenter.domain.utils.SwingUtils;
 import gov.edu.anm.presenter.domain.utils.TimerUtils;
 import gov.edu.anm.presenter.services.PresenterService;
 
-import javax.swing.Timer;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.http.HttpClient;
-import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
-public class MainGui extends javax.swing.JFrame {
-    private final HttpClient httpClient = HttpClient.newBuilder()
-            .connectTimeout(Duration.ofSeconds(3))
-            .build();
-    private final ObjectMapper mapper = new ObjectMapper();
-    private final PresenterService presenterService = new PresenterService(httpClient, mapper);
-
-    private AppUser user;
+public class MainFrame extends javax.swing.JFrame {
+    private final PresenterService presenterService;
+    private final AppUser user;
     private AppUserTokens userTokens;
     private Event event;
 
@@ -43,28 +34,15 @@ public class MainGui extends javax.swing.JFrame {
     private Timer teamToPresentDrawTimer;
     private Long activeTeamId;
 
-    public MainGui() {
+    public MainFrame(AppUser user, AppUserTokens userTokens, Event event, PresenterService presenterService) {
+        System.out.println(event);
+        this.presenterService = presenterService;
+        this.user = user;
+        this.userTokens = userTokens;
+        this.event = event;
+
         initComponents();
-        login();
-
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-    }
-
-    private void login() {
-        try {
-            String username = System.getenv("PRESENTER_USER");
-            String password = System.getenv("PRESENTER_PASS");
-            AuthResponseDto authRes = presenterService.authenticate(username, password);
-            this.user = authRes.getProfile();
-            this.userTokens = new AppUserTokens(authRes.getAccess_token(), authRes.getRefresh_token());
-
-            String joinCode = System.getenv("PRESENTER_EVENT_CODE");
-            this.event = presenterService.findEventByJoinCode(joinCode, this.userTokens);
-        }
-        catch (RuntimeException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-            System.exit(0);
-        }
     }
 
     private Object requestWithTokensRefreshing(Callable<?> function) throws Exception {
@@ -83,7 +61,6 @@ public class MainGui extends javax.swing.JFrame {
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
@@ -1253,7 +1230,7 @@ public class MainGui extends javax.swing.JFrame {
 
         setSize(new java.awt.Dimension(898, 589));
         setLocationRelativeTo(null);
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
     // Program bar and header event buttons
     private void minimizeWindow() {
@@ -1689,32 +1666,6 @@ public class MainGui extends javax.swing.JFrame {
         }
     }
 
-    public static void main(String args[]) {
-        Locale.setDefault(Locale.US);
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        }
-        catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new MainGui().setVisible(true));
-    }
     private javax.swing.JPanel abaEquipes;
     private javax.swing.JPanel abaRanking;
     private javax.swing.JPanel abaSorteador;
