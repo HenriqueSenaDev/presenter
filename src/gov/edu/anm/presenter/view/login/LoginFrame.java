@@ -8,6 +8,7 @@ import gov.edu.anm.presenter.domain.auth.AuthResponseDto;
 import gov.edu.anm.presenter.domain.exceptions.UnauthorizedException;
 import gov.edu.anm.presenter.domain.utils.SwingUtils;
 import gov.edu.anm.presenter.services.PresenterService;
+import gov.edu.anm.presenter.view.event.JoinEventFrame;
 
 import javax.swing.*;
 import java.net.http.HttpClient;
@@ -216,6 +217,7 @@ public class LoginFrame extends javax.swing.JFrame {
          AppUser user = (AppUser) loginValues.get("user");
          AppUserTokens userTokens = (AppUserTokens) loginValues.get("userTokens");
 
+         java.awt.EventQueue.invokeLater(() -> new JoinEventFrame(user, userTokens, presenterService).setVisible(true));
          this.dispose();
       }
       catch (RuntimeException e) {
