@@ -221,7 +221,7 @@ public class LoginFrame extends javax.swing.JFrame {
          this.dispose();
       }
       catch (RuntimeException e) {
-         JOptionPane.showMessageDialog(null, e.getMessage());
+         JOptionPane.showMessageDialog(null, "Usuário ou senha inválidos.");
          SwingUtils.cleanPanelRecordFields(loginPanel);
       }
    }

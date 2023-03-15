@@ -35,7 +35,6 @@ public class MainFrame extends javax.swing.JFrame {
     private Long activeTeamId;
 
     public MainFrame(AppUser user, AppUserTokens userTokens, Event event, PresenterService presenterService) {
-        System.out.println(event);
         this.presenterService = presenterService;
         this.user = user;
         this.userTokens = userTokens;
