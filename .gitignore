@@ -1,4 +1,7 @@
 /build/
 /dist/
-.idea
 /out/
+
+## IDEs
+.idea
+/nbproject/
