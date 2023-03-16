@@ -1212,7 +1212,7 @@ public class MainFrame extends javax.swing.JFrame {
         gridBagConstraints.gridy = 0;
         menuRightPanel.add(space, gridBagConstraints);
 
-        menuFundoLargo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/assets/images/fundoMenuLargo.png"))); // NOI18N
+        menuFundoLargo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gov/edu/anm/presenter/assets/images/menuImage.png"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
