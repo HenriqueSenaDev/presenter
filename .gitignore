@@ -5,3 +5,7 @@
 ## IDEs
 .idea
 /nbproject/
+
+## env vars and build properties
+*.iml
+*.env
