@@ -2,20 +2,15 @@
 
 ![Java](https://img.shields.io/badge/Java-CA4245?style=for-the-badge&logo=openjdk&logoColor=white)
 
-Presenter Admin é um projeto acadêmico, desenvolvido na [EEEP Alfredo Nunes de Melo](https://www.instagram.com/eeepalfredonunes/), Acopiara-CE.
+Aplicação desktop construída a partir da linguagem Java e sua biblioteca de renderização gráfica Swing. É um sistema de competição e avaliação de equipes em eventos através de jurados e espectadores. Gerencia as informações do evento, suas equipes e determinadas apresentações com um usuário administrador. Presenter Admin é um projeto acadêmico, desenvolvido na [EEEP Alfredo Nunes de Melo](https://www.instagram.com/eeepalfredonunes/), Acopiara-CE.
 
-Tem como função disponibilizar um sistema de competição e avaliação de equipes, estando estas em um determinado evento. Tais equipes serão avaliadas por jurados: qualquer usuário que tiver o código de acesso para avaliar.
-
-O gerenciamento das informações do evento, das equipes e suas determinadas apresentações é feito por um usuário administrador, através do mesmo.
-
-É uma aplicação desktop, feita com a linguagem Java, a partir da biblioteca de renderização gráfica Swing.
-
-Consta de um ecossistema integrado junto ao projeto [presenter-web](https://github.com/HenriqueSenaDev/presenter-admin), o qual conta com dois subprojetos: uma aplicação frontend-web responsável pela avaliação do jurados e um backend com uma restful api central.
+## Ecossistema
+Consta de um ecossistema integrado junto ao projeto [presenter-web](https://github.com/HenriqueSenaDev/presenter-admin), um mono-repo com dois subprojetos: uma aplicação frontend-web responsável pela avaliação do jurados e um backend com uma restful api central (core).
 
 ## Páginas
 - Cadastro e gerenciamento de equipes (CRUD)
 - Temporizador para contagem de tempo por apresentação
-- Sorteador da ordem de apresentação e confirmação das mesmas
+- Sorteador da ordem e confirmação de apresentação
 - Ranking do evento
 
 ## Layout
@@ -29,22 +24,25 @@ Consta de um ecossistema integrado junto ao projeto [presenter-web](https://gith
 
 ![Ranking](https://github.com/HenriqueSenaDev/assets/blob/main/presenter-admin/ranking.png)
 
-## Executando o projeto
+## Execute o projeto
 Pré-requisitos: 
 - Java +17
-- variável de ambiente API_HOST: URL do host da api
-- biblioteca jackson-annotations +2.12.7
-- biblioteca jackson-core +2.12.7
-- biblioteca jackson-databind +2.12.7
-- biblioteca AbsoluteLayout-RELEASE140
+- [Api Backend](https://github.com/HenriqueSenaDev/presenter-web/tree/main/backend-web) rodando no host
+- Variável de Ambiente API_HOST: URL do host da api
+  - (caso feito o restore do dump disponibilizado, utilizar usuário com nome e senha iguais a "admin")
+
+[Baixe o Jar](https://github.com/HenriqueSenaDev/assets/blob/main/presenter-admin/presenter-admin-20240122.jar)
+
+Ou clone o projeto (necessário Apache Ant +10):
 
 ```bash
-# clonar repositório
 git clone https://github.com/HenriqueSenaDev/presenter-admin.git
+cd presenter-admin
+# cria um jar na pasta dist/lib
+ant
+```
 
-# entrar na pasta do modal de login
-cd src/gov/edu/anm/presenter/view/login
-
-# executar o projeto
-java ./LoginFrame.java
+E execute o Jar em seu diretório:
+```bash
+java -jar presenter-admin-[timestamp].jar
 ```
