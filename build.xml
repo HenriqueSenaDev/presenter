@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="presenter-admin" basedir="." default="default">
+    <description>
+        Gerenciamento de eventos com competições entre equipes e
+        avaliações de jurados, integrado juntamente ao projeto presenter-web."
+    </description>
+
+    <property name="src" location="src"/>
+    <property name="build" location="build"/>
+    <property name="dist" location="dist"/>
+    <property name="lib" value="lib" />
+    <property name="assets" location="src/gov/edu/anm/presenter/assets"/>
+
+    <!-- classpath -->
+    <path id="compile-classpath" cache="true">
+        <fileset dir="${lib}">
+            <include name="**/*.jar" />
+        </fileset>
+    </path>
+
+    <!-- targets -->
+    <target name="default" depends="dist" />
+
+    <target name="init">
+        <tstamp/>
+        <mkdir dir="${build}/classes"/>
+    </target>
+
+    <target name="compile" depends="init" description="compile the source">
+        <!-- Compile the Java code from ${src} into ${build} -->
+        <javac srcdir="${src}" destdir="${build}/classes" includeantruntime="false">
+            <classpath refid="compile-classpath" />
+        </javac>
+    </target>
+
+    <target name="insert-assets" depends="compile" description="insert assets into build">
+        <!-- copy assets package -->
+        <copy todir="${build}/classes/gov/edu/anm/presenter/assets">
+            <fileset dir="${assets}" >
+                <include name="**/*.png" />
+                <include name="**/*.jpg" />
+                <include name="**/*.ttf" />
+                <include name="**/*.wav" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="dist" depends="insert-assets" description="generate the distribution with lib classes">
+        <mkdir dir="${dist}/lib"/>
+
+        <jar jarfile="${dist}/lib/${ant.project.name}-${DSTAMP}.jar" basedir="${build}/classes">
+            <zipgroupfileset dir="${lib}" includes="*.jar"/>
+
+            <manifest>
+                <attribute name="Main-Class" value="gov.edu.anm.presenter.view.login.LoginFrame"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="clean" description="Delete the ${build} and ${dist} directory trees">
+        <delete dir="${build}"/>
+        <delete dir="${dist}"/>
+    </target>
+</project>
